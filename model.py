@@ -1,7 +1,6 @@
 """Models for material calculator app."""
 
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
 from sqlalchemy import Integer, ForeignKey, String, Column, Numeric
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
@@ -67,7 +66,7 @@ class Pocket(db.Model):
     materials = relationship("Material", primaryjoin="and_(Pocket.part_fr_mat==Material.material_no, Pocket.part_b_mat==Material.material_no)")
 
     def __repr__(self):
-        return f'<Part: ID = {self.pocket_id}, Part number = {self.part_no} Size = {self.part_height} X {self.part_width}>'
+        return f'<Pocket: ID = {self.pocket_id}, Part number = {self.part_no} Size = {self.part_height} X {self.part_width}>'
 
 
 class PageProtector(db.Model):
