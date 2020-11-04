@@ -1,9 +1,9 @@
 from flask import Flask, render_template, request
-from model import db, connect_to_db
-
-
-app = Flask(__name__)
-
+import model 
+import os
+import json
+import crud
+import server
 # 
 # @app.route("/")
 # def show_homepage():
@@ -26,5 +26,4 @@ app = Flask(__name__)
 # 
 
 if __name__ == "__main__":
-    connect_to_db(app)
-    # app.run(debug=True, host='0.0.0.0')
+    app.run(debug=True, host='0.0.0.0')

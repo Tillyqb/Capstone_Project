@@ -5,7 +5,7 @@ from sqlalchemy import Integer, ForeignKey, String, Column, Numeric
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
-Base = declarative_base()
+# Base = declarative_base()
 
 db = SQLAlchemy()
 
@@ -17,12 +17,24 @@ class User(db.Model):
     email = db.Column(db.String(20), unique = True)
     password = db.Column(db.String(30))
 
+    @classmethod
+    def get_user_by_email(cls, email):
+        """get a user by email"""
+
+        return cls.query.filter_by(email=email).one()
+
+
     def __repr__(self):
         return f'<User: user = {self.user_id} email = {self.email}>'
 
 class Material(db.Model):
     """A material"""
     __tablename__ = 'materials'
+
+    @classmethod
+    def get_material_by_material_no(cls, material_no):
+
+        return cls.query.filter_by(material_no=material_no).one()
 
     material_id = db.Column(db.Integer, primary_key = True, autoincrement = True)
     material_no = db.Column(db.Integer, unique = True)
@@ -35,16 +47,22 @@ class Material(db.Model):
 class Envelope(db.Model):
     """An envelope"""
 
+    @classmethod
+    def get_envelope_by_part_no(cls, part_no):
+
+        return cls.query.filter_by(part_no=part_no).one()
+
     __tablename__ = 'envelopes'
 
     envelope_id = db.Column(db.Integer, primary_key = True, autoincrement = True)
     part_no = db.Column(db.Integer, unique = True)
     part_height = db.Column(db.Numeric(5,3))
-    part_width = db.column(db.Numeric(6,4))
-    part_flap = db.column(db.Numeric(4,3))
+    part_width = db.Column(db.Numeric(6,4))
+    part_flap = db.Column(db.Numeric(4,3))
     part_throat = db.Column(db.Numeric(5,4))
     part_fr_mat = db.Column(db.Integer, db.ForeignKey("materials.material_no"))
     part_b_mat = db.Column(db.Integer, db.ForeignKey("materials.material_no"))
+    
     materials = relationship("Material", primaryjoin="and_(Envelope.part_fr_mat==Material.material_no, Envelope.part_b_mat==Material.material_no)")
    
 
@@ -54,12 +72,17 @@ class Envelope(db.Model):
 class Pocket(db.Model):
     """A Pocket"""
 
+    @classmethod
+    def get_pocket_by_part_no(cls, part_no):
+
+        return cls.query.filter_by(part_no=part_no).one()
+
     tablename = 'pockets'
 
     pocket_id = db.Column(db.Integer, primary_key = True, autoincrement = True)
     part_no = db.Column(db.Integer, unique = True)
     part_height = db.Column(db.Numeric(5,3))
-    part_width = db.column(db.Numeric(6,4))
+    part_width = db.Column(db.Numeric(6,4))
     part_throat = db.Column(db.Numeric(5,4))
     part_fr_mat = db.Column(db.Integer, db.ForeignKey("materials.material_no"))
     part_b_mat = db.Column(db.Integer, db.ForeignKey("materials.material_no"))
@@ -72,13 +95,18 @@ class Pocket(db.Model):
 class PageProtector(db.Model):
     """An page protector"""
 
+    @classmethod
+    def get_page_by_part_no(cls, part_no):
+
+        return cls.query.filter_by(part_no=part_no).one()
+
     __tablename__ = 'pages'
 
     page_id = db.Column(db.Integer, primary_key = True, autoincrement = True)
     part_no = db.Column(db.Integer, unique = True)
     part_height = db.Column(db.Numeric(5,3))
-    part_width = db.column(db.Numeric(6,4))
-    part_flap = db.column(db.Numeric(4,3))
+    part_width = db.Column(db.Numeric(6,4))
+    part_flap = db.Column(db.Numeric(4,3))
     part_throat = db.Column(db.Numeric(5,4))
     part_fr_mat = db.Column(db.Integer, db.ForeignKey("materials.material_no"))
     part_b_mat = db.Column(db.Integer, db.ForeignKey("materials.material_no"))
@@ -91,12 +119,17 @@ class PageProtector(db.Model):
 class SingleWebPart(db.Model):
     """A single web part"""
 
+    @classmethod
+    def get_part_by_part_no(cls, part_no):
+
+        return cls.query.filter_by(part_no=part_no).one()
+
     __tablename__ = 'single_web_parts'
 
     part_id = db.Column(db.Integer, primary_key = True, autoincrement = True)
     part_no = db.Column(db.Integer, unique = True)
     part_height = db.Column(db.Numeric(5,3))
-    part_width = db.column(db.Numeric(6,4))
+    part_width = db.Column(db.Numeric(6,4))
     material = db.Column(db.Integer, db.ForeignKey("materials.material_no"))
     materials = relationship("Material", primaryjoin="SingleWebPart.material == Material.material_no")
    
