@@ -5,7 +5,7 @@ import crud
 from jinja2 import StrictUndefined
 
 app = Flask(__name__)
-app.secret_key = "poij;lkrjaf;"
+app.secret_key = "1AmAM3atP0pc1cl3"
 app.jinja_env.undefined = StrictUndefined
 app.config['PRESERVE_CONTEXT_ON_EXCEPTION'] = True
 
@@ -35,10 +35,35 @@ def login_user():
         flash("Email is not in our system, Please create a new account.")
         return redirect("/")
 
+@app.route("/menu")
+def menu():
+    """render menu"""
+    return render_template("menu.html")
+
 @app.route("/create_user")
 def new_user():
     return render_template("new_user.html")
 
+@app.route("/new_user", methods=['POST'])
+def create_user():
+    """Add a user to the database"""
+    
+    email = request.args.get('email')
+    email2 = request.args.get('email2')
+    password = request.args.get('password')
+    password2 = request.args.get('password2')
+
+    if email == email2:
+        if password == password2:
+            crud.create_user(email, password)
+            flash("Account created successfully!")
+            return redirect("/")
+        else:
+            flash("Passwords do not match.  Please try again.")
+            return redirect("/create_user")
+    else:
+        flash("Emails do not match.  Please try again.")
+        return redirect("/create_user")
 
 
 @app.route("/option_selector")
