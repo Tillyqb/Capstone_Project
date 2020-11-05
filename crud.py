@@ -1,7 +1,6 @@
 """CRUD operations."""
 from model import db, User, Material, Envelope, Pocket, PageProtector, SingleWebPart, connect_to_db
 from datetime import datetime
-from py_session import py_session
 from flask import Flask
 
 
@@ -87,3 +86,12 @@ def create_single_web_part(part_no, part_height, part_width, material):
 
     return part
 
+def check_user(email):
+
+    # return User.query.filter_by(email = email).first()
+    return User.query.filter(User.email == email).first()
+
+def validate_user(email, password):
+    
+    user = User.query.filter(User.email == email).first()
+    return user.password == password

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}Material Calculator Creating a new user{% endblock %}
+
+{% block body %}
+  <h1></h1>
+
+  <h2>Log in</h2>
+    <form action="/create_user" method="POST">
+      <p>
+        Email <input type="text" name="email">
+      </p>
+
+      <p>
+        Reenter Email <input type="text" name="email2">
+      </p>
+  
+      <p>
+        Password <input type="password" name="password">
+      </p>
+
+      <p>
+        Reenter Password <input type="password" name="password2">
+      </p>
+  
+      <p>
+        <input type="submit">
+      </p>
+    </form>
+  </form>
+{% endblock %}
