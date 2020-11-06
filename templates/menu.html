@@ -5,10 +5,17 @@
   <h1>Menu</h1>
 
   <h2></h2>
-    <form action="/new_user" method="GET">
-      <p>
-        This is still being worked on.
-      </p>
+    <form action="/select_action" method="GET">
+      <label for="dropbtn">Select your action</label>
+      <select class="dropbtn" name="menu_selection">
+        <div class="dropdown-content">
+          <option value="calculate_material">Calculate material</option>
+          <option value="create_part">Enter a new part</option>
+          <option value="roll_caluclator">Roll calculator</option>
+        </div>
+      </select>
+      <button type="submit">Submit</button>
     </form>
-  </form>
+    {% block form %}{% endblock %}    
+
 {% endblock %}

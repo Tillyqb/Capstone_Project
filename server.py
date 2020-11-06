@@ -48,10 +48,10 @@ def new_user():
 def create_user():
     """Add a user to the database"""
     
-    email = request.args.get('email')
-    email2 = request.args.get('email2')
-    password = request.args.get('password')
-    password2 = request.args.get('password2')
+    email = request.form.get('email')
+    email2 = request.form.get('email2')
+    password = request.form.get('password')
+    password2 = request.form.get('password2')
 
     if email == email2:
         if password == password2:
@@ -66,16 +66,21 @@ def create_user():
         return redirect("/create_user")
 
 
-@app.route("/option_selector")
-def option_selector(homepage_option):
-  option = homepage_option
-  if option == newPartEntry:
-    return redirect("new-part-type")
+@app.route("/select_action")
+def option_selector():
+    option = request.args.get('menu_selection')
+    if option == 'create_part':
+        return render_template("create_part.html")
+    elif option == 'calculate_material':
+        return render_template("calculate_material.html")
+    else:
+        return render_template("roll_calculator.html")
+
 
 @app.route("/new-part-type")
 
-@app.route("/newPartData")
-def show_cards():
+@app.route("/new_part_data")
+def create_new_part():
     
     return render_template("newPartData.html")
 
