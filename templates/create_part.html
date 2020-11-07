@@ -1,4 +1,13 @@
 {% extends 'menu.html' %}
 {% block form %}
     Part creator is under construction
+    <form>
+        <select class="dropbtn" name="part_type_selector" lable="part_type_selector">
+            <option value="envelope">Envelope</option>
+            <option value="page_protector">Page protector</option>
+            <option value="pocket">Pocket</option>
+            <option value="singl_web_part">Single web part</option>
+            <button type="submit">Submit</button>
+        </select>
+    </form>
 {% endblock %}

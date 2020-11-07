@@ -38,7 +38,7 @@ materials.append(crud.create_material(986, 'Poly', 6))
 envelopes = []
 for n in range(100):
     part_no = n
-    part_height = float(randint(30, 160) / 16)
+    part_height = float(randint(32, 160) / 16)
     part_width = float(randint(60, 270) / 16)
     part_flap = float(randint(4, 25) / 8)
     part_throat = float(randint(1, 8) / 16)

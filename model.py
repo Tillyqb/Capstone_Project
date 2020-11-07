@@ -34,7 +34,7 @@ class Material(db.Model):
     @classmethod
     def get_material_by_material_no(cls, material_no):
 
-        return cls.query.filter_by(material_no=material_no).one()
+        return cls.query.filter_by(material_no=material_no).first()
 
     material_id = db.Column(db.Integer, primary_key = True, autoincrement = True)
     material_no = db.Column(db.Integer, unique = True)
