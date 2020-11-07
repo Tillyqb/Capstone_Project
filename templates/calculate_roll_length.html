@@ -1,0 +1,16 @@
+{% extends 'roll_calculator.html' %}
+{% block roll %}
+  Length calculator is under construction
+  <form action="display_roll_length">
+    Roll diameter: <input type="text", name="roll_diameter">
+    <lable for="dropbtn"></lable>
+    <select class="dropbtn" name="material">
+      {% for material in materials %}
+      <option value="{{material}}">{{material}}</option>
+      {% endfor %}
+    </select>
+    Core diameter: <input type="text", name="core_diameter">
+    <button type="submit">Submit</button>
+    
+  </form>
+{% endblock %}

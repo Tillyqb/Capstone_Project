@@ -3,8 +3,8 @@
     <p><h2>Roll calculator is under construction</h2></p>
     Would you like to calculate:
     <form action="/roll_calculator_option" method="GET" name="roll_option">
-        <p>Roll length from the diameter and material.<input type="radio" value="roll_length"></p>
-        <p>Diameter of the roll from the length of material.<input type="radio" value="roll_diameter"></p>
+        <p>Roll length from the diameter and material.<input type="radio" name="roll_option" value="roll_length"></p>
+        <p>Diameter of the roll from the length of material.<input type="radio" name="roll_option" value="roll_diameter"></p>
         <button type="submit">Submit</button>
     </form>
 {% endblock %}

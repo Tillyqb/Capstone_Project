@@ -26,14 +26,14 @@ def login_user():
         is_valid = crud.validate_user(email, password)
         if is_valid:
             flash ("Logged in successfully!")
-            return redirect("/menu")
+            return render_template("menu.html")
 
         else:
             flash("Email and password do not match, please check your login and try again or create an account.")
-            return redirect("/")
+            return render_template("homepage.html")
     else:
         flash("Email is not in our system, Please create a new account.")
-        return redirect("/")
+        return render_template("homepage.html")
 
 @app.route("/menu")
 def menu():
@@ -82,16 +82,16 @@ def option_selector():
 
 @app.route("/roll_calculator_option")
 def select_roll_calculator_type():
-    option = request.args.get('roll_option')
-    if option == 'roll_length':
-        return render_template("calculate_length.html")
+    option = request.args.get("roll_option")
+    if option == "roll_length":
+        return render_template("calculate_roll_length.html")
 
 @app.route("/calculate_roll_length")
 def calculate_and_display_roll_length():
     options = [requeest.args.get('roll_diameter'), 
-                requeest.args.get('matertial'),
+                requeest.args.get('material'),
                 request.args.get('core_diameter')]
-    return render_template("display_roll_length",
+    return render_template("display_roll_length.html",
                             length=crud.calculate_roll_length(options))
 
 @app.route("/new-part-type")
