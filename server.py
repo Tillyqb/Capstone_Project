@@ -93,7 +93,8 @@ def select_roll_calculator_type():
         return render_template("length_data.html",
                             materials=crud.get_materials_list())
     else:
-        return render_template("calculate_roll_diameter.html")
+        return render_template("diameter_data.html",
+                            materials=crud.get_materials_list())
 
 
 @app.route("/get_roll_length_data")
@@ -106,23 +107,24 @@ def get_length_data():
 
 @app.route("/calculate-roll-length")
 def calculate_and_display_roll_length():
-    roll_diameter = request.args.get(roll_diameter)
-    material_no = request.args.get(material)
-    core_diameter = request.args.get(core_diameter)
-    options = [float(roll_diameter), float(material_no), float(core_diameter)]
+    o_d = request.args.get('roll_diameter')
+    material_no = request.args.get('material')
+    i_d = request.args.get('core_diameter')
+    options = [float(o_d), float(material_no), float(i_d)]
     
     return render_template("display_roll_length.html",
                             length=crud.calculate_roll_length(options))
     
-# @app.route("/display_roll_length")
-# def display_roll_length()
 
-
-@app.route("/calculate_roll_diameter")
+@app.route("/calculate-roll-diameter")
 def calclate_and_display_roll_diameter():
+    length = request.args.get('roll_length')
+    material_no = request.args.get('material')
+    i_d = request.args.get('core_diameter')
+    options = [int(length), float(material_no), float(i_d)]
     
-    return 0
-
+    return render_template("display_roll_diameter.html",
+                            diameter=crud.calculate_roll_diameter(options))
 
 
 @app.route("/material_calculator")
