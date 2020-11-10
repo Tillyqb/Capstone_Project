@@ -45,6 +45,7 @@ for n in range(100):
     part_fr_mat = choice(materials).material_no
     part_b_mat = choice(materials).material_no
     crud.create_envelope(part_no, part_height, part_width, part_flap,   part_throat, part_fr_mat, part_b_mat)
+crud.create_envelope(12855, 9, 12, 1.25, .25, 491, 491)
 
 """seed pockets"""
 pockets = []
@@ -57,6 +58,7 @@ for n in range(100):
     part_b_mat = choice(materials).material_no
 
     crud.create_pocket(part_no, part_height, part_width, part_throat,   part_fr_mat, part_b_mat)
+crud.create_pocket(12858, 12, 9.5, .125, 490, 986)
     
 
 pages = []
@@ -74,6 +76,7 @@ for n in range(100):
     part_b_mat = choice(materials).material_no
 
     crud.create_page(part_no, part_height, part_width, part_flap,  part_throat, part_fr_mat, part_b_mat)
+crud.create_page(12909, 11.375, 9.375, 0, .125, 490, 490)
 
 
 """seed single web parts"""
@@ -83,5 +86,7 @@ for n in range(100):
     part_height = float(randint(1, 160) / 16)
     part_width = float(randint(1, 270) / 16)
     material = choice(materials).material_no
-
     crud.create_single_web_part(part_no, part_height, part_width, material)
+crud.create_single_web_part(11111, 9, 5.25, 661)
+
+    

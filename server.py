@@ -154,6 +154,12 @@ def create_envelope():
     front_web_material = request.form.get("front_web_material")
     back_web_material = request.form.get("back_web_material")
 
+    crud.create_envelope(part_no, height, 
+                        width, flap, 
+                        throat, front_web_material, 
+                        back_web_material)
+
+    calculate_envelope_requirements(part_no, two_across)
     
     return render_template("display_envelope_requirements.html")
 

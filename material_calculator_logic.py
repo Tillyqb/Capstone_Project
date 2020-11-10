@@ -20,7 +20,7 @@ def calculate_material_requiremtents(part_type, part_no, two_across, count):
 
     return material
 
-def calculate_envelope_requirements(part_no, count, two_across):
+def calculate_envelope_requirements(part_no, count, two_across = False):
     part = Envelope.get_envelope_by_part_no(part_no)
     height = float(part.part_height)
     width = float(part.part_width)
