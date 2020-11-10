@@ -4,7 +4,6 @@ from datetime import datetime
 from flask import Flask
 from math import sqrt
 
-connect_to_db(Flask(__name__))
 
 PI = 3.141592654
 
@@ -17,6 +16,15 @@ def create_user(email, password):
     db.session.commit()
 
     return user
+
+def check_user(email):
+    check =  User.query.filter(User.email == email).first()
+    return (type(check) == User)
+
+def validate_user(email, password):
+    
+    user = User.query.filter(User.email == email).first()
+    return user.password == password
 
 def create_material(material_no, 
                     material_description,
@@ -97,9 +105,9 @@ def calculate_roll_length(args):
     >>> calculate_roll_length([25, 491, 3.625])
     8899
     """
-    roll_radious = args[0]/2
-    material_no = args[1]
-    core_radious = args[2]/2
+    roll_radious = float(args[0]/2)
+    material_no = int(args[1])
+    core_radious = float(args[2]/2)
     material_obj = Material.get_material_by_material_no(material_no)
     thickness_in_mil = float(material_obj.material_thickness)
     thickness_in_in = thickness_in_mil / 1000
@@ -124,16 +132,7 @@ def calculate_roll_diameter(args):
     return diameter
 
 
-def check_user(email):
-    return User.query.filter(User.email == email).first()
-
-def validate_user(email, password):
-    
-    user = User.query.filter(User.email == email).first()
-    return user.password == password
-
 def get_materials_list():
-    connect_to_db(Flask(__name__))
     materials_obj = Material.get_materials_list()
     materials_list = []
     for material in materials_obj:

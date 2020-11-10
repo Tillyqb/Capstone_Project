@@ -1,10 +1,10 @@
 """logic to calculate the required output"""
 
-from model import Envelope, PageProtector, Pocket, SingleWebPart, connect_to_db
+from model import Envelope, PageProtector, Pocket, SingleWebPart, Material, connect_to_db
 from flask import Flask
 
-if __name__ == "__main__":
-    connect_to_db(Flask(__name__))
+# if __name__ == "__main__":
+#     connect_to_db(Flask(__name__))
 
 # Calculate the material widths for the given part
 

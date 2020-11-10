@@ -6,14 +6,14 @@ from random import choice, randint
 from flask import Flask
 
 import crud
-import model
+from model import Envelope, Material, Pocket, PageProtector, SingleWebPart, User, connect_to_db, db
 import server
 
 os.system('dropdb material')
 os.system('createdb material')
-
-model.connect_to_db(Flask(__name__))
-model.db.create_all()
+app = Flask(__name__)
+connect_to_db(app)
+db.create_all()
 
 """seed users"""
 user_list = []

@@ -1,11 +1,12 @@
 from flask import Flask, render_template, request, session, redirect, flash
-from model import Envelope, Material, Pocket, PageProtector, SingleWebPart, User, connect_to_db
+from model import Envelope, Material, Pocket, PageProtector, SingleWebPart, User, connect_to_db, db
 import os
 import crud
 from jinja2 import StrictUndefined
 from material_calculator_logic import calculate_envelope_requirements, calculate_page_requirements, calculate_pocket_requirements, calculate_single_web_part_requirements
 
 app = Flask(__name__)
+connect_to_db(app)
 app.secret_key = "1AmAM3atP0pc1cl3"
 app.jinja_env.undefined = StrictUndefined
 app.config['PRESERVE_CONTEXT_ON_EXCEPTION'] = True
@@ -16,18 +17,18 @@ def show_homepage():
 
     return render_template("homepage.html")
 
-@app.route("/login")
+@app.route("/login", methods=['POST'])
 def login_user():
     """Log a user into the site"""
 
-    email = request.args.get('email')
-    password = request.args.get('password')
+    email = request.form.get('email')
+    password = request.form.get('password')
 
     if crud.check_user(email):
         is_valid = crud.validate_user(email, password)
         if is_valid:
             flash ("Logged in successfully!")
-            return render_template("menu.html")
+            return redirect("/menu")
 
         else:
             flash("Email and password do not match, please check your login and try again or create an account.")
@@ -39,7 +40,7 @@ def login_user():
 @app.route("/menu")
 def menu():
     """render menu"""
-    return render_template("menu.html")
+    return render_template("base.html")
 
 @app.route("/create_user")
 def new_user():
@@ -83,9 +84,13 @@ def option_selector():
 
 @app.route("/roll_calculator")
 def select_roll_calculator_type():
+    print('In the roll_calculator route')
     option = request.args.get("roll_option")
-    if option == 1:
-        return render_template("get_roll_length_data.html",
+    print(f'option={option} of {type(option)} materials={crud.get_materials_list()}')
+    print('12')
+    if option == "roll_length":
+        print('This exhibits vacuum like properties')
+        return render_template("length_data.html",
                             materials=crud.get_materials_list())
     else:
         return render_template("calculate_roll_diameter.html")
@@ -93,14 +98,18 @@ def select_roll_calculator_type():
 
 @app.route("/get_roll_length_data")
 def get_length_data():
-    options = [requeest.args.get('roll_diameter'), 
-                requeest.args.get('material')[0],
+    options = [request.args.get('roll_diameter'), 
+                request.args.get('material'),
                 request.args.get('core_diameter')]
-    return render_template("get_roll_length_data.html",
+    return render_template("display_roll_length.html",
                             materials=crud.get_materials_list())
 
-@app.route("/calculate_roll_length")
+@app.route("/calculate-roll-length")
 def calculate_and_display_roll_length():
+    roll_diameter = request.args.get(roll_diameter)
+    material_no = request.args.get(material)
+    core_diameter = request.args.get(core_diameter)
+    options = [float(roll_diameter), float(material_no), float(core_diameter)]
     
     return render_template("display_roll_length.html",
                             length=crud.calculate_roll_length(options))
