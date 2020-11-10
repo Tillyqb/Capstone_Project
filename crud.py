@@ -131,3 +131,14 @@ def validate_user(email, password):
     
     user = User.query.filter(User.email == email).first()
     return user.password == password
+
+def get_materials_list():
+    connect_to_db(Flask(__name__))
+    materials_obj = Material.get_materials_list()
+    materials_list = []
+    for material in materials_obj:
+        materials_list.append([material.material_no, 
+                            material.material_thickness, 
+                            material.material_description])
+    return sorted(materials_list)
+

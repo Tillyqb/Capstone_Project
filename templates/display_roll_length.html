@@ -1,0 +1,21 @@
+{% extends 'calculate_roll_length..html' %}
+{% block title %}Display Roll Lenth{% endblock %}
+
+{% block form %}
+  
+
+  <h2></h2>
+    <form action="/calculate_roll_length" method="GET">
+      <input type="text" name="diameter"> Roll Diameter
+      <input type="text" name="core_diameter"> Core Diameter
+      <label for="dropbtn">Select your action</label>
+      <select class="dropbtn" name="menu_selection">
+        <div class="dropdown-content">
+          {{ for }}
+        </div>
+      </select>
+      <button type="submit">Submit</button>
+    </form>
+    {% block form2 %}{% endblock %}    
+
+{% endblock %}

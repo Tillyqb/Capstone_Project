@@ -36,6 +36,11 @@ class Material(db.Model):
 
         return cls.query.filter_by(material_no=material_no).first()
 
+    @classmethod
+    def get_materials_list(cls):
+
+        return cls.query.filter_by().all()
+
     material_id = db.Column(db.Integer, primary_key = True, autoincrement = True)
     material_no = db.Column(db.Integer, unique = True)
     material_description = db.Column(db.String)
@@ -51,6 +56,15 @@ class Envelope(db.Model):
     def get_envelope_by_part_no(cls, part_no):
 
         return cls.query.filter_by(part_no=part_no).one()
+    
+    @classmethod
+    def varify_prt_exixts(cls, part_no):
+
+        count_of_part = cls.query.filter_by(part_no=part_no).count()
+        if count_of_part ==  1:
+            return True
+        else:
+            return False
 
     __tablename__ = 'envelopes'
 
@@ -77,6 +91,15 @@ class Pocket(db.Model):
 
         return cls.query.filter_by(part_no=part_no).one()
 
+    @classmethod
+    def varify_prt_exixts(cls, part_no):
+
+        count_of_part = cls.query.filter_by(part_no=part_no).count()
+        if count_of_part ==  1:
+            return True
+        else:
+            return False
+
     tablename = 'pockets'
 
     pocket_id = db.Column(db.Integer, primary_key = True, autoincrement = True)
@@ -99,6 +122,15 @@ class PageProtector(db.Model):
     def get_page_by_part_no(cls, part_no):
 
         return cls.query.filter_by(part_no=part_no).one()
+
+    @classmethod
+    def varify_prt_exixts(cls, part_no):
+
+        count_of_part = cls.query.filter_by(part_no=part_no).count()
+        if count_of_part ==  1:
+            return True
+        else:
+            return False
 
     __tablename__ = 'pages'
 
@@ -123,6 +155,15 @@ class SingleWebPart(db.Model):
     def get_part_by_part_no(cls, part_no):
 
         return cls.query.filter_by(part_no=part_no).one()
+
+    @classmethod
+    def varify_prt_exixts(cls, part_no):
+
+        count_of_part = cls.query.filter_by(part_no=part_no).count()
+        if count_of_part ==  1:
+            return True
+        else:
+            return False
 
     __tablename__ = 'single_web_parts'
 
@@ -151,5 +192,4 @@ def connect_to_db(flask_app, db_uri='postgresql:///material', echo=True):
 
 if __name__ == '__main__':
     from server import app
-
     connect_to_db(app)

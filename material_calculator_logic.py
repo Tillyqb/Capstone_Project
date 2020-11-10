@@ -3,7 +3,8 @@
 from model import Envelope, PageProtector, Pocket, SingleWebPart, connect_to_db
 from flask import Flask
 
-connect_to_db(Flask(__name__))
+if __name__ == "__main__":
+    connect_to_db(Flask(__name__))
 
 # Calculate the material widths for the given part
 

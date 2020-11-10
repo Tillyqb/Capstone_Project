@@ -1,0 +1,24 @@
+{% extends 'menu.html' %}
+{% block form %}
+    Part creator is under construction
+    <form action="/create_envelope" method="POST">
+        <p><input type="text" name="part_no">Part number</p>
+        <p><input type="text" name="height">Height</p>
+        <p><input type="text" name="width">Width</p>
+        <p><input type="text" name="flap">Flap</p>
+        <p><input type="text" name="throat">Throat</p>
+        <p><select class="dropbtn" name="front_web_material">
+          {% for material in materials %}
+          <option value="{{material}}">{{material}}</option>
+          {% endfor %}
+        </select></p>
+        <p><select class="dropbtn" name="back_web_material">
+          {% for material in materials %}
+          <option value="{{material}}">{{material}}</option>
+          {% endfor %}
+        </select></p>
+        <button type="submit">Submit</button>
+
+    </form>
+{% endblock %}
+{% block part_type %}{% endblock %}

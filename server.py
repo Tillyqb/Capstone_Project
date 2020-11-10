@@ -1,8 +1,9 @@
 from flask import Flask, render_template, request, session, redirect, flash
-from model import *
+from model import Envelope, Material, Pocket, PageProtector, SingleWebPart, User, connect_to_db
 import os
 import crud
 from jinja2 import StrictUndefined
+from material_calculator_logic import calculate_envelope_requirements, calculate_page_requirements, calculate_pocket_requirements, calculate_single_web_part_requirements
 
 app = Flask(__name__)
 app.secret_key = "1AmAM3atP0pc1cl3"
@@ -80,28 +81,82 @@ def option_selector():
     else:
         return render_template("roll_calculator.html")
 
-@app.route("/roll_calculator_option")
+@app.route("/roll_calculator")
 def select_roll_calculator_type():
     option = request.args.get("roll_option")
-    if option == "roll_length":
-        return render_template("calculate_roll_length.html")
+    if option == 1:
+        return render_template("get_roll_length_data.html",
+                            materials=crud.get_materials_list())
+    else:
+        return render_template("calculate_roll_diameter.html")
+
+
+@app.route("/get_roll_length_data")
+def get_length_data():
+    options = [requeest.args.get('roll_diameter'), 
+                requeest.args.get('material')[0],
+                request.args.get('core_diameter')]
+    return render_template("get_roll_length_data.html",
+                            materials=crud.get_materials_list())
 
 @app.route("/calculate_roll_length")
 def calculate_and_display_roll_length():
-    options = [requeest.args.get('roll_diameter'), 
-                requeest.args.get('material'),
-                request.args.get('core_diameter')]
+    
     return render_template("display_roll_length.html",
                             length=crud.calculate_roll_length(options))
+    
+# @app.route("/display_roll_length")
+# def display_roll_length()
+
+
+@app.route("/calculate_roll_diameter")
+def calclate_and_display_roll_diameter():
+    
+    return 0
+
+
+
+@app.route("/material_calculator")
+def material_calculator():
+    part_no = request.args.get('part_no')
+    if Envelope.varify_prt_exixts(part_no) == True:
+        return render_template("calculate_envelope.html")
+    elif PageProtector.varify_prt_exixts(part_no) == True:
+        return render_template("calculate_page_protector.html")
+    elif Pocket.varify_prt_exixts(part_no) == True:
+        return render_template("calculate_pocket_material.html")
+    elif SingleWebPart.varify_prt_exixts(part_no) == True:
+        return render_template("calculate_single_web_part.html")
+    else:
+        flash("Part is not in the system, please enter data to store.")
+        return render_template("create_part.html")
 
 @app.route("/new-part-type")
+def get_new_part_type():
+    part_type = request_args.get("part_type")
+    if part_type == "envelope":
+        return render_template("new_envelope.html")
+    elif part_type == "page_protector":
+        return render_template("new_page_protector.html")
+    elif part_type == "pocket":
+        return render_template("new_pocket.html")
+    else:
+        return render_template("new_single_web_part.html")
 
-@app.route("/new_part_data")
-def create_new_part():
+
+@app.route("/create_envelope", methods=["POST"])
+def create_envelope():
+    part_no = request.form.get("part_no")
+    height = request.form.get("height")
+    width = request.form.get("width")
+    flap = request.form.get("flap")
+    throat = request.form.get("throat")
+    front_web_material = request.form.get("front_web_material")
+    back_web_material = request.form.get("back_web_material")
+
     
-    return render_template("newPartData.html")
+    return render_template("display_envelope_requirements.html")
 
 
 if __name__ == "__main__":
-    connect_to_db(app)
     app.run(debug=True, host='0.0.0.0')
