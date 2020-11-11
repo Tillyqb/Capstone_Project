@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block body %}
+    <h2>Create a new page protector</h2>
+    <form action="/create-page" method="POST">
+        <p><input type="text" name="part_no">Part number</p>
+        <p><input type="text" name="count">Count</p>
+        <p><input type="text" name="height">Height</p>
+        <p><input type="text" name="width">Width</p>
+        <p><input type="text" name="flap">Flap</p>
+        <p><input type="text" name="throat">Throat</p>
+        <p><select class="dropbtn" name="front_web_material">
+          {% for material in materials %}
+          <option value="{{material[0]}}">{{material}}</option>
+          {% endfor %}
+        </select>Small web material</p>
+        <p><select class="dropbtn" name="back_web_material">
+          {% for material in materials %}
+          <option value="{{material[0]}}">{{material}}</option>
+          {% endfor %}
+        </select>Large web material</p>
+        <p><input type="checkbox" name="two_across" value="True">Two across</p>
+        <button type="submit">Submit</button>
+
+    </form>
+{% endblock %}
+{% block part_type %}{% endblock %}

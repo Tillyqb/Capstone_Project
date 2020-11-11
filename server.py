@@ -177,11 +177,14 @@ def get_new_part_type():
         return render_template("new_envelope.html",
                                 materials=materials)
     elif part_type == "page_protector":
-        return render_template("new_page_protector.html")
+        return render_template("new_page.html",
+                                materials=materials)
     elif part_type == "pocket":
-        return render_template("new_pocket.html")
+        return render_template("new_pocket.html",
+                                materials=materials)
     else:
-        return render_template("new_single_web_part.html")
+        return render_template("new_single_web_part.html",
+                                materials=materials)
 
 @app.route("/envelope-calculator")
 def calculate_envelope_material(part_no, count, two_across):
@@ -219,6 +222,48 @@ def create_envelope():
     large_web = requirements['large web width']
     feet_needed = requirements['feet needed']
     return render_template("display_envelope_requirements.html",
+                                part_no=part_no,
+                                count=count,
+                                small_web=small_web,
+                                large_web=large_web,
+                                feet_needed=feet_needed)
+
+@app.route("/page-calculator")
+def calculate_page_material(part_no, count, two_across):
+    requirements = calculate_page_requirements(part_no, count, two_across)
+    small_web = requirements['small web width']
+    large_web = requirements['large web width']
+    feet_needed = requirements['feet needed']
+    return render_template("display_page_requirements.html",
+                                part_no=part_no,
+                                count=count,
+                                small_web=small_web,
+                                large_web=large_web,
+                                feet_needed=feet_needed)
+
+
+@app.route("/create-page", methods=["POST"])
+def create_pae():
+    part_no = int(request.form.get("part_no"))
+    count = int(request.form.get("count"))
+    height = float(request.form.get("height"))
+    width = float(request.form.get("width"))
+    flap = float(request.form.get("flap"))
+    throat = float(request.form.get("throat"))
+    front_web_material = int(request.form.get("front_web_material"))
+    back_web_material = int(request.form.get("back_web_material"))
+    two_across = (request.form.get('two_across') == "True")
+
+    crud.create_page(part_no, height, 
+                        width, flap, 
+                        throat, front_web_material, 
+                        back_web_material)
+
+    requirements = calculate_page_requirements(part_no, count, two_across)
+    small_web = requirements['small web width']
+    large_web = requirements['large web width']
+    feet_needed = requirements['feet needed']
+    return render_template("display_page_requirements.html",
                                 part_no=part_no,
                                 count=count,
                                 small_web=small_web,
