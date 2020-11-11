@@ -29,6 +29,11 @@
         <p>
           <button type="submit">Submit</button>
         </p>
+        {% for msg in get_flashed_messages() %}
+          <p class="flash-msg">
+            {{ msg }}
+          </p>
+        {% endfor %}
       </form>
     </form>
   </body>

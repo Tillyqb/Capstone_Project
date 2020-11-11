@@ -1,14 +1,14 @@
-{% extends 'menu.html' %}
-{% block form %}
+{% extends 'base.html' %}
+{% block body %}
     Part creator is under construction
-    <form action="/new_part_type">
+    <form action="/new-part-type">
         <select class="dropbtn" name="part_type" lable="part_type">
             <option value="envelope">Envelope</option>
             <option value="page_protector">Page protector</option>
             <option value="pocket">Pocket</option>
             <option value="singl_web_part">Single web part</option>
-            <button type="submit">Submit</button>
         </select>
+        <button type="submit">Submit</button>
     </form>
 {% endblock %}
 {% block part_type %}{% endblock %}

@@ -35,7 +35,8 @@ def calculate_envelope_requirements(part_no, count, two_across = False):
     throat = float(part.part_throat)
     f_mat = float(part.part_fr_mat)
     b_mat = float(part.part_b_mat)
-
+    count = int(count)
+    
     if two_across == True:
         small_web_width = (height - throat) * 2
         large_web_width = (height + flap) * 2
