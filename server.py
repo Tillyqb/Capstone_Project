@@ -139,28 +139,50 @@ def material_calculator():
                                                     two_across)
         small_web = requirements['small web width']
         large_web = requirements['large web width']
-        feen_needed = requirements['feet needed']
+        feet_needed = requirements['feet needed']
         return render_template("display_envelope_requirements.html",
                                 part_no=part_no,
                                 count=count,
                                 small_web=small_web,
                                 large_web=large_web,
-                                feet_needed=feen_needed)
+                                feet_needed=feet_needed)
     elif PageProtector.varify_prt_exixts(part_no) == True:
-        return render_template("calculate_page_protector.html",
+        requirements = calculate_page_requirements(part_no, 
+                                                    count, 
+                                                    two_across)
+        small_web = requirements['small web width']
+        large_web = requirements['large web width']
+        feet_needed = requirements['feet needed']
+        return render_template("display_page_requirements.html",
                                 part_no=part_no,
                                 count=count,
-                                two_across=two_across)
+                                small_web=small_web,
+                                large_web=large_web,
+                                feet_needed=feet_needed)
     elif Pocket.varify_prt_exixts(part_no) == True:
-        return render_template("calculate_pocket_material.html",
+        requirements = calculate_pocket_requirements(part_no, 
+                                                    count, 
+                                                    two_across)
+        small_web = requirements['small web width']
+        large_web = requirements['large web width']
+        feet_needed = requirements['feet needed']
+        return render_template("display_pocket_requirements.html",
                                 part_no=part_no,
                                 count=count,
-                                two_across=two_across)
+                                small_web=small_web,
+                                large_web=large_web,
+                                feet_needed=feet_needed)
     elif SingleWebPart.varify_prt_exixts(part_no) == True:
-        return render_template("calculate_single_web_part.html",
+        rrequirements = calculate_single_web_part_requirements(part_no, 
+                                                    count, 
+                                                    two_across)
+        web_width = requirements['web width']
+        feet_needed = requirements['feet needed']
+        return render_template("display_part_requirements.html",
                                 part_no=part_no,
                                 count=count,
-                                two_across=two_across)
+                                web_width=web_width,
+                                feet_needed=feet_needed)
     else:
         flash("Part is not in the system, please enter data to store.")
         return render_template("create_part.html",
@@ -183,7 +205,7 @@ def get_new_part_type():
         return render_template("new_pocket.html",
                                 materials=materials)
     else:
-        return render_template("new_single_web_part.html",
+        return render_template("new_swp.html",
                                 materials=materials)
 
 @app.route("/envelope-calculator")
@@ -243,7 +265,7 @@ def calculate_page_material(part_no, count, two_across):
 
 
 @app.route("/create-page", methods=["POST"])
-def create_pae():
+def create_page():
     part_no = int(request.form.get("part_no"))
     count = int(request.form.get("count"))
     height = float(request.form.get("height"))
@@ -268,6 +290,68 @@ def create_pae():
                                 count=count,
                                 small_web=small_web,
                                 large_web=large_web,
+                                feet_needed=feet_needed)
+
+@app.route("/pocket-calculator")
+def calculate_pocket_material(part_no, count, two_across):
+    requirements = calculate_page_requirements(part_no, count, two_across)
+    small_web = requirements['small web width']
+    large_web = requirements['large web width']
+    feet_needed = requirements['feet needed']
+    return render_template("display_pocket_requirements.html",
+                                part_no=part_no,
+                                count=count,
+                                small_web=small_web,
+                                large_web=large_web,
+                                feet_needed=feet_needed)
+
+
+@app.route("/create-pocket", methods=["POST"])
+def create_pocket():
+    part_no = int(request.form.get("part_no"))
+    count = int(request.form.get("count"))
+    height = float(request.form.get("height"))
+    width = float(request.form.get("width"))
+    throat = float(request.form.get("throat"))
+    front_web_material = int(request.form.get("front_web_material"))
+    back_web_material = int(request.form.get("back_web_material"))
+    two_across = (request.form.get('two_across') == "True")
+
+    crud.create_pocket(part_no, height, 
+                        width, throat, 
+                        front_web_material, 
+                        back_web_material)
+
+    requirements = calculate_pocket_requirements(part_no, count, two_across)
+    small_web = requirements['small web width']
+    large_web = requirements['large web width']
+    feet_needed = requirements['feet needed']
+    return render_template("display_pocket_requirements.html",
+                                part_no=part_no,
+                                count=count,
+                                small_web=small_web,
+                                large_web=large_web,
+                                feet_needed=feet_needed)
+
+@app.route("/create-swp", methods=["POST"])
+def create_swp():
+    part_no = int(request.form.get("part_no"))
+    count = int(request.form.get("count"))
+    height = float(request.form.get("height"))
+    width = float(request.form.get("width"))
+    material = int(request.form.get("material"))
+    two_across = (request.form.get('two_across') == "True")
+
+    crud.create_single_web_part(part_no, height, 
+                        width, material)
+
+    requirements = calculate_single_web_part_requirements(part_no, count, two_across)
+    web_width = requirements['web width']
+    feet_needed = requirements['feet needed']
+    return render_template("display_swp_requirements.html",
+                                part_no=part_no,
+                                count=count,
+                                web_width=web_width,
                                 feet_needed=feet_needed)
 
 
