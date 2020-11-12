@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, session, redirect, flash
 from model import Envelope, Material, Pocket, PageProtector, SingleWebPart, User, connect_to_db, db
 import os
 import crud
+from roll_calculator_logic import calculate_roll_length, calculate_roll_diameter
 from jinja2 import StrictUndefined
 from material_calculator_logic import calculate_envelope_requirements, calculate_page_requirements, calculate_pocket_requirements, calculate_single_web_part_requirements
 
@@ -82,6 +83,7 @@ def option_selector():
     else:
         return render_template("roll_calculator.html")
 
+# Roll calculator starts here
 @app.route("/roll_calculator")
 def select_roll_calculator_type():
     print('In the roll_calculator route')
@@ -113,7 +115,7 @@ def calculate_and_display_roll_length():
     options = [float(o_d), float(material_no), float(i_d)]
     
     return render_template("display_roll_length.html",
-                            length=crud.calculate_roll_length(options))
+                            length=calculate_roll_length(options))
     
 
 @app.route("/calculate-roll-diameter")
@@ -124,9 +126,11 @@ def calclate_and_display_roll_diameter():
     options = [int(length), float(material_no), float(i_d)]
     
     return render_template("display_roll_diameter.html",
-                            diameter=crud.calculate_roll_diameter(options))
+                            diameter=calculate_roll_diameter(options))
 
 
+# Start of material calculator
+# TODO refactor for simplified testing
 @app.route("/material-calculator")
 def material_calculator():
     part_no = request.args.get('part_no')
@@ -209,7 +213,7 @@ def get_new_part_type():
                                 materials=materials)
 
 @app.route("/envelope-calculator")
-def calculate_envelope_material(part_no, count, two_across):
+def calculate_envelope_material():
     requirements = calculate_envelope_requirements(part_no, count, two_across)
     small_web = requirements['small web width']
     large_web = requirements['large web width']
@@ -238,6 +242,7 @@ def create_envelope():
                         width, flap, 
                         throat, front_web_material, 
                         back_web_material)
+    # return redirect(f"/envelope-calculator?part_no={part_no}&count={count}&two_across={two_across}")
 
     requirements = calculate_envelope_requirements(part_no, count, two_across)
     small_web = requirements['small web width']
@@ -353,7 +358,6 @@ def create_swp():
                                 count=count,
                                 web_width=web_width,
                                 feet_needed=feet_needed)
-
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0')

@@ -1,4 +1,4 @@
 /env
 *.pyc
 database-stru*
-test.py
+secrets.sh
