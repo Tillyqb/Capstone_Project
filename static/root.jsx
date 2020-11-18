@@ -1,5 +1,3 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
 const Router = ReactRouterDOM.BrowserRouter;
 const Route =  ReactRouterDOM.Route;
 const Link =  ReactRouterDOM.Link;
@@ -15,23 +13,98 @@ function Homepage() {
   return <div> Welcome to my site </div>
 }
 
+function About() {
+  return <div> A tiny react demo site </div>
+}
+
+function SearchBar() { 
+  return (
+  <div>
+      <input type="text"></input>
+  </div>
+  )
+}
+
+function Search() {
+  return (
+      <div>  
+        Search for stuff 
+        <SearchBar/>
+      </div>
+    )
+}
+
+function LogIn() { 
+
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+
+  function handleLogin(evt) {
+    evt.preventDefault();
+
+    const data = { 
+      email: email,
+      password: password
+    }
+
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    }
+
+    fetch('/api/login', options)
+    .then(response => response.json())
+    .then(data => {
+      if (data === 'Welcome back!') {
+        alert(data)
+      } else{ 
+        alert("Login failed.  Please try again or create an account.")
+      }
+    })
+
+  }
+
+  function handleEmailChange(evt) {
+    setEmail(evt.target.value)
+  }
+
+  function handlePasswordChange(evt) {
+    setPassword(evt.target.value)
+  }
+
+  return (
+    <div>
+      <form onSubmit={handleLogin}>
+        Username:
+        <input value={email} onChange={handleEmailChange} type="text"></input>
+        Password:
+        <input value={password} onChange={handlePasswordChange} type="text"></input>
+        <button>Login</button>
+      </form>
+    </div>
+  )
+}
+
+
 function App() {
     return (
       <Router>
-        {/* <nav>
+        <nav>
           <ul>
             <li>
-                <Link to="/"> Home </Link>
-                */<h1>Hello World!!</h1>/*
+                <Link className="link" to="/"> Home </Link>
             </li>
             <li>
-                <Link to="/about"> About </Link>
+                <Link className="link" to="/about"> About </Link>
             </li>
             <li>
-                <Link to="/search"> Search </Link>
+                <Link className="link" to="/search"> Search </Link>
             </li>
             <li>
-                <Link to="/login"> Login </Link>
+                <Link className="link" to="/login"> Login </Link>
             </li>
           </ul>
         </nav>
@@ -50,11 +123,10 @@ function App() {
               <Homepage />
             </Route>
           </Switch>
-        </div> */}
+        </div>
       </Router>
     );
 }
 
 ReactDOM.render(<App />, document.getElementById('root'))
 
-templates/root.html
