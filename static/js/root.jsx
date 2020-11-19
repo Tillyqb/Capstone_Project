@@ -15,7 +15,8 @@ function Homepage() {
 
 function About() {
   return <div> 
-    This is an app that is intended to calculate the material <br /> requirements for a two web printing operation. <br />
+    This is an app that is intended to calculate the material <br /> 
+    requirements for a two web printing operation. <br />
     The material calculator was designd as a project for the <br /> 
     purpose of learning durring the coarse of a Software Engineering <br />
     fellowship at
@@ -82,12 +83,14 @@ function MaterialCalculator() {
     )
 }
 
-function LogIn() { 
+function LogIn(props) { 
 
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const history = useHistory()
 
   function handleLogin(evt) {
+    console.log('handleLogin is running')
     evt.preventDefault();
 
     const payload = { 
@@ -107,6 +110,9 @@ function LogIn() {
     .then(response => response.json())
     .then(data => {
       if (data === 'good login') {
+        props.setUser(data)
+        localStorage.setItem('user',JSON.stringify(data));
+        history.push('/')
         alert('Login succsesfull')
       } else if (data === 'bad email') { 
         alert("Email is not in the system.  Please try again.")
@@ -126,23 +132,45 @@ function LogIn() {
   }
 
   return (
-    <div>
-      <form onSubmit={handleLogin}>
-        Username:
-        <input value={email} onChange={handleEmailChange} type="email"></input>
-        Password:
-        <input value={password} onChange={handlePasswordChange} type="password"></input>
-        <button>Login</button>
-      </form>
+    <div className="base">
+      <React.Fragment>
+        <Container>
+          <Row>
+            <Col>
+              <Form onSubmit={handleLogin}>
+                <Form.Group controlId="formBasicEmail">
+                  <Form.Control type="email" name="login-email" placeholder="Enter email" value={email} onChange={handleEmailChange} />
+              </Form.Group>
+              <Form.Group controlId="formBasicPassword">
+                  <Form.Control type="password" name="login-password" placeholder="Enter password" value={email} onChange={handlePasswordChange} />
+              </Form.Group>
+              <Button className="button" varient="Primary" type="submit">
+                Login
+              </Button>
+              </Form>
+            </Col>
+          </Row>
+        </Container>
+      </React.Fragment>
     </div>
   )
 }
 
 
 function App() {
+
+  function getCurrentUser() {
+    const currentUser = JSON.parse(localStorage.getItem('user'));
+
+    return currentUser
+  }
+
+  const [user, setUser] = React.useState(getCurrentUser)
+  console.log(user)
+
     return (
       <Router>
-        <nav>
+        <nav id="root">
           <ul>
             <li>
                 <Link className="link" to="/"> Home </Link>

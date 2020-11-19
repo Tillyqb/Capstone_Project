@@ -1,7 +1,10 @@
 html {background-color: #410041;
+    color: pink;
+}
+
+#root {background-color: #410041;
     margin: 100px;
     color: pink;
-
 }
 
 .button {
