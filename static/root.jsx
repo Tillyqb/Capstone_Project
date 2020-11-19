@@ -14,23 +14,71 @@ function Homepage() {
 }
 
 function About() {
-  return <div> A tiny react demo site </div>
-}
-
-function SearchBar() { 
-  return (
-  <div>
-      <input type="text"></input>
+  return <div> 
+    This is an app that is intended to calculate the material <br /> requirements for a two web printing operation. <br />
+    The material calculator was designd as a project for the <br /> 
+    purpose of learning durring the coarse of a Software Engineering <br />
+    fellowship at
+    <a className="link" href="https://www.hackbrightacademy.com">Hackbright Academy.</a>
   </div>
-  )
 }
 
-function Search() {
+function CalculateMaterialRequirements() {
+  return(
+    <div>
+      This component is not finished yet.
+    </div>
+  );
+}
+
+function CalculateRollLength() {
+  return(
+    <div>
+      This component is not finished yet.
+    </div>
+  );
+}
+
+function CalculateRollDiameter() {
+  return(
+    <div>
+      This component is not finished yet.
+    </div>
+  );
+}
+
+function MaterialCalculator() {
   return (
+    <Router>
       <div>  
-        Search for stuff 
-        <SearchBar/>
+        <nav>
+          <ul>
+            <li>
+                <Link className="link" to="/calculateMaterialRequirements"> Calculate Material Requirements </Link>
+            </li>
+            <li>
+                <Link className="link" to="/calculateRollLength"> Calculate Roll Length </Link>
+            </li>
+            <li>
+                <Link className="link" to="/calculateRollDiameter"> Calculate Roll Diameter </Link>
+            </li>
+          </ul>
+        </nav>
+        <div>
+          <Switch>
+            <Route path="/calculateMaterialRequirements">
+              <CalculateMaterialRequirements />
+            </Route>
+            <Route path="/calculateRollLength">
+              <CalculateRollLength />
+            </Route>
+            <Route path="/calculateRollDiameter">
+              <CalculateRollDiameter />
+            </Route>
+          </Switch>
+        </div>
       </div>
+    </Router>
     )
 }
 
@@ -42,14 +90,14 @@ function LogIn() {
   function handleLogin(evt) {
     evt.preventDefault();
 
-    const data = { 
-      email: email,
-      password: password
+    const payload = { 
+      'email': email,
+      'password': password
     }
 
     const options = {
       method: 'POST',
-      body: JSON.stringify(data),
+      body: JSON.stringify(payload),
       headers: {
         'Content-Type': 'application/json'
       },
@@ -58,13 +106,15 @@ function LogIn() {
     fetch('/api/login', options)
     .then(response => response.json())
     .then(data => {
-      if (data === 'Welcome back!') {
-        alert(data)
-      } else{ 
-        alert("Login failed.  Please try again or create an account.")
+      if (data === 'good login') {
+        alert('Login succsesfull')
+      } else if (data === 'bad email') { 
+        alert("Email is not in the system.  Please try again.")
+      } else {
+        alert("Email and password do not match.")
       }
-    })
-
+    }
+  ).catch(error => console.log('error in login', error))
   }
 
   function handleEmailChange(evt) {
@@ -79,9 +129,9 @@ function LogIn() {
     <div>
       <form onSubmit={handleLogin}>
         Username:
-        <input value={email} onChange={handleEmailChange} type="text"></input>
+        <input value={email} onChange={handleEmailChange} type="email"></input>
         Password:
-        <input value={password} onChange={handlePasswordChange} type="text"></input>
+        <input value={password} onChange={handlePasswordChange} type="password"></input>
         <button>Login</button>
       </form>
     </div>
@@ -101,7 +151,7 @@ function App() {
                 <Link className="link" to="/about"> About </Link>
             </li>
             <li>
-                <Link className="link" to="/search"> Search </Link>
+                <Link className="link" to="/materialCalculator"> Material Calculator </Link>
             </li>
             <li>
                 <Link className="link" to="/login"> Login </Link>
@@ -116,8 +166,8 @@ function App() {
             <Route path="/login">
               <LogIn />
             </Route>
-            <Route path="/search">
-              <Search />
+            <Route path="/materialCalculator">
+              <MaterialCalculator />
             </Route>
             <Route path="/">
               <Homepage />

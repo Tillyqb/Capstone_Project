@@ -1,6 +1,7 @@
-from flask import Flask, render_template, request, session, redirect, flash
+from flask import Flask, render_template, request, session, redirect, flash, jsonify
 from model import connect_to_db, db
 import os
+from crud import check_user, validate_user
 from jinja2 import StrictUndefined
 
 app = Flask(__name__)
@@ -14,13 +15,21 @@ def root():
     return render_template("root.html")
 
 
+
+
 @app.route("/api/login", methods=["POST"])
 def login(): 
     data = request.get_json()
     email = data['email']
     password = data['password']
-    # do stuff with your data then return something
-    return jsonify("banana bunny muffins")
+
+    if check_user(email) == False:
+        return jsonify('bad email')
+    else:
+        if validate_user(email, password):
+            return jsonify('good login')
+        else:
+            return jsonify("bad password")
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0')

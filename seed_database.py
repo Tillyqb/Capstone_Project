@@ -11,7 +11,7 @@ import server
 
 
 app = Flask(__name__)
-connect_to_db(app)
+# connect_to_db(app)
 
 os.system('dropdb material')
 os.system('createdb material')
