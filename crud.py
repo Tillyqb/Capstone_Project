@@ -1,11 +1,30 @@
 """CRUD operations."""
 from model import db, User, Material, Envelope, Pocket, PageProtector, SingleWebPart, connect_to_db
-from flask import Flask
+from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
-
 from model import connect_to_db
+from server import app
 
 PI = 3.141592654
+
+
+def check_part(part_no):
+    if Envelope.varify_part_exixts(part_no):
+        part = Envelope.get_envelope_by_part_no(part_no)
+        return jsonify(part)
+    elif Pocket.varify_part_exixts(part_no):
+        part = Pocket.get_pocket_by_part_no(part_no)
+        return jsonify(part)
+    elif PageProtector.varify_part_exixts(part_no):
+        part = PageProtector.get_page_by_part_no(part_no) 
+        return jsonify(part)
+    elif SingleWebPart.varify_part_exixts(part_no):
+        part = SingleWebPart.get_part_by_part_no(part_no)
+        return jsonify(part)
+    else:
+        return jsonify(False)
+
+
 
 def create_user(email, password):
     """Create and return a new user."""
@@ -15,7 +34,7 @@ def create_user(email, password):
     db.session.add(user)
     db.session.commit()
 
-    return user
+    return jsonify(user)
 
 def check_user(email):
     check =  User.query.filter(User.email == email).first()
@@ -109,7 +128,6 @@ def get_materials_list():
 
 if __name__ ==  '__main__':
     #app.run(debug=True, host='0.0.0.0')
-    from server import app
     connect_to_db(app)
 
 
