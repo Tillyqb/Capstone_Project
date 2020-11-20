@@ -2,8 +2,6 @@
 from model import db, User, Material, Envelope, Pocket, PageProtector, SingleWebPart, connect_to_db
 from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
-from model import connect_to_db
-from server import app
 
 PI = 3.141592654
 
@@ -128,6 +126,7 @@ def get_materials_list():
 
 if __name__ ==  '__main__':
     #app.run(debug=True, host='0.0.0.0')
+    from server import app
     connect_to_db(app)
 
 
