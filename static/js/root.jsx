@@ -137,12 +137,12 @@ function LogIn(props) {
         <Container>
           <Row>
             <Col>
-              <Form>
+              <Form onSubmit={handleLogin}>
                 <Form.Group controlId="formBasicEmail">
-                  <Form.Control type="email" name="login-email" placeholder="Enter email" value={email} onChange={handleEmailChange} />
+                  <Form.Control type="email" name="email" placeholder="Enter email" value={email} onChange={handleEmailChange} />
                 </Form.Group>
                 <Form.Group controlId="formBasicPassword">
-                  <Form.Control type="password" name="login-password"  placeholder="Password" value={password} onChange={handlePasswordChange}></Form.Control>
+                  <Form.Control type="password" name="password"  placeholder="Password" value={password} onChange={handlePasswordChange}></Form.Control>
                 </Form.Group>
                 <Button className="button" varient="Primary" type="submit">
                   Login
