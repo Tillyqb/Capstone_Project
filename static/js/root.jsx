@@ -33,6 +33,22 @@ function CalculateMaterialRequirements() {
 }
 
 function CalculateRollLength() {
+
+
+  fetch('/api/calculate-roll-length', options)
+    .then(response => response.json())
+    .then(data => {
+      console.log(data)
+      if (data === 'good login') {
+        localStorage.setItem('user',JSON.stringify(data));
+        history.push('/')
+        alert('Login succsesfull')
+      } else if (data === 'bad email') {
+        alert("Email is not in the system.  Please try again.")
+      } else {
+        alert("Email and password do not match.")
+      }
+    }).catch(error => console.log('error in login', error))
   return(
     <div>
       This component is not finished yet.
@@ -41,7 +57,62 @@ function CalculateRollLength() {
 }
 
 function CalculateRollDiameter() {
-  return(
+
+  function handleDameterCalculation(evt){
+    console.log('handleDiameterCalculator is running');
+    evt.preventDefault();
+
+    const payload = {
+      rollLength: rollLength,
+      material: material
+    }
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      headers: 
+      {
+        'Content-Type': 'application/json'
+      }
+    }
+
+    fetch('api/diameter-calculator', options)
+    .then(response => response.json())
+    .then(data => {
+      console.log(data)
+      function handleEmailChange(evt) 
+  {
+    console.log(evt.target.value)
+    setEmail(evt.target.value)
+  }
+
+  function handleEmail2Change(evt) 
+  {
+    console.log(evt.target.value)
+    setEmail2(evt.target.value)
+  }
+
+  function handlePasswordChange(evt) 
+  {
+    console.log(evt.target.value)
+    setPassword(evt.target.value)
+  }
+
+  function handlePassword2Change(evt) 
+  {
+    console.log(evt.target.value)
+    setPassword2(evt.target.value)
+  }
+
+  return (
+    <div className="base">
+      <Router>
+        The diameter of your roll will be {diameter} inches.
+      </Router>
+    </div>
+  )
+    })
+  }
+    return(
     <div>
       This component is not finished yet.
     </div>
@@ -106,6 +177,8 @@ function LogIn(props) {
         'Content-Type': 'application/json'
       }
     }
+
+    
 
     fetch('/api/login', options)
     .then(response => response.json())
@@ -244,32 +317,20 @@ function NewUser(props) {
               <Form.Group controlId="formBasicEmail">
                 <Form.Control type="email" name="email" placeholder="Enter email" value={email} onChange={handleEmailChange} />
               </Form.Group>
-              <Form.Group controlId="formBasicEmail">
+              <Form.Group controlId="formBasicEmail2">
                 <Form.Control type="email" name="email2" placeholder="Retype email" value={email2} onChange={handleEmail2Change} />
               </Form.Group>
               <Form.Group controlId="formBasicPassword">
                 <Form.Control type="password" name="password"  placeholder="Password" value={password} onChange={handlePasswordChange}></Form.Control>
               </Form.Group>
-              <Form.Group controlId="formBasicPassword">
+              <Form.Group controlId="formBasicPassword2">
                 <Form.Control type="password" name="password2"  placeholder="Retype Password" value={password2} onChange={handlePassword2Change}></Form.Control>
               </Form.Group>
               <Button className="button" varient="Primary" type="submit">
-                Login
+                Register
               </Button>
             </Form>
-            <ul>
-              <li>
-                <Link className="link" to="/newUser"> Click here to create a new account. </Link>
-              </li>
-            </ul>
           </nav>
-          <div>
-            <Switch>
-              <Route path="/newUser">
-                <NewUser />
-              </Route>
-            </Switch>
-          </div>
         </div>
       </Router>
     </div>

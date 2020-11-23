@@ -1,5 +1,6 @@
 
 from math import sqrt
+PI = 3.141592654
 
 def calculate_roll_length(args):
     """Calculate the length of a roll with a given diameter, material, and core diameter
@@ -31,5 +32,4 @@ def calculate_roll_diameter(args):
     thickness_in_mil = float(material_obj.material_thickness)
     thickness_in_in = thickness_in_mil / 1000
     diameter = 2 * sqrt((roll_length * thickness_in_in / PI) + core_radious ** 2)
-    return diameter
-
+    

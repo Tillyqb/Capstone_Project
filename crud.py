@@ -32,7 +32,6 @@ def create_user(email, password):
     db.session.add(user)
     db.session.commit()
 
-    return jsonify(user)
 
 def check_user(email):
     check =  User.query.filter(User.email == email).first()
