@@ -2,9 +2,10 @@ from flask import Flask, render_template, request, session, redirect, flash, jso
 from model import connect_to_db, db
 import os
 from crud import check_user, validate_user, check_part, create_user
+from roll_calculator_logic import calculate_roll_length, calculate_roll_diameter
 from jinja2 import StrictUndefined
+import subprocess
 
-os.system('source secrets.sh')
 SECRET_KEY = os.environ['SECRET_KEY']
 
 app = Flask(__name__)
@@ -27,6 +28,23 @@ def calculate_roll_length():
     data = request.get_json()
     roll_diameter = data['roll_diameter']
     material = data['material']
+    core_dia = data['coreDia']
+    args = [roll_diameter, material, core_dia]
+
+    length = calculate_roll_length(args)
+    return jsonify(length)
+
+
+@app.route("/api/diameter-calculator")
+def calculate_diameter():
+    data = request.get_json()
+    roll_length = data['rollLength']
+    material = data["material"]
+    core_dia = data["coreDia"]
+    args = [roll_length, material, core_dia]
+    
+    diameter = calculate_roll_diameter(args)
+    return jsonify(diameter)
 
 
 

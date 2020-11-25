@@ -32,31 +32,94 @@ function CalculateMaterialRequirements() {
   );
 }
 
-function CalculateRollLength() {
+function CalculateRollLength(props) {
 
+  const [rollDia, setRollDia] = React.useState('');
+  const [material, setMaterial] = React.useState[''];
+  const [coreDia, setCoreDia] = React.useState[''];
+  const history = useHistory()
 
-  fetch('/api/calculate-roll-length', options)
-    .then(response => response.json())
-    .then(data => {
-      console.log(data)
-      if (data === 'good login') {
-        localStorage.setItem('user',JSON.stringify(data));
-        history.push('/')
-        alert('Login succsesfull')
-      } else if (data === 'bad email') {
-        alert("Email is not in the system.  Please try again.")
-      } else {
-        alert("Email and password do not match.")
+  function handleLengthCalculation(evt) {
+    console.log('handleLengthCalculator is running');
+    evt.preventDefault();
+
+    const payload = {
+      rollDia: rollDia,
+      material: material,
+      coreDia: coreDia
+    }
+
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      headers: {
+        'Content-Type': 'application/json'
       }
-    }).catch(error => console.log('error in login', error))
-  return(
-    <div>
-      This component is not finished yet.
+    }
+    fetch('/api/calculate-roll-length', options)
+    .then(response => resoponse.json())
+    .then(data => {
+    if (data === int) {
+      console.log('The length of your roll is ' + data + 'feet');
+      displayRollLength(data)
+    } else {
+      return(
+        <h1>error in fetch</h1>
+      )
+    }
+    }).catch(error => console.log('error in length calculator', error))
+  }
+
+  function handleRollDiaChange(evt) {
+    console.log(evt.target.value)
+    setRollDia(evt.target.value)
+  }
+
+  function handleMaterialChange(evt) {
+    console.log(evt.target.value)
+    setMaterial(evt.target.value)
+  }
+
+  function handleCoreDiaChange(evt) {
+    console.log(evt.target.value)
+    setCoreDia(evt.target.value)
+  }
+
+  return (
+    <div className="base">
+      <Router>
+        <div>
+          <nav>
+            <Form onSubmit={handleLengthCalculation}>
+              <Form.Group controlId="formBasicDiameter">
+                <Form.Control type="text" name="rollDia" placholder="Enter roll diameter" value={rollDia} onSubmit={handleRollDiaChange} />
+              </Form.Group>
+              <Form.Group controlId="formBasicMaterial">
+                <Form.Control type="text" name="material" placholder="Enter material" value={material} onSubmit={handleMaterialChange} />
+              </Form.Group>
+              <Form.Group controlId="formBasicCoreDiar">
+                <Form.Control type="text" name="coreDia" placholder="Enter core diameter" value={coreDia} onSubmit={handleCoreDiaChange} />
+              </Form.Group>
+            </Form>
+          </nav>
+        </div>
+      </Router>
     </div>
-  );
+  )
+}
+
+function displayRollLength(length) {
+  return (
+    <h3>Your roll is {length} feet long. </h3>
+    )
 }
 
 function CalculateRollDiameter() {
+
+  const [rollLength, setRollLength] = React.useState('');
+  const [material, setMaterial] = React.useState[''];
+  const [coreDia, setCoreDia] = React.useState[''];
+  const history = useHistory()
 
   function handleDameterCalculation(evt){
     console.log('handleDiameterCalculator is running');
@@ -64,8 +127,10 @@ function CalculateRollDiameter() {
 
     const payload = {
       rollLength: rollLength,
-      material: material
+      material: material,
+      coreDia: coreDia
     }
+
     const options = {
       method: 'POST',
       body: JSON.stringify(payload),
@@ -74,49 +139,65 @@ function CalculateRollDiameter() {
         'Content-Type': 'application/json'
       }
     }
-
+  
     fetch('api/diameter-calculator', options)
     .then(response => response.json())
     .then(data => {
       console.log(data)
-      function handleEmailChange(evt) 
-  {
-    console.log(evt.target.value)
-    setEmail(evt.target.value)
+      displayRollDiameter(data)
+    }).catch(error => console.log('error in diameter calculator', error))
   }
-
-  function handleEmail2Change(evt) 
+      
+  function handleLengthChange(evt) 
   {
     console.log(evt.target.value)
     setEmail2(evt.target.value)
   }
 
-  function handlePasswordChange(evt) 
+  function handleMaterialChange(evt) 
   {
     console.log(evt.target.value)
     setPassword(evt.target.value)
   }
 
-  function handlePassword2Change(evt) 
+  function handleCoreDiaChange(evt) 
   {
     console.log(evt.target.value)
     setPassword2(evt.target.value)
   }
 
+
+    
+    return (
+      <div className="base">
+        <Router>
+          <div>
+            <nav>
+              <Form onSubmit={handleDameterCalculation}>
+                <Form.Group controlId="formRollDiameter">
+                  <Form.Control type="text" name="rollLength" placeholder="Enter roll length" value={rollLength} onChange={handleLengthChange} />
+                </Form.Group>
+                <Form.Group controlId="formMaterial">
+                  <Form.Control type="text" name="material"  placeholder="Material number" value={material} onChange={handleMaterialChange}></Form.Control>
+                </Form.Group>
+                <Form.Group controlId="formCoreDiameter">
+                  <Form.Control type="pastextsword" name="coreDia"  placeholder="Core outer diameter" value={coreDia} onChange={handleCoreDiaChange}></Form.Control>
+                </Form.Group>
+                <Button className="button" varient="Primary" type="submit">
+                  Submit
+                </Button>
+              </Form>
+            </nav>
+          </div>
+        </Router>
+      </div>
+    );
+}
+
+function displayRollDiameter(diameter) {
   return (
-    <div className="base">
-      <Router>
-        The diameter of your roll will be {diameter} inches.
-      </Router>
-    </div>
-  )
-    })
-  }
-    return(
-    <div>
-      This component is not finished yet.
-    </div>
-  );
+    <h3>The diameter of you roll will be {diameter} in. </h3>
+    )
 }
 
 function MaterialCalculator() {
@@ -389,4 +470,3 @@ function App() {
 }
 
 ReactDOM.render(<App />, document.getElementById('root'))
-
