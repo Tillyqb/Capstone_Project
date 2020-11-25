@@ -1,10 +1,11 @@
 from flask import Flask, render_template, request, session, redirect, flash, jsonify
-from model import connect_to_db, db
+from model import connect_to_db, db, User
 import os
 from crud import check_user, validate_user, check_part, create_user
 from roll_calculator_logic import calculate_roll_length, calculate_roll_diameter
 from jinja2 import StrictUndefined
 import subprocess
+import cloudinary
 
 SECRET_KEY = os.environ['SECRET_KEY']
 
