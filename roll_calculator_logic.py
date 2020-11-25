@@ -1,6 +1,7 @@
 
 from math import sqrt
-from model import Material
+from model import Material, connect_to_db
+from flask import jsonify
 PI = 3.141592654
 
 def calculate_roll_length(args):
@@ -10,16 +11,15 @@ def calculate_roll_length(args):
     8899
     """
     print(args)
-    roll_radious = float(args[0]/2)
+    roll_radious = float(args[0])/2
     material_no = int(args[1])
-    core_radious = float(args[2]/2)
+    core_radious = float(args[2])/2
     material_obj = Material.get_material_by_material_no(material_no)
     thickness_in_mil = float(material_obj.material_thickness)
     thickness_in_in = thickness_in_mil / 1000
     material_area = roll_radious ** 2 - core_radious **  2
-    roll_length = (PI * (material_area) / thickness_in_in) / 12
-    print(type(roll_length))
-    return int(roll_length)
+    roll_length = int((PI * (material_area) / thickness_in_in) / 12)
+    return jsonify(roll_length)
 
 
 def calculate_roll_diameter(args):
@@ -35,5 +35,8 @@ def calculate_roll_diameter(args):
     thickness_in_mil = float(material_obj.material_thickness)
     thickness_in_in = thickness_in_mil / 1000
     diameter = 2 * sqrt((roll_length * thickness_in_in / PI) + core_radious ** 2)
-    return diameter
+    return jsonify(float(diameter))
 
+if __name__ == "__main__":
+    from server import app
+    connect_to_db(app)

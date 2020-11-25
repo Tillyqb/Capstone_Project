@@ -35,12 +35,12 @@ function CalculateMaterialRequirements() {
 function CalculateRollLength(props) {
 
   const [rollDia, setRollDia] = React.useState('');
-  const [material, setMaterial] = React.useState[''];
-  const [coreDia, setCoreDia] = React.useState[''];
+  const [material, setMaterial] = React.useState('');
+  const [coreDia, setCoreDia] = React.useState('');
   const history = useHistory()
 
   function handleLengthCalculation(evt) {
-    console.log('handleLengthCalculator is running');
+    console.log('handleLengthCalculation is running');
     evt.preventDefault();
 
     const payload = {
@@ -57,16 +57,18 @@ function CalculateRollLength(props) {
       }
     }
     fetch('/api/calculate-roll-length', options)
-    .then(response => resoponse.json())
+    .then(response => response.json())
     .then(data => {
-    if (data === int) {
-      console.log('The length of your roll is ' + data + 'feet');
-      displayRollLength(data)
-    } else {
-      return(
-        <h1>error in fetch</h1>
+      localStorage.setItem('rollLength',JSON.stringify(data));
+        history.push('/');
+      console.log('The length of your roll is ' + data + ' feet');
+      return (
+        <Router>
+          <nav>
+            <h3>Your roll is {{data}} feet long. </h3>
+          </nav>
+        </Router>
       )
-    }
     }).catch(error => console.log('error in length calculator', error))
   }
 
@@ -92,14 +94,26 @@ function CalculateRollLength(props) {
           <nav>
             <Form onSubmit={handleLengthCalculation}>
               <Form.Group controlId="formBasicDiameter">
-                <Form.Control type="text" name="rollDia" placholder="Enter roll diameter" value={rollDia} onSubmit={handleRollDiaChange} />
+                <Form.Control type="text" name="rollDia" placeholder="Roll Diameter" value={rollDia} onChange={handleRollDiaChange} />
               </Form.Group>
               <Form.Group controlId="formBasicMaterial">
-                <Form.Control type="text" name="material" placholder="Enter material" value={material} onSubmit={handleMaterialChange} />
+                <Form.Control type="text" name="material" placeholder="Material" value={material} onChange={handleMaterialChange} />
               </Form.Group>
-              <Form.Group controlId="formBasicCoreDiar">
-                <Form.Control type="text" name="coreDia" placholder="Enter core diameter" value={coreDia} onSubmit={handleCoreDiaChange} />
+              <Form.Group 
+              controlId="formBasicCoreDia">
+                <Form.Control 
+                type="text" 
+                name="coreDia" 
+                placeholder="Core Diameter" 
+                value={coreDia} 
+                onChange={handleCoreDiaChange} />
               </Form.Group>
+              <Button 
+              className="button" 
+              varient="Primary" 
+              type="submit">
+                Submit
+              </Button>
             </Form>
           </nav>
         </div>
@@ -145,7 +159,7 @@ function CalculateRollDiameter() {
     .then(data => {
       console.log(data)
       displayRollDiameter(data)
-    }).catch(error => console.log('error in diameter calculator', error))
+    }).catch(error => console.log('error in diameter calculator', data, error))
   }
       
   function handleLengthChange(evt) 
@@ -204,28 +218,29 @@ function MaterialCalculator() {
   return (
     <Router>
       <div>  
-        <nav>
+        <nav id="materialCalculator">
+          <h2>Select what you desire to calculate</h2>
           <ul>
             <li>
-                <Link className="link" to="/calculateMaterialRequirements"> Calculate Material Requirements </Link>
+                <Link className="link" to="/calculate-material-requirements"> Calculate Material Requirements </Link>
             </li>
             <li>
-                <Link className="link" to="/calculateRollLength"> Calculate Roll Length </Link>
+                <Link className="link" to="/calculate-roll-length"> Calculate Roll Length </Link>
             </li>
             <li>
-                <Link className="link" to="/calculateRollDiameter"> Calculate Roll Diameter </Link>
+                <Link className="link" to="/calculate-roll-diameter"> Calculate Roll Diameter </Link>
             </li>
           </ul>
         </nav>
         <div>
           <Switch>
-            <Route path="/calculateMaterialRequirements">
+            <Route path="/calculate-material-requirements">
               <CalculateMaterialRequirements />
             </Route>
-            <Route path="/calculateRollLength">
+            <Route path="/calculate-roll-length">
               <CalculateRollLength />
             </Route>
-            <Route path="/calculateRollDiameter">
+            <Route path="/calculate-roll-diameter">
               <CalculateRollDiameter />
             </Route>
           </Switch>
@@ -395,8 +410,14 @@ function NewUser(props) {
         <div>
           <nav>
             <Form onSubmit={handleRegister}>
-              <Form.Group controlId="formBasicEmail">
-                <Form.Control type="email" name="email" placeholder="Enter email" value={email} onChange={handleEmailChange} />
+              <Form.Group 
+              controlId="formBasicEmail">
+                <Form.Control 
+                type="email" 
+                name="email" 
+                placeholder="Enter email" 
+                value={email} 
+                onChange={handleEmailChange} />
               </Form.Group>
               <Form.Group controlId="formBasicEmail2">
                 <Form.Control type="email" name="email2" placeholder="Retype email" value={email2} onChange={handleEmail2Change} />
@@ -407,7 +428,10 @@ function NewUser(props) {
               <Form.Group controlId="formBasicPassword2">
                 <Form.Control type="password" name="password2"  placeholder="Retype Password" value={password2} onChange={handlePassword2Change}></Form.Control>
               </Form.Group>
-              <Button className="button" varient="Primary" type="submit">
+              <Button 
+              className="button" 
+              varient="Primary" 
+              type="submit">
                 Register
               </Button>
             </Form>
@@ -442,7 +466,7 @@ function App() {
                 <Link className="link" to="/about"> About </Link>
             </li>
             <li>
-                <Link className="link" to="/materialCalculator"> Material Calculator </Link>
+                <Link className="link" to="/material-calculator"> Material Calculator </Link>
             </li>
             <li>
                 <Link className="link" to="/login"> Login </Link>
@@ -457,7 +481,7 @@ function App() {
             <Route path="/login">
               <LogIn />
             </Route>
-            <Route path="/materialCalculator">
+            <Route path="/material-calculator">
               <MaterialCalculator />
             </Route>
             <Route path="/">

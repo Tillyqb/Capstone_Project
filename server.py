@@ -9,13 +9,16 @@ import subprocess
 SECRET_KEY = os.environ['SECRET_KEY']
 
 app = Flask(__name__)
-connect_to_db(app)
+
+
 app.secret_key = SECRET_KEY
 app.jinja_env.undefined = StrictUndefined
 app.config['PRESERVE_CONTEXT_ON_EXCEPTION'] = True
 
 
-
+@app.route("/calculate-rol-length")
+@app.route("/calculate-material-requirements")
+@app.route("/material-calculator")
 @app.route("/login")
 @app.route("/")
 def root():
@@ -23,19 +26,20 @@ def root():
 
 
 
-@app.route("/api/calculate-roll-length")
-def calculate_roll_length():
+@app.route("/api/calculate-roll-length", methods=['POST'])
+def length_calculator():
+    print(request)
     data = request.get_json()
-    roll_diameter = data['roll_diameter']
+    roll_diameter = data['rollDia']
     material = data['material']
     core_dia = data['coreDia']
     args = [roll_diameter, material, core_dia]
 
     length = calculate_roll_length(args)
-    return jsonify(length)
+    return length
 
 
-@app.route("/api/diameter-calculator")
+@app.route("/api/diameter-calculator", methods=["POST"])
 def calculate_diameter():
     data = request.get_json()
     roll_length = data['rollLength']
@@ -91,4 +95,5 @@ def regiter():
 
             
 if __name__ == "__main__":
+    connect_to_db(app)
     app.run(debug=True, host='0.0.0.0')
