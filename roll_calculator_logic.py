@@ -34,4 +34,6 @@ def calculate_roll_diameter(args):
     material_obj = Material.get_material_by_material_no(material_no)
     thickness_in_mil = float(material_obj.material_thickness)
     thickness_in_in = thickness_in_mil / 1000
-    diameter = 2 * sqrt((roll_length * thickness_in_in / P
+    diameter = 2 * sqrt((roll_length * thickness_in_in / PI) + core_radious ** 2)
+    return diameter
+
