@@ -7,6 +7,9 @@ TopNav {background-color: #410041 ;}
     margin: 100px;
     color: pink;
 }
+.base {
+    margin: 0px, 100px;
+}
 
 .button {
     color: #d5a2ff;

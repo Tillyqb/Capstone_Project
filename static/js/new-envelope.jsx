@@ -91,7 +91,7 @@ function NewEnvelope() {
                 <Form.Control 
                 type="text" 
                 name="partNo" 
-                placeholder={partNo} 
+                placeholder="partNo"
                 value={partNo} 
                 onChange={handlePartNoChange} />
               </Form.Group>
@@ -102,7 +102,7 @@ function NewEnvelope() {
                 <Form.Control type="text" name="width"  placeholder="Width" value={width} onChange={handleWidthChange}></Form.Control>
               </Form.Group>
               <Form.Group controlId="formBasicFlap">
-                <Form.Control type="text" name="flap"  placeholder="Flap" value={Flap} onChange={handleFlapChange}></Form.Control>
+                <Form.Control type="text" name="flap"  placeholder="Flap" value={flap} onChange={handleFlapChange}></Form.Control>
               </Form.Group>
               <Form.Group controlId="formBasicThroat">
                 <Form.Control type="text" name="throat"  placeholder="Throat" value={throat} onChange={handleThroatChange}></Form.Control>

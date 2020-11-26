@@ -4,7 +4,7 @@ function CalculateMaterialRequirements() {
   const [largeWebWidth, setLargeWebWidth] = React.useState('');
   const [smallWebWidth, setSmallWebWidth] = React.useState('');
   const [largeWebMat, setLargeWebMat] = React.useState('');
-  const [smellWebMat, setSmallWebMat] = React.useState('');
+  const [smallWebMat, setSmallWebMat] = React.useState('');
 
   function handleMaterialRequirementCalculation(evt) {
     console.log('handleMaterialRequirementCalculation is running');
@@ -31,6 +31,7 @@ function CalculateMaterialRequirements() {
   }
 
   function handlePartNoChange(evt) {
+    evt.preventDefault()
     console.log(evt.target.value)
     setPartNo(evt.target.value)
   }
@@ -40,7 +41,7 @@ function CalculateMaterialRequirements() {
     setCount(evt.target.value)
   }
 
-  if (data === 'Need part info') {
+  if (localStorage.getItem('partNo')) {
     return (
     <Router>
       <div>  
@@ -56,9 +57,9 @@ function CalculateMaterialRequirements() {
             <li>
                 <Link className="link" to="/pocket"> Pocket </Link>
             </li>
-            {/* <li>
+            <li>
                 <Link className="link" to="/single-web-part"> Single Web Part </Link>
-            </li> */}
+            </li>
           </ul>
         </nav>
         <div>
@@ -72,47 +73,32 @@ function CalculateMaterialRequirements() {
             <Route path="/pocket">
               <NewPocket />
             </Route>
-            {/* <Route path="/single-web-part">
+             <Route path="/single-web-part">
               <NewSingleWebPart />
-            </Route> */}
+            </Route>
           </Switch>
         </div>
       </div>
     </Router>
     )
-  } else {
-    return (
-     <div className="base">
-        <Router>
-          <div>
-            <nav>
-              <Form onSubmit={handleDiameterCalculation}>
-                <Form.Group controlId="formBasicLength">
-                  <Form.Control type="text" name="length" placeholder="Target length" value={length} onChange={handleRollLengthChange} />
-                </Form.Group>
-                <Form.Group controlId="formBasicMaterial">
-                  <Form.Control type="text" name="material"   placeholder="Material" value={material} onChange= {handleMaterialChange} />
-                </Form.Group>
-                <Form.Group 
-                controlId="formBasicCoreDia">
-                  <Form.Control 
-                  type="text" 
-                  name="coreDia" 
-                  placeholder="Core Diameter" 
-                  value={coreDia} 
-                  onChange={handleCoreDiaChange} />
-                </Form.Group>
-                <Button 
-                className="button" 
-                varient="Primary" 
-                type="submit">
-                  Submit
-                </Button>
-              </Form>
-            </nav>
-          </div>
-        </Router>
-      </div>
-    )
-  }
+    } else {
+      return (
+      <Router>
+        <div>
+          <nav id="materialCalculator">
+          <Form onSubmit={handleMaterialRequirementCalculation}>
+              <Form.Group controlId="formBasicPartNo">
+                <Form.Control type="text" name="partNo" placeholder="Enter part number" value={partNo} onChange={handlePartNoChange} />
+              </Form.Group>
+              <Form.Group controlId="formBasiccount">
+                <Form.Control type="text" name="count"  placeholder="Count" value={count} onChange={handleCountChange} />
+              </Form.Group>
+              <Button className="button" varient="Primary" type="submit">
+                Login
+              </Button>
+            </Form>
+          </nav>
+        </div>
+      </Router>
+      )};
 }

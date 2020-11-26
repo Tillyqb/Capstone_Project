@@ -83,7 +83,7 @@ function NewPocket() {
                 <Form.Control 
                 type="text" 
                 name="partNo" 
-                placeholder={partNo} 
+                placeholder="partNo"
                 value={partNo} 
                 onChange={handlePartNoChange} />
               </Form.Group>
