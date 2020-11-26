@@ -28,13 +28,14 @@ def calculate_roll_diameter(args):
     >>> calculate_roll_diameter([9000, 491, 3.625])
     25.138318234529756
     """
-    roll_length = int(args[0] * 12) # in inches
+    roll_length = int(args[0]) * 12 # in inches
     material_no = int(args[1])
-    core_radious = float ((args[2]/ 2))
+    core_radious = float (args[2]) / 2
     material_obj = Material.get_material_by_material_no(material_no)
     thickness_in_mil = float(material_obj.material_thickness)
     thickness_in_in = thickness_in_mil / 1000
     diameter = 2 * sqrt((roll_length * thickness_in_in / PI) + core_radious ** 2)
+    diameter = str(diameter)[0:6]
     return jsonify(float(diameter))
 
 if __name__ == "__main__":

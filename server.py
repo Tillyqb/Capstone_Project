@@ -5,7 +5,6 @@ from crud import check_user, validate_user, check_part, create_user
 from roll_calculator_logic import calculate_roll_length, calculate_roll_diameter
 from jinja2 import StrictUndefined
 import subprocess
-import cloudinary
 
 SECRET_KEY = os.environ['SECRET_KEY']
 
@@ -17,7 +16,7 @@ app.jinja_env.undefined = StrictUndefined
 app.config['PRESERVE_CONTEXT_ON_EXCEPTION'] = True
 
 
-@app.route("/calculate-rol-length")
+@app.route("/calculate-roll-length")
 @app.route("/calculate-material-requirements")
 @app.route("/material-calculator")
 @app.route("/login")
@@ -40,16 +39,18 @@ def length_calculator():
     return length
 
 
-@app.route("/api/diameter-calculator", methods=["POST"])
+@app.route("/api/calculate-roll-diameter", methods=["POST"])
 def calculate_diameter():
     data = request.get_json()
-    roll_length = data['rollLength']
+    print (data)
+    roll_length = data['length']
     material = data["material"]
     core_dia = data["coreDia"]
     args = [roll_length, material, core_dia]
     
     diameter = calculate_roll_diameter(args)
-    return jsonify(diameter)
+    print (diameter)
+    return diameter
 
 
 

@@ -1,4 +1,5 @@
-function LogIn(props) { 
+function LogIn() { 
+  // angie deleted incoming props bc they were not being used
 
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -21,8 +22,6 @@ function LogIn(props) {
         'Content-Type': 'application/json'
       }
     }
-
-    
 
     fetch('/api/login', options)
     .then(response => response.json())
@@ -86,7 +85,8 @@ function LogIn(props) {
   )
 }
 
-function NewUser(props) {
+function NewUser() {
+  // took props out of newuser
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [email2, setEmail2] = React.useState('');
