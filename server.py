@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, session, redirect, flash, jsonify
 from model import connect_to_db, db, User
 import os
-from crud import check_user, validate_user, check_part, create_user
+from crud import check_user, validate_user, check_part, create_user, create_envelope, create_page, create_pocket, create_single_web_part
 from roll_calculator_logic import calculate_roll_length, calculate_roll_diameter
 from jinja2 import StrictUndefined
 import subprocess
@@ -52,9 +52,61 @@ def calculate_diameter():
     print (diameter)
     return diameter
 
+@app.route("/api/new-envelope")
+def new_envelope():
+    data = request.get_json()
+    part_no = data['partNo']
+    height = data['height']
+    width = data['width']
+    flap = data['flap']
+    throat = data['throat']
+    large_web_mat = data['largeWebMat']
+    small_web_mat = data['smallWebMat']
 
+    create_envelope(part_no, height, width, flap, throat, small_web_mat, large_web_mat)
 
+    return jsonify('Envelope created')
 
+@app.route("/api/new-page-protector")
+def new_page_protector():
+    data = request.get_json()
+    part_no = data['partNo']
+    height = data['height']
+    width = data['width']
+    flap = data['flap']
+    throat = data['throat']
+    large_web_mat = data['largeWebMat']
+    small_web_mat = data['smallWebMat']
+
+    create_page(part_no, height, width, flap, throat, small_web_mat, large_web_mat)
+
+    return jsonify('Page protector created')
+
+@app.route("/api/new-pocket")
+def new_pocket():
+    data = request.get_json()
+    part_no = data['partNo']
+    height = data['height']
+    width = data['width']
+    throat = data['throat']
+    large_web_mat = data['largeWebMat']
+    small_web_mat = data['smallWebMat']
+
+    create_pocket(part_no, height, width, throat, small_web_mat, large_web_mat)
+
+    return jsonify('Pocket created')
+
+@app.route("/api/new-single-web-part")
+def new_single_web_part():
+    data = request.get_json()
+    part_no = data['partNo']
+    height = data['height']
+    width = data['width']
+    material = data['material']
+
+    create_single_web_part(part_no, height, width, material)
+
+    return jsonify('Single web part created')
 
 @app.route("/api/login", methods=["POST"])
 def login(): 

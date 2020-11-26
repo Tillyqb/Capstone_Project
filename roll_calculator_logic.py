@@ -8,7 +8,7 @@ def calculate_roll_length(args):
     """Calculate the length of a roll with a given diameter, material, and core diameter
     
     >>> calculate_roll_length([25, 491, 3.625])
-    8899
+    "8899"
     """
     print(args)
     roll_radious = float(args[0])/2
@@ -26,7 +26,7 @@ def calculate_roll_diameter(args):
     """Calculate the expected diameter of a roll of a known material at a given length
     
     >>> calculate_roll_diameter([9000, 491, 3.625])
-    25.138318234529756
+    "25.138"
     """
     roll_length = int(args[0]) * 12 # in inches
     material_no = int(args[1])

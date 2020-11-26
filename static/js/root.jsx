@@ -24,14 +24,6 @@ function About() {
   </div>
 }
 
-function CalculateMaterialRequirements() {
-  return(
-    <div>
-      This component is not finished yet.
-    </div>
-  );
-}
-
 function MaterialCalculator() {
   return (
     <Router>
