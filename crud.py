@@ -40,7 +40,8 @@ def check_user(email):
 def validate_user(email, password):
     
     user = User.query.filter(User.email == email).first()
-    return user.password == password
+    if user.password == password
+    return email
 
 def create_material(material_no, 
                     material_description,

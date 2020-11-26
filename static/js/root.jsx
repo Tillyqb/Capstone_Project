@@ -62,23 +62,25 @@ function MaterialCalculator() {
 
 function App() {
 
-  React.useEffect(() => {
-    const currentuser = JSON.parse(localStorage.getItem('user'));
-    setUser(currentuser)
-    console.log(user)
-    },[]);
+  // React.useEffect(() => {
+  //   // const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  //   setCurrentUser(currentUser)
+  //   console.log(currentUser)
+  //   },[]);
 
-  const [user, setUser] = React.useState()
+  const [currentUser, setCurrentUser] = React.useState()
+  // setCurrentUser(localStorage.getItem('currentUser'))
+    console.log(currentUser)
 
-  function getCurrentUser() {
-    const currentUser = JSON.parse(localStorage.getItem('user'));
-
-    return currentUser
+  function handleLogOut() {
+    localStorage.removeItem('currentUser');
   }
 
+    if (localStorage.getItem('currentUser')){
     return (
       <Router>
         {/* <TopNav user={user} setUser={setUser} /> */}
+        <h2> Current user is {localStorage.getItem('currentUser')} </h2>
          <nav id="root">
            <h1> Material Calculator Web App </h1>
            <ul>
@@ -102,7 +104,7 @@ function App() {
               <About />
             </Route>
             <Route path="/login">
-              <LogIn setUser={setUser} />
+              <LogIn />
             </Route>
             <Route path="/material-calculator">
               <MaterialCalculator />
@@ -111,9 +113,51 @@ function App() {
               <Homepage />
             </Route>
           </Switch>
+          <Form onSubmit={handleLogOut}>
+            <Button 
+              className="button" 
+              varient="Primary" 
+              type="submit">
+                Log Out
+            </Button>
+          </Form>
         </div>
       </Router>
     );
+    } else {
+      return (
+        <Router>
+          {/* <TopNav user={user} setUser={setUser} /> */}
+           <nav id="root">
+             <h1> Material Calculator Web App </h1>
+             <ul>
+               <li>
+                   <Link className="link" to="/"> Home </Link>
+               </li>
+               <li>
+                   <Link className="link" to="/about"> About </Link>
+               </li>
+               <li>
+                   <Link className="link" to="/login"> Login </Link>
+               </li>
+             </ul>
+           </nav>
+          <div>
+            <Switch>
+              <Route path="/about">
+                <About />
+              </Route>
+              <Route path="/login">
+                <LogIn />
+              </Route>
+              <Route path="/">
+                <Homepage />
+              </Route>
+            </Switch>
+          </div>
+        </Router>
+      );
+    }
 }
 
 ReactDOM.render(<App />, document.getElementById('root'))

@@ -40,7 +40,7 @@ function CalculateMaterialRequirements() {
     setCount(evt.target.value)
   }
 
-  // if (data === 'Need part info') {
+  if (data === 'Need part info') {
     return (
     <Router>
       <div>  
@@ -56,9 +56,9 @@ function CalculateMaterialRequirements() {
             <li>
                 <Link className="link" to="/pocket"> Pocket </Link>
             </li>
-            <li>
+            {/* <li>
                 <Link className="link" to="/single-web-part"> Single Web Part </Link>
-            </li>
+            </li> */}
           </ul>
         </nav>
         <div>
@@ -72,16 +72,15 @@ function CalculateMaterialRequirements() {
             <Route path="/pocket">
               <NewPocket />
             </Route>
-            <Route path="/single-web-part">
+            {/* <Route path="/single-web-part">
               <NewSingleWebPart />
-            </Route>
+            </Route> */}
           </Switch>
         </div>
       </div>
     </Router>
     )
-  /*}
-  else {
+  } else {
     return (
      <div className="base">
         <Router>
@@ -115,5 +114,5 @@ function CalculateMaterialRequirements() {
         </Router>
       </div>
     )
-  }*/
+  }
 }

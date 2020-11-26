@@ -3,11 +3,12 @@ function LogIn() {
 
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [currentUser, setCurrentUser] = React.useState('');
   const history = useHistory()
 
   function handleLogin(evt) {
     console.log('handleLogin is running');
-    evt.preventDefault();
+    //evt.preventDefault();
 
     const payload = { 
       email: email,
@@ -27,10 +28,12 @@ function LogIn() {
     .then(response => response.json())
     .then(data => {
       console.log(data)
-      if (data === 'good login') {
-        localStorage.setItem('user',JSON.stringify(data));
-        history.push('/')
-        alert('Login succsesfull')
+      if (data === 'Good login') {
+        setCurrentUser(email)
+        localStorage.setItem('currentUser', email);
+        history.push('/');
+        console.log(localStorage.getItem('currentUser'));
+        alert('Login succsesfull!  Welcome ' + email);
       } else if (data === 'bad email') {
         alert("Email is not in the system.  Please try again.")
       } else {

@@ -3,7 +3,7 @@ function NewSingleWebPart() {
   const [partNo, setPartNo] = React.useState('');
   const [height, setHeight] = React.useState('');
   const [width, setWidth] = React.useState('');
-  const [material, material] = React.useState('');
+  const [material, setMaterial] = React.useState('');
   const history = useHistory()
   
   function newSingleWebPartInfo(evt) {

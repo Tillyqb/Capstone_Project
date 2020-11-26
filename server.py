@@ -118,7 +118,7 @@ def login():
         return jsonify('bad email')
     else:
         if validate_user(email, password):
-            return jsonify('good login')
+            return jsonify("Good login")
         else:
             return jsonify("bad password")
 
