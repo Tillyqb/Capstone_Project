@@ -79,10 +79,18 @@ function App() {
     if (localStorage.getItem('currentUser')){
     return (
       <Router>
-        {/* <TopNav user={user} setUser={setUser} /> */}
+        <h1> Material Calculator Web App </h1>
         <h2> Current user is {localStorage.getItem('currentUser')} </h2>
+        <Form onSubmit={handleLogOut}>
+          <Button 
+            className="button" 
+            varient="Primary" 
+            type="submit">
+              Log Out
+          </Button>
+        </Form>
+        {/* <TopNav user={user} setUser={setUser} /> */}
          <nav id="root">
-           <h1> Material Calculator Web App </h1>
            <ul>
              <li>
                  <Link className="link" to="/"> Home </Link>
@@ -99,7 +107,7 @@ function App() {
            </ul>
          </nav>
         <div>
-          <Switch>
+           <Switch>
             <Route path="/about">
               <About />
             </Route>
@@ -113,14 +121,6 @@ function App() {
               <Homepage />
             </Route>
           </Switch>
-          <Form onSubmit={handleLogOut}>
-            <Button 
-              className="button" 
-              varient="Primary" 
-              type="submit">
-                Log Out
-            </Button>
-          </Form>
         </div>
       </Router>
     );

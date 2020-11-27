@@ -18,9 +18,9 @@ def check_part(part_no):
         return 'page protector'
     elif SingleWebPart.varify_part_exixts(part_no):
         part = SingleWebPart.get_part_by_part_no(part_no)
-        return 'single_web_part'
+        return 'single web part'
     else:
-        return False
+        return 'need part data'
 
 
 

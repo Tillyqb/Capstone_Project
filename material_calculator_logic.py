@@ -10,17 +10,17 @@ if __name__ == "__main__":
 
 def calculate_material_requiremtents(part_no, count):
     part = check_part(part_no)
-    if part['part_type'] == 'envelope':
+    if part == 'envelope':
         material = calculate_envelope_requirements(part_no, count)
-    elif part['part_type'] == 'page protector':
+    elif part == 'page protector':
         material = calculate_page_requirements(part_no, count)
-    elif part['part_type'] == 'pocket':
+    elif part == 'pocket':
         material = calculate_pocket_requirements(part_no, count)
-    elif part['part_type'] == 'single web part':
+    elif part == 'single web part':
         material = calculate_single_web_part_requirements(part_no, count)
     else: 
-        return None
-    if part['part_type'] == 'single web part':
+        return ('need material data')
+    if part == 'single web part':
         result =  ("This run will use " + str(part['feet_needed']) + " feet of " + str(material['web width']) + " inch wide " + str(material[material]))
     else:
         result = ("This run will use " + str(material['feet needed']) +" feet of " + str(material['small web width']) + " inch wide " + str(material['small web mat']) + " and " + str(material['feet needed']) + " feet of " + str(material['large web width']) + " inch wide " + str(material['large web mat']))
