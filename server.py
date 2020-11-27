@@ -53,7 +53,7 @@ def calculate_diameter():
     print (diameter)
     return diameter
 
-@app.route("/api/material-requirements-calculator")
+@app.route("/api/material-requirements-calculator", methods=["POST"])
 def get_material_requirements():
     data = request.get_json()
     print (data)
@@ -62,9 +62,9 @@ def get_material_requirements():
 
     response = calculate_material_requiremtents(part_no, count)
     print(jsonify(response))
-    return jsonify(result)
+    return jsonify(response)
 
-@app.route("/api/new-envelope")
+@app.route("/api/new-envelope", methods=["POST"])
 def new_envelope():
     data = request.get_json()
     part_no = data['partNo']
@@ -79,7 +79,7 @@ def new_envelope():
 
     return jsonify('Envelope created')
 
-@app.route("/api/new-page-protector")
+@app.route("/api/new-page-protector", methods=["POST"])
 def new_page_protector():
     data = request.get_json()
     part_no = data['partNo']
@@ -92,7 +92,7 @@ def new_page_protector():
 
     create_page(part_no, height, width, flap, throat, small_web_mat, large_web_mat)
 
-    return jsonify('Page protector created')
+    return jsonify('Page protector created', methods=["POST"])
 
 @app.route("/api/new-pocket")
 def new_pocket():
@@ -108,7 +108,7 @@ def new_pocket():
 
     return jsonify('Pocket created')
 
-@app.route("/api/new-single-web-part")
+@app.route("/api/new-single-web-part", methods=["POST"])
 def new_single_web_part():
     data = request.get_json()
     part_no = data['partNo']

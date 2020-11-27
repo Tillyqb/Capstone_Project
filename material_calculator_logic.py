@@ -16,12 +16,14 @@ def calculate_material_requiremtents(part_no, count):
         material = calculate_page_requirements(part_no, count)
     elif part['part_type'] == 'pocket':
         material = calculate_pocket_requirements(part_no, count)
-    elif part['part_tyhpe'] == 'single web part':
+    elif part['part_type'] == 'single web part':
         material = calculate_single_web_part_requirements(part_no, count)
+    else: 
+        return None
     if part['part_type'] == 'single web part':
-        result =  ("This run will use " + str(part['feet_needed']) + " feet of " + str(material['web width']) + " wide " + str(material[material]))
+        result =  ("This run will use " + str(part['feet_needed']) + " feet of " + str(material['web width']) + " inch wide " + str(material[material]))
     else:
-        reuslt = ("This run will use " + str(material['feet needed']) +" feet of" + str(material['small web width']) + " wide " + str(material['small web material']) + " and " + str(material['feet needed']) + " feet of " + str(material['large web width']) + " wide " + str(material['large web material']))
+        result = ("This run will use " + str(material['feet needed']) +" feet of " + str(material['small web width']) + " inch wide " + str(material['small web mat']) + " and " + str(material['feet needed']) + " feet of " + str(material['large web width']) + " inch wide " + str(material['large web mat']))
     return result
 
 def calculate_envelope_requirements(part_no, count, two_across = False):
@@ -38,8 +40,8 @@ def calculate_envelope_requirements(part_no, count, two_across = False):
     width = float(part.part_width)
     flap = float(part.part_flap)
     throat = float(part.part_throat)
-    f_mat = float(part.part_fr_mat)
-    b_mat = float(part.part_b_mat)
+    f_mat = part.part_fr_mat
+    b_mat = part.part_b_mat
     count = int(count)
     
     if two_across == True:
@@ -54,7 +56,9 @@ def calculate_envelope_requirements(part_no, count, two_across = False):
     material = {'status': status,
                 'small web width': small_web_width, 
                 'large web width': large_web_width,
-                'feet needed': int((feet_needed) * 1.1)}
+                'feet needed': int((feet_needed) * 1.1),
+                'small web mat': f_mat,
+                'large web mat': b_mat}
     
     return material
 
@@ -87,7 +91,9 @@ def calculate_page_requirements(part_no, count, two_across = False):
     material = {'status': status,
                 'small web width': small_web_width, 
                 'large web width': large_web_width,
-                'feet needed': int((feet_needed) * 1.1)}
+                'feet needed': int((feet_needed) * 1.1),
+                'small web mat': f_mat,
+                'large web mat': b_mat}
     
     return material
     

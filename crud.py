@@ -9,16 +9,16 @@ PI = 3.141592654
 def check_part(part_no):
     if Envelope.varify_part_exixts(part_no):
         part = Envelope.get_envelope_by_part_no(part_no)
-        return {'part_type': 'envelope', 'specs': part}
+        return 'envelope'
     elif Pocket.varify_part_exixts(part_no):
         part = Pocket.get_pocket_by_part_no(part_no)
-        return {'part_type': 'pocket', 'specs': part}
+        return 'pocket'
     elif PageProtector.varify_part_exixts(part_no):
         part = PageProtector.get_page_by_part_no(part_no) 
-        return {'part_type': 'page protector', 'specs': part}
+        return 'page protector'
     elif SingleWebPart.varify_part_exixts(part_no):
         part = SingleWebPart.get_part_by_part_no(part_no)
-        return {'part_type': 'single_web_part', 'specs': part}
+        return 'single_web_part'
     else:
         return False
 
