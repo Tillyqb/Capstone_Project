@@ -5,13 +5,16 @@ function CalculateMaterialRequirements() {
   const [smallWebWidth, setSmallWebWidth] = React.useState('');
   const [largeWebMat, setLargeWebMat] = React.useState('');
   const [smallWebMat, setSmallWebMat] = React.useState('');
+  const [webWidth, setWebWidth] = React.useState('');
+  const [material, setMaterial] = React.useState('');
+  const [feetNeeded, setFeetNeeded] = React.useState('');
 
   function handleMaterialRequirementCalculation(evt) {
     console.log('handleMaterialRequirementCalculation is running');
     evt.preventDefault();
 
     const payload = {
-      partNo: partNo,
+      part_no: partNo,
       count: count
     }
 
@@ -25,8 +28,30 @@ function CalculateMaterialRequirements() {
     fetch('/api/material-requirements-calculator', options)
     .then(response => response.json())
     .then(data => {
-      setDiameter(data)
       console.log(data)
+      if (data['status'] === 'two web calculation') {
+          setLargeWebWidth(data['largeWebWidth']);
+          localStorage.setItem('largeWebWidth', largeWebWidth);
+          setSmallWebWidth(data['smallWebWidth']);
+          localStorage.setItem('smallWebWidth', smallWebWidth);
+          setLargeWebMat(data['largeWebMat']);
+          localStorage.setItem('largeWebMat', largeWebMat);
+          setSmallWebMat(data['smallWebMat']);
+          localStorage.setItem('smallWebMat', smallWebMat);
+          setFeetNeeded(data['feet needed']);
+          localStorage.setItem('feet needed', feetNeeded);
+        } else if (data['status'] === 'single web calculation') {
+          setWebWidth(data['webWidth']);
+          localStorage.setItem('webWidth', webWidth);
+          setMaterial(data['material']);
+          localStorage.setItem('material', material);
+          setFeetNeeded(data['feet needed']);
+          localStorage.setItem('feet needed')
+        } else if (data == 'need part data') {
+          
+        } else {
+          console.log('bad return from server')
+        }
     }).catch(error => console.log('error in material calculator', error))
   }
 
@@ -34,14 +59,16 @@ function CalculateMaterialRequirements() {
     evt.preventDefault()
     console.log(evt.target.value)
     setPartNo(evt.target.value)
+    localStorage.setItem('partNo', partNo)
   }
 
   function handleCountChange(evt) {
     console.log(evt.target.value)
     setCount(evt.target.value)
+    localStorage.setItem('count', count)
   }
 
-  if (localStorage.getItem('partNo')) {
+  if (false) {
     return (
     <Router>
       <div>  
@@ -94,7 +121,7 @@ function CalculateMaterialRequirements() {
                 <Form.Control type="text" name="count"  placeholder="Count" value={count} onChange={handleCountChange} />
               </Form.Group>
               <Button className="button" varient="Primary" type="submit">
-                Login
+                Submit
               </Button>
             </Form>
           </nav>

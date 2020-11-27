@@ -58,13 +58,11 @@ class Envelope(db.Model):
         return cls.query.filter_by(part_no=part_no).one()
     
     @classmethod
-    def varify_prt_exixts(cls, part_no):
+    def varify_part_exixts(cls, part_no):
 
-        count_of_part = cls.query.filter_by(part_no=part_no).count()
-        if count_of_part ==  1:
+        
+        if cls.query.filter_by(part_no=part_no).first() != None:
             return True
-        else:
-            return False
 
     __tablename__ = 'envelopes'
 
@@ -92,7 +90,7 @@ class Pocket(db.Model):
         return cls.query.filter_by(part_no=part_no).one()
 
     @classmethod
-    def varify_prt_exixts(cls, part_no):
+    def varify_part_exixts(cls, part_no):
 
         count_of_part = cls.query.filter_by(part_no=part_no).count()
         if count_of_part ==  1:
@@ -124,7 +122,7 @@ class PageProtector(db.Model):
         return cls.query.filter_by(part_no=part_no).one()
 
     @classmethod
-    def varify_prt_exixts(cls, part_no):
+    def varify_part_exixts(cls, part_no):
 
         count_of_part = cls.query.filter_by(part_no=part_no).count()
         if count_of_part ==  1:
@@ -157,7 +155,7 @@ class SingleWebPart(db.Model):
         return cls.query.filter_by(part_no=part_no).one()
 
     @classmethod
-    def varify_prt_exixts(cls, part_no):
+    def varify_part_exixts(cls, part_no):
 
         count_of_part = cls.query.filter_by(part_no=part_no).count()
         if count_of_part ==  1:

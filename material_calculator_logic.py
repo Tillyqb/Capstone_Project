@@ -1,24 +1,28 @@
 """logic to calculate the required output"""
 
 from model import Envelope, PageProtector, Pocket, SingleWebPart, Material, connect_to_db, db
-from flask import Flask
+from crud import check_part
+from flask import jsonify
 
 if __name__ == "__main__":
-    connect_to_db(Flask(__name__))
+    from server import app
+    connect_to_db(app)
 
-# Calculate the material widths for the given part
-
-def calculate_material_requiremtents(part_type, part_no, two_across, count):
-    if part_type == 'envelope':
-        material = calculate_envelope_requirements(part_no, two_across, count)
-    elif part_type == 'page':
-        material = calculate_page_requirements(part_no, two_across, count)
-    elif part_type == 'pocket':
-        material = calculate_pocket_requirements(part_no, two_across, count)
+def calculate_material_requiremtents(part_no, count):
+    part = check_part(part_no)
+    if part['part_type'] == 'envelope':
+        material = calculate_envelope_requirements(part_no, count)
+    elif part['part_type'] == 'page protector':
+        material = calculate_page_requirements(part_no, count)
+    elif part['part_type'] == 'pocket':
+        material = calculate_pocket_requirements(part_no, count)
+    elif part['part_tyhpe'] == 'single web part':
+        material = calculate_single_web_part_requirements(part_no, count)
+    if part['part_type'] == 'single web part':
+        result =  ("This run will use " + str(part['feet_needed']) + " feet of " + str(material['web width']) + " wide " + str(material[material]))
     else:
-        material = calculate_single_web_part_requirements(part_no, two_across, count)
-
-    return material
+        reuslt = ("This run will use " + str(material['feet needed']) +" feet of" + str(material['small web width']) + " wide " + str(material['small web material']) + " and " + str(material['feet needed']) + " feet of " + str(material['large web width']) + " wide " + str(material['large web material']))
+    return result
 
 def calculate_envelope_requirements(part_no, count, two_across = False):
     """
@@ -29,6 +33,7 @@ def calculate_envelope_requirements(part_no, count, two_across = False):
     """
 
     part = Envelope.get_envelope_by_part_no(part_no)
+    status = 'two web calculation'
     height = float(part.part_height)
     width = float(part.part_width)
     flap = float(part.part_flap)
@@ -46,7 +51,8 @@ def calculate_envelope_requirements(part_no, count, two_across = False):
         large_web_width = (height + flap) + .5
         feet_needed = (width / 12) * count
 
-    material = {'small web width': small_web_width, 
+    material = {'status': status,
+                'small web width': small_web_width, 
                 'large web width': large_web_width,
                 'feet needed': int((feet_needed) * 1.1)}
     
@@ -61,6 +67,7 @@ def calculate_page_requirements(part_no, count, two_across = False):
     """
 
     part = PageProtector.get_page_by_part_no(part_no)
+    status = 'two web calculation'
     height = float(part.part_height)
     width = float(part.part_width)
     flap = float(part.part_flap)
@@ -77,7 +84,8 @@ def calculate_page_requirements(part_no, count, two_across = False):
         large_web_width = (height + flap) + .5
         feet_needed = (width / 12) * count
 
-    material = {'small web width': small_web_width, 
+    material = {'status': status,
+                'small web width': small_web_width, 
                 'large web width': large_web_width,
                 'feet needed': int((feet_needed) * 1.1)}
     
@@ -93,11 +101,12 @@ def calculate_pocket_requirements(part_no, count, two_across):
     
     """
     part = Pocket.get_pocket_by_part_no(part_no)
+    status = 'two web calculation'
     height = float(part.part_height)
     width = float(part.part_width)
     throat = float(part.part_throat)
-    f_mat = float(part.part_fr_mat)
-    b_mat = float(part.part_b_mat)
+    f_mat = part.part_fr_mat
+    b_mat = part.part_b_mat
 
     if two_across == True:
         small_web_width = (height - throat) * 2
@@ -108,9 +117,12 @@ def calculate_pocket_requirements(part_no, count, two_across):
         large_web_width = (height) + .5
         feet_needed = (width / 12) * count
 
-    material = {'small web width': small_web_width, 
+    material = {'status': status,
+                'small web width': small_web_width, 
                 'large web width': large_web_width,
-                'feet needed': int((feet_needed) * 1.1)}
+                'feet needed': int((feet_needed) * 1.1),
+                'small web mat': f_mat,
+                'large web mat': b_mat}
     
     return material
 
@@ -122,9 +134,10 @@ def calculate_single_web_part_requirements(part_no, count, two_across):
     {'web width': 9.0, 'feet needed': 2406}
     """
     part = SingleWebPart.get_part_by_part_no(part_no)
+    status = 'single web calculation'
     height = float(part.part_height)
     width = float(part.part_width)
-    material = float(part.material)
+    material = part.material
 
     if two_across == True:
         web_width = height * 2
@@ -133,7 +146,10 @@ def calculate_single_web_part_requirements(part_no, count, two_across):
         web_width = height
         feet_needed = (width / 12) * count
 
-    material = {'web width': web_width,
-                'feet needed': int((feet_needed) * 1.1)}
+    material = {'status': status,
+                'web width': web_width,
+                'feet needed': int((feet_needed) * 1.1),
+                'material': material}
     
     return material
+    

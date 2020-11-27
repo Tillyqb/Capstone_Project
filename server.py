@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, session, redirect, flash, jso
 from model import connect_to_db, db, User
 import os
 from crud import check_user, validate_user, check_part, create_user, create_envelope, create_page, create_pocket, create_single_web_part
+from material_calculator_logic import calculate_material_requiremtents
 from roll_calculator_logic import calculate_roll_length, calculate_roll_diameter
 from jinja2 import StrictUndefined
 import subprocess
@@ -51,6 +52,17 @@ def calculate_diameter():
     diameter = calculate_roll_diameter(args)
     print (diameter)
     return diameter
+
+@app.route("/api/material-requirements-calculator")
+def get_material_requirements():
+    data = request.get_json()
+    print (data)
+    part_no = data['partNo']
+    count = data['count']
+
+    response = calculate_material_requiremtents(part_no, count)
+    print(jsonify(response))
+    return jsonify(result)
 
 @app.route("/api/new-envelope")
 def new_envelope():
