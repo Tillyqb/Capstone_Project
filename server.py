@@ -5,7 +5,6 @@ from crud import check_user, validate_user, check_part, create_user, create_enve
 from material_calculator_logic import calculate_material_requiremtents
 from roll_calculator_logic import calculate_roll_length, calculate_roll_diameter
 from jinja2 import StrictUndefined
-import subprocess
 
 SECRET_KEY = os.environ['SECRET_KEY']
 
@@ -59,8 +58,9 @@ def get_material_requirements():
     print (data)
     part_no = data['partNo']
     count = data['count']
-
-    response = calculate_material_requiremtents(part_no, count)
+    two_across = data['twoAcross']
+    args = [part_no, count, two_across]
+    response = calculate_material_requiremtents(args)
     print(jsonify(response))
     return jsonify(response)
 
@@ -96,9 +96,9 @@ def new_page_protector():
 
     create_page(part_no, height, width, flap, throat, small_web_mat, large_web_mat)
 
-    return jsonify('Page protector created', methods=["POST"])
+    return jsonify('Page protector created')
 
-@app.route("/api/new-pocket")
+@app.route("/api/new-pocket", methods=["POST"])
 def new_pocket():
     data = request.get_json()
     part_no = data['partNo']

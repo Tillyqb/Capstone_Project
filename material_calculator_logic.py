@@ -8,25 +8,37 @@ if __name__ == "__main__":
     from server import app
     connect_to_db(app)
 
-def calculate_material_requiremtents(part_no, count):
+def calculate_material_requiremtents(args):
+    part_no = args[0]
+    count = int(args[1])
+    two_across = args[2]
     part = check_part(part_no)
     if part == 'envelope':
-        material = calculate_envelope_requirements(part_no, count)
+        material = calculate_envelope_requirements(part_no, count, two_across)
     elif part == 'page protector':
-        material = calculate_page_requirements(part_no, count)
+        material = calculate_page_requirements(part_no, count, two_across)
     elif part == 'pocket':
-        material = calculate_pocket_requirements(part_no, count)
+        material = calculate_pocket_requirements(part_no, count, two_across)
     elif part == 'single web part':
-        material = calculate_single_web_part_requirements(part_no, count)
+        material = calculate_single_web_part_requirements(part_no, count, two_across)
     else: 
         return ('need part data')
     if part == 'single web part':
-        result =  ("This run will use " + str(part['feet_needed']) + " feet of " + str(material['web width']) + " inch wide " + str(material[material]))
+        feet_needed = material['feet needed']
+        web_width = material['web width']
+        material = material['material']
+        result =  (f"This run will use {feet_needed} feet of \n{web_width} inch wide {material}")
     else:
-        result = ("This run will use " + str(material['feet needed']) +" feet of " + str(material['small web width']) + " inch wide " + str(material['small web mat']) + " and " + str(material['feet needed']) + " feet of " + str(material['large web width']) + " inch wide " + str(material['large web mat']))
+        feet_needed = material['feet needed']
+        small_web_width = material['small web width']
+        small_web_mat = material['small web mat']
+        large_web_width = material['large web width']
+        large_web_mat = material['large web mat']
+        result = (f"This run will use {feet_needed} feet of each of: \n{small_web_width} inch wide {small_web_mat} and \n{large_web_width} inch wide {large_web_mat}")
+        print (result)
     return result
 
-def calculate_envelope_requirements(part_no, count, two_across = False):
+def calculate_envelope_requirements(part_no, count, two_across):
     """
     Calculate the material required for a given number of a given envelope:
     
@@ -62,7 +74,7 @@ def calculate_envelope_requirements(part_no, count, two_across = False):
     
     return material
 
-def calculate_page_requirements(part_no, count, two_across = False):
+def calculate_page_requirements(part_no, count, two_across):
     """
     Calculate the material required for a given number of a given page protector:
 

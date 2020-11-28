@@ -11,10 +11,10 @@ function NewPartInfo() {
             <Link className="link" to="/new-page-protector"> Page Protector</Link>
           </li>
           <li>
-            <Link className="link" to="/new-pocket"> Page Protector</Link>
+            <Link className="link" to="/new-pocket"> Pocket</Link>
           </li>
           <li>
-            <Link className="link" to="/new-single-web-part"> Page Protector</Link>
+            <Link className="link" to="/new-single-web-part"> Single Web Part </Link>
           </li>
         </ul>
       </nav>

@@ -28,7 +28,7 @@ function NewSingleWebPart() {
     .then(response => response.json())
     .then(data => {
       console.log(data)
-      if (data === 'Part created') {
+      if (data === 'Single web part created') {
         alert(data + ' successfully')
         history.push('/material-calculator')
       } 
@@ -69,7 +69,7 @@ function NewSingleWebPart() {
                 <Form.Control 
                 type="text" 
                 name="partNo" 
-                placeholder={partNo} 
+                placeholder="Part number" 
                 value={partNo} 
                 onChange={handlePartNoChange} />
               </Form.Group>
