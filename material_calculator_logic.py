@@ -19,7 +19,7 @@ def calculate_material_requiremtents(part_no, count):
     elif part == 'single web part':
         material = calculate_single_web_part_requirements(part_no, count)
     else: 
-        return ('need material data')
+        return ('need part data')
     if part == 'single web part':
         result =  ("This run will use " + str(part['feet_needed']) + " feet of " + str(material['web width']) + " inch wide " + str(material[material]))
     else:

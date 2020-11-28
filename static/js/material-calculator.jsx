@@ -1,6 +1,7 @@
 function CalculateMaterialRequirements() {
   const [partNo, setPartNo] = React.useState('');
   const [count, setCount] = React.useState('');
+  const [needPartData, settNeeedPartData] = React.useState('');
   const [materialRequirementString, setMaterialRequirementString] = React.useState('');
     
   function handleMaterialRequirementCalculation(evt) {
@@ -22,7 +23,10 @@ function CalculateMaterialRequirements() {
     fetch('/api/material-requirements-calculator', options)
     .then(response => response.json())
     .then(data => {
-      console.log(data)
+      settNeeedPartData(false)
+      if (data === 'need material data') {
+        settNeeedPartData(true);
+      }
       setMaterialRequirementString(data);
       localStorage.setItem('requirementsString', materialRequirementString);
       
@@ -41,15 +45,17 @@ function CalculateMaterialRequirements() {
     setCount(evt.target.value)
     localStorage.setItem('count', count)
   }
-    if (materialRequirementString == 'need part data') {
+
+    console.log (needPartData);
+    if (needPartData) {
       return (
         <Router>
           <div>
             <nav id="root">
-              <h3> {materialRequirementString} </h3>
+              <h3> Part data not in our system </h3>
             <ul>
               <li>
-                <Link classname="link" to="/new-part-info"> Please enter the part data here, or try abain.</Link>
+                <Link className="link" to="/new-part-info"> Please enter the part data here, or try abain.</Link>
                 </li>
             </ul>
             <Switch>
@@ -57,15 +63,11 @@ function CalculateMaterialRequirements() {
                 <NewPartInfo />
               </Route>
             </Switch>
-            </nav>
-          </div>
-        <div>
-          <nav id="materialCalculator">
-          <Form onSubmit={handleMaterialRequirementCalculation}>
+            <Form onSubmit={handleMaterialRequirementCalculation}>
               <Form.Group controlId="formBasicPartNo">
                 <Form.Control type="text" name="partNo" placeholder="Enter part number" value={partNo} onChange={handlePartNoChange} />
               </Form.Group>
-              <Form.Group controlId="formBasiccount">
+              <Form.Group controlId="formBasicCount">
                 <Form.Control type="text" name="count"  placeholder="Count" value={count} onChange={handleCountChange} />
               </Form.Group>
               <Button className="button" varient="Primary" type="submit">
@@ -75,7 +77,7 @@ function CalculateMaterialRequirements() {
           </nav>
         </div>
         </Router>
-      )
+      );
     }
     else if (materialRequirementString) {
       return (
@@ -89,7 +91,7 @@ function CalculateMaterialRequirements() {
               <Form.Group controlId="formBasicPartNo">
                 <Form.Control type="text" name="partNo" placeholder="Enter part number" value={partNo} onChange={handlePartNoChange} />
               </Form.Group>
-              <Form.Group controlId="formBasiccount">
+              <Form.Group controlId="formBasicCount">
                 <Form.Control type="text" name="count"  placeholder="Count" value={count} onChange={handleCountChange} />
               </Form.Group>
               <Button className="button" varient="Primary" type="submit">
@@ -99,7 +101,7 @@ function CalculateMaterialRequirements() {
           </nav>
         </div>
         </Router>
-      )
+      );
     } else {
       return (
       <Router>
@@ -119,5 +121,5 @@ function CalculateMaterialRequirements() {
           </nav>
         </div>
       </Router>
-    )};
+    );}
   }

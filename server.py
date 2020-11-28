@@ -64,9 +64,9 @@ def get_material_requirements():
     print(jsonify(response))
     return jsonify(response)
 
-@app.route("/api/new-part-data", methods=["POST"])
-def get_new_part_data():
-    data = request.get_json()
+# @app.route("/api/new-part-data", methods=["POST"])
+# def get_new_part_data():
+#     data = request.get_json()
 
 @app.route("/api/new-envelope", methods=["POST"])
 def new_envelope():
