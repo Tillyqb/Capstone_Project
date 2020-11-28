@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, session, redirect, flash, jsonify
 from model import connect_to_db, db, User
 import os
-from crud import check_user, validate_user, check_part, create_user, create_envelope, create_page, create_pocket, create_single_web_part
+from crud import check_user, validate_user, check_part, delete_part, create_user, create_envelope, create_page, create_pocket, create_single_web_part
 from material_calculator_logic import calculate_material_requiremtents
 from roll_calculator_logic import calculate_roll_length, calculate_roll_diameter
 from jinja2 import StrictUndefined
@@ -64,10 +64,6 @@ def get_material_requirements():
     print(jsonify(response))
     return jsonify(response)
 
-# @app.route("/api/new-part-data", methods=["POST"])
-# def get_new_part_data():
-#     data = request.get_json()
-
 @app.route("/api/new-envelope", methods=["POST"])
 def new_envelope():
     data = request.get_json()
@@ -123,6 +119,15 @@ def new_single_web_part():
     create_single_web_part(part_no, height, width, material)
 
     return jsonify('Single web part created')
+
+@app.route("/api/delete-part", methods=["POST"])
+def remove_part_from_database():
+    data = request.get_json()
+    part_no = data['part_no']
+
+    response = delete_part(part_no)
+    return jsonify(response)
+
 
 @app.route("/api/login", methods=["POST"])
 def login(): 

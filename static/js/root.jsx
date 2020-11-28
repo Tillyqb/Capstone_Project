@@ -39,6 +39,8 @@ function MaterialCalculator() {
             </li>
             <li>
                 <Link className="link" to="/calculate-roll-diameter"> Calculate Roll Diameter </Link>
+            </li><li>
+                <Link className="link" to="/delete-part"> Remove a part from the datapase </Link>
             </li>
           </ul>
         </nav>
@@ -52,6 +54,8 @@ function MaterialCalculator() {
             </Route>
             <Route path="/calculate-roll-diameter">
               <CalculateRollDiameter />
+            </Route><Route path="/delete-part">
+              <DeletePart />
             </Route>
           </Switch>
         </div>

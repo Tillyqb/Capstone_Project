@@ -179,10 +179,7 @@ function NewUser() {
               <Form.Group controlId="formBasicPassword2">
                 <Form.Control type="password" name="password2"  placeholder="Retype Password" value={password2} onChange={handlePassword2Change}></Form.Control>
               </Form.Group>
-              <Button 
-              className="button" 
-              varient="Primary" 
-              type="submit">
+              <Button className="button" varient="Primary" type="submit">
                 Register
               </Button>
             </Form>

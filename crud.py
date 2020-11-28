@@ -6,22 +6,43 @@ from flask_sqlalchemy import SQLAlchemy
 PI = 3.141592654
 
 
-def check_part(part_no):
+def check_part(part_no, get_part = False):
     if Envelope.varify_part_exixts(part_no):
         part = Envelope.get_envelope_by_part_no(part_no)
-        return 'envelope'
+        if get_part == true:
+            return part
+        else:
+            return 'envelope'
     elif Pocket.varify_part_exixts(part_no):
         part = Pocket.get_pocket_by_part_no(part_no)
-        return 'pocket'
+        if get_part == True:
+            return part
+        else:
+            return 'pocket'
     elif PageProtector.varify_part_exixts(part_no):
-        part = PageProtector.get_page_by_part_no(part_no) 
-        return 'page protector'
+        part = PageProtector.get_page_by_part_no(part_no)
+        if get_part == True:
+            return part
+        else:
+            return 'page protector'
     elif SingleWebPart.varify_part_exixts(part_no):
         part = SingleWebPart.get_part_by_part_no(part_no)
-        return 'single web part'
+        if get_part == True:
+            return part
+        else:
+            return 'single web part'
     else:
         return 'need part data'
 
+def delete_part(part_no):
+    part = check_part(part_no, True)
+    print(part)
+    if part == 'need part data':
+        return 'part not in system'
+    else:
+        db.session.delete(part)
+        db.session.commit()
+        return 'deletion successful'
 
 
 def create_user(email, password):
@@ -128,40 +149,3 @@ if __name__ ==  '__main__':
     #app.run(debug=True, host='0.0.0.0')
     from server import app
     connect_to_db(app)
-
-
-# def calculate_roll_length(args):
-#     """Calculate the length of a roll with a given diameter, material, and core diameter
-    
-#     >>> calculate_roll_length([25, 491, 3.625])
-#     8899
-#     """
-#     roll_radious = float(args[0]/2)
-#     material_no = int(args[1])
-#     core_radious = float(args[2]/2)
-#     material_obj = Material.get_material_by_material_no(material_no)
-#     thickness_in_mil = float(material_obj.material_thickness)
-#     thickness_in_in = thickness_in_mil / 1000
-#     material_area = roll_radious ** 2 - core_radious **  2
-#     roll_length = (PI * (material_area) / thickness_in_in) / 12
-#     return int(roll_length)
-
-
-# def calculate_roll_diameter(args):
-#     """Calculate the expected diameter of a roll of a known material at a given length
-    
-#     >>> calculate_roll_diameter([9000, 491, 3.625])
-#     25.138318234529756
-#     """
-#     roll_length = int(args[0] * 12) # in inches
-#     material_no = int(args[1])
-#     core_radious = float ((args[2]/ 2))
-#     material_obj = Material.get_material_by_material_no(material_no)
-#     thickness_in_mil = float(material_obj.material_thickness)
-#     thickness_in_in = thickness_in_mil / 1000
-#     diameter = 2 * sqrt((roll_length * thickness_in_in / PI) + core_radious ** 2)
-#     return diameter
-
-
-
-
