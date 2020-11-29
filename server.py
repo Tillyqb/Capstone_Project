@@ -143,21 +143,22 @@ def get_part():
         part['pType'] = 'page'
     elif str(type(response)) == "<class 'model.SingleWebPart'>":
         part['pType'] = 'swp'
-    elif type(response) == 'str':
+    else:
         return jsonify('part not in system')
     part['partNo'] = response.part_no
-    part['height'] = float(response.part_height)
-    part['width'] = float(response.part_width)
+    part['height'] = str(response.part_height)
+    part['width'] = str(response.part_width)
     if part['pType'] == 'envelope' or part['pType'] == 'page':
-        part['flap'] = response.part_flap
+        part['flap'] = str(response.part_flap)
     if part['pType'] == 'envelope' or part['pType'] == 'page' or part['pType'] == 'pocket':
-        part['throat'] = float(response.part_throat)
+        part['throat'] = str(response.part_throat)
     if part['pType'] == 'swp':
         part['material'] = response.material
     if part['pType'] == 'envelope' or part['pType'] == 'page' or part['pType'] == 'pocket':
         part['smallWebMat'] = response.part_fr_mat
     if part['pType'] == 'envelope' or part['pType'] == 'page' or part['pType'] == 'pocket':
         part['largeWebMat'] = response.part_b_mat
+    print (part)
     return jsonify(part)
 
 @app.route("/api/edit-envelope", methods=["POST"])

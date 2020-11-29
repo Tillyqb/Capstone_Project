@@ -1,7 +1,7 @@
 function CalculateMaterialRequirements() {
   const [partNo, setPartNo] = React.useState('');
   const [count, setCount] = React.useState('');
-  const [needPartData, settNeedPartData] = React.useState('');
+  const [needPartData, setNeedPartData] = React.useState('');
   const [twoAcross, setTwoAcross] = React.useState('');
   const [materialRequirementString, setMaterialRequirementString] = React.useState('');
     
@@ -28,13 +28,13 @@ function CalculateMaterialRequirements() {
     .then(response => response.json())
     .then(data => {
       console.log(payload)
-      settNeedPartData(false)
+      setNeedPartData(false)
       if (data === 'need part data') {
-        settNeedPartData(true);
+        setNeedPartData(true);
       }
       setMaterialRequirementString(data);
       localStorage.setItem('requirementsString', materialRequirementString);
-      
+
     }).catch(error => console.log('error in material calculator', error));
   }
 
