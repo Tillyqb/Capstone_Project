@@ -9,7 +9,7 @@ PI = 3.141592654
 def check_part(part_no, get_part = False):
     if Envelope.varify_part_exixts(part_no):
         part = Envelope.get_envelope_by_part_no(part_no)
-        if get_part == true:
+        if get_part == True:
             return part
         else:
             return 'envelope'

@@ -108,6 +108,9 @@ function App() {
              <li>
                  <Link className="link" to="/login"> Login </Link>
              </li>
+             <li>
+                 <Link className="link" to="/edit-part"> Edit part </Link>
+             </li>
            </ul>
          </nav>
         <div>
@@ -120,6 +123,9 @@ function App() {
             </Route>
             <Route path="/material-calculator">
               <MaterialCalculator />
+            </Route>
+            <Route path="/edit-part">
+              <EditPart />
             </Route>
             <Route path="/">
               <Homepage />

@@ -1,23 +1,21 @@
-function NewEnvelope() {
-  // took props out of newuser
-  const [partNo, setPartNo] = React.useState('');
+function EditPageProtector(props) {
   const [height, setHeight] = React.useState('');
   const [width, setWidth] = React.useState('');
-  const [flap, setFlap] = React.useState('');
   const [throat, setThroat] = React.useState('');
   const [largeWebMat, setLargeWebMat] = React.useState('');
   const [smallWebMat, setSmallWebMat] = React.useState('');
   const history = useHistory()
+
+  const oldPart = props
   
-  function newEnvelopeInfo(evt) {
-    console.log('handleNewEnvelopeInfo is running');
+  function editPocketInfo(evt) {
+    console.log('handleEditPocketInfo is running');
     evt.preventDefault();
     
     const payload = {
-      partNo: partNo,
+      partNo: oldPart.partNo,
       height: height,
       width: width,
-      flap: flap,
       throat: throat,
       largeWebMat: largeWebMat,
       smallWebMat: smallWebMat 
@@ -30,21 +28,15 @@ function NewEnvelope() {
         'Content-Type': 'application/json'
       }
     }
-    fetch('/api/new-envelope', options)
+    fetch('/api/edit-pocket', options)
     .then(response => response.json())
     .then(data => {
       console.log(data);
-      if (data === 'Envelope created') {
-        alert('Envelope created successfully')
+      if (data === 'Pocket edited') {
+        alert(data + ' successfully')
         history.push('/material-calculator')
       } 
-    }).catch(error => console.log('error in envelope creation', error))
-  }
-
-  function handlePartNoChange(evt) 
-  {
-    console.log(evt.target.value)
-    setPartNo(evt.target.value)
+    }).catch(error => console.log('error in pocket edit', error))
   }
 
   function handleHeightChange(evt) 
@@ -57,12 +49,6 @@ function NewEnvelope() {
   {
     console.log(evt.target.value)
     setWidth(evt.target.value)
-  }
-
-  function handleFlapChange(evt) 
-  {
-    console.log(evt.target.value)
-    setFlap(evt.target.value)
   }
   function handleThroatChange(evt) 
   {
@@ -83,26 +69,31 @@ function NewEnvelope() {
   return (
     <div className="base">
       <Router>
+        <h3>The current infor for part {oldPart.partNo}</h3>
+        <ul>
+          <li>Height = {oldPart.height}</li>
+        </ul>
+        <ul>
+          <li>Width = {oldPart.width}</li>
+        </ul>
+        <ul>
+          <li>Throat = {oldPart.throat}</li>
+        </ul>
+        <ul>
+          <li>Top web materiaa = {oldPart.smallWebMat}</li>
+        </ul>
+        <ul>
+          <li>Bottom web material = {oldPart.largeWebMat}</li>
+        </ul>
         <div>
           <nav>
-            <Form onSubmit={newEnvelopeInfo}>
-              <Form.Group 
-              controlId="formBasicPartNo">
-                <Form.Control 
-                type="text" 
-                name="partNo" 
-                placeholder="partNo"
-                value={partNo} 
-                onChange={handlePartNoChange} />
-              </Form.Group>
+            <Form onSubmit={editPocketInfo}>
+              <h3> Please enter the corrected specs for thi part</h3>
               <Form.Group controlId="formBasicHeight">
                 <Form.Control type="text" name="height" placeholder="Height" value={height} onChange={handleHeightChange} />
               </Form.Group>
               <Form.Group controlId="formBasicWidth">
                 <Form.Control type="text" name="width"  placeholder="Width" value={width} onChange={handleWidthChange}></Form.Control>
-              </Form.Group>
-              <Form.Group controlId="formBasicFlap">
-                <Form.Control type="text" name="flap"  placeholder="Flap" value={flap} onChange={handleFlapChange}></Form.Control>
               </Form.Group>
               <Form.Group controlId="formBasicThroat">
                 <Form.Control type="text" name="throat"  placeholder="Throat" value={throat} onChange={handleThroatChange}></Form.Control>
@@ -117,7 +108,7 @@ function NewEnvelope() {
               className="button" 
               varient="Primary" 
               type="submit">
-                Create Envelope
+                Edit Envelope
               </Button>
             </Form>
           </nav>

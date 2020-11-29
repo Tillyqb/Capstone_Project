@@ -1,6 +1,4 @@
-function NewEnvelope() {
-  // took props out of newuser
-  const [partNo, setPartNo] = React.useState('');
+function EditEnvelope(props) {
   const [height, setHeight] = React.useState('');
   const [width, setWidth] = React.useState('');
   const [flap, setFlap] = React.useState('');
@@ -8,13 +6,15 @@ function NewEnvelope() {
   const [largeWebMat, setLargeWebMat] = React.useState('');
   const [smallWebMat, setSmallWebMat] = React.useState('');
   const history = useHistory()
+
+  const oldPart = props
   
-  function newEnvelopeInfo(evt) {
-    console.log('handleNewEnvelopeInfo is running');
+  function editEnvelopeInfo(evt) {
+    console.log('handleEditEnvelopeInfo is running');
     evt.preventDefault();
     
     const payload = {
-      partNo: partNo,
+      partNo: oldPart.partNo,
       height: height,
       width: width,
       flap: flap,
@@ -30,21 +30,15 @@ function NewEnvelope() {
         'Content-Type': 'application/json'
       }
     }
-    fetch('/api/new-envelope', options)
+    fetch('/api/edit-envelope', options)
     .then(response => response.json())
     .then(data => {
       console.log(data);
       if (data === 'Envelope created') {
-        alert('Envelope created successfully')
+        alert(data + ' successfully')
         history.push('/material-calculator')
       } 
-    }).catch(error => console.log('error in envelope creation', error))
-  }
-
-  function handlePartNoChange(evt) 
-  {
-    console.log(evt.target.value)
-    setPartNo(evt.target.value)
+    }).catch(error => console.log('error in envelope edit', error))
   }
 
   function handleHeightChange(evt) 
@@ -83,18 +77,29 @@ function NewEnvelope() {
   return (
     <div className="base">
       <Router>
+        <h3>The current infor for part {oldPart.partNo}</h3>
+        <ul>
+          <li>Height = {oldPart.height}</li>
+        </ul>
+        <ul>
+          <li>Width = {oldPart.width}</li>
+        </ul>
+        <ul>
+          <li>Flap = {oldPart.flap}</li>
+        </ul>
+        <ul>
+          <li>Throat = {oldPart.throat}</li>
+        </ul>
+        <ul>
+          <li>Top web materiaa = {oldPart.smallWebMat}</li>
+        </ul>
+        <ul>
+          <li>Bottom web material = {oldPart.largeWebMat}</li>
+        </ul>
         <div>
           <nav>
-            <Form onSubmit={newEnvelopeInfo}>
-              <Form.Group 
-              controlId="formBasicPartNo">
-                <Form.Control 
-                type="text" 
-                name="partNo" 
-                placeholder="partNo"
-                value={partNo} 
-                onChange={handlePartNoChange} />
-              </Form.Group>
+            <Form onSubmit={editEnvelopeInfo}>
+              <h3> Please enter the corrected specs for thi part</h3>
               <Form.Group controlId="formBasicHeight">
                 <Form.Control type="text" name="height" placeholder="Height" value={height} onChange={handleHeightChange} />
               </Form.Group>
@@ -117,7 +122,7 @@ function NewEnvelope() {
               className="button" 
               varient="Primary" 
               type="submit">
-                Create Envelope
+                Edit Envelope
               </Button>
             </Form>
           </nav>
