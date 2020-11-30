@@ -1,10 +1,21 @@
 html {background-color: #410041;
-    margin: 0, 0, 0, 0;
-    color: pink
+    color: pink;
+}
+TopNav {background-color: #410041 ;}
 
+#root {background-color: #410041;
+    margin: 100px;
+    color: pink;
+}
+.base {
+    margin: 0px, 100px;
 }
 
 .button {
     color: #d5a2ff;
     background-color: black;
+}
+
+.link {
+    color: lightskyblue
 }
