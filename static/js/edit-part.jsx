@@ -69,7 +69,7 @@ function EditPart() {
     .then(response => response.json())
     .then(data => {
       console.log(data);
-      if (data === 'Envelope edited') {
+      if (data === 'Envelope edited ') {
         alert(data + ' successfully')
         history.push('/material-calculator')
       } 

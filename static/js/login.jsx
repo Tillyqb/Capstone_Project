@@ -33,7 +33,10 @@ function LogIn() {
         localStorage.setItem('currentUser', email);
         history.push('/');
         console.log(localStorage.getItem('currentUser'));
-        alert('Login succsesfull!  Welcome ' + email);
+        <Alert key={idx} variant={success}>
+          Login successfull! welcome {email}
+        </Alert>
+        // alert('Login succsesfull!  Welcome ' + email);
       } else if (data === 'bad email') {
         alert("Email is not in the system.  Please try again.")
       } else {

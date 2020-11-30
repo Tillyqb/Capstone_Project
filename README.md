@@ -13,7 +13,12 @@
     root directory of the app named secrets.sh, which should be formatted as:
         
         export PRIVATE_KEY="your random key goes here"
-        
+
+    This file needs to be run from ouside the program.
+
+        i.e. in Linux, and MacOS the script is: 
+        source secrets.sh
+    
     then run the file using:
         
         Python3 server.py
