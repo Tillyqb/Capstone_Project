@@ -66,21 +66,16 @@ function MaterialCalculator() {
 
 function App() {
 
-  // React.useEffect(() => {
-  //   // const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-  //   setCurrentUser(currentUser)
-  //   console.log(currentUser)
-  //   },[]);
-
   const [currentUser, setCurrentUser] = React.useState()
-  // setCurrentUser(localStorage.getItem('currentUser'))
     console.log(currentUser)
 
   function handleLogOut() {
     localStorage.removeItem('currentUser');
+    // YODO render an alert for good logout
   }
 
     if (localStorage.getItem('currentUser')){
+      console.log('logged in')
     return (
       <Router>
         <h1> Material Calculator Web App </h1>
@@ -127,6 +122,9 @@ function App() {
             <Route path="/edit-part">
               <EditPart />
             </Route>
+            <Route path="/alerts">
+              <Alerts />
+            </Route>
             <Route path="/">
               <Homepage />
             </Route>
@@ -135,6 +133,7 @@ function App() {
       </Router>
     );
     } else {
+      console.log('Not logged in')
       return (
         <Router>
           {/* <TopNav user={user} setUser={setUser} /> */}
@@ -159,6 +158,9 @@ function App() {
               </Route>
               <Route path="/login">
                 <LogIn />
+              </Route>
+              <Route path="/alerts">
+                <Alerts />
               </Route>
               <Route path="/">
                 <Homepage />

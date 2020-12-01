@@ -177,7 +177,7 @@ class SingleWebPart(db.Model):
         return f'<Single web part: ID = {self.part_id}, Part number = {self.part_no} Size = {self.part_height} X {self.part_width}>'
 
 
-def connect_to_db(flask_app, db_uri='postgresql:///material', echo=True):
+def connect_to_db(flask_app, echo=True, db_uri='postgresql:///material'):
     flask_app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
     flask_app.config['SQLALCHEMY_ECHO'] = echo
     flask_app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False

@@ -31,12 +31,14 @@ function LogIn() {
       if (data === 'Good login') {
         setCurrentUser(email)
         localStorage.setItem('currentUser', email);
+        localStorage.setItem('alertType', 'success')
+        localStorage.setItem('alertText', 'Login successful! Welcome, ')
         history.push('/');
         console.log(localStorage.getItem('currentUser'));
-        <Alert key={idx} variant={success}>
-          Login successfull! welcome {email}
-        </Alert>
-        // alert('Login succsesfull!  Welcome ' + email);
+
+        // Render a bootstrap alert for good login
+
+        alert('Login succsesfull!  Welcome ' + email);
       } else if (data === 'bad email') {
         alert("Email is not in the system.  Please try again.")
       } else {
