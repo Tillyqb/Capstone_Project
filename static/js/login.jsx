@@ -1,14 +1,12 @@
-function LogIn() { 
+function LogIn(props) { 
   // angie deleted incoming props bc they were not being used
-
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const [currentUser, setCurrentUser] = React.useState('');
   const history = useHistory()
 
   function handleLogin(evt) {
     console.log('handleLogin is running');
-    //evt.preventDefault();
+    evt.preventDefault();
 
     const payload = { 
       email: email,
@@ -29,20 +27,22 @@ function LogIn() {
     .then(data => {
       console.log(data)
       if (data === 'Good login') {
-        setCurrentUser(email)
-        localStorage.setItem('currentUser', email);
-        localStorage.setItem('alertType', 'success')
-        localStorage.setItem('alertText', 'Login successful! Welcome, ')
-        history.push('/');
-        console.log(localStorage.getItem('currentUser'));
-
-        // Render a bootstrap alert for good login
-
-        alert('Login succsesfull!  Welcome ' + email);
+        props.setCurrentUser(email)
+        localStorage.setItem('currentUser', JSON.stringify(email));
+        props.setShowAlert(true)
+        props.setAlertText('Logged in successfully')
+        props.setAlertType('success')
+        props.setAlertButtonType('outline-success')
       } else if (data === 'bad email') {
-        alert("Email is not in the system.  Please try again.")
+        props.setShowAlert(true)
+        props.setAlertText('Email is not in our system')
+        props.setAlertType('danger')
+        props.setAlertButtonType('outline-danger')
       } else {
-        alert("Email and password do not match.")
+        props.setShowAlert(true)
+        props.setAlertText('Email and password do not match')
+        props.setAlertType('danger')
+        props.setAlertButtonType('outline-danger')
       }
     }).catch(error => console.log('error in login', error))
   }
@@ -83,7 +83,7 @@ function LogIn() {
           <div>
             <Switch>
               <Route path="/newUser">
-                <NewUser />
+                <NewUser currentUser={props.currentUser} setCurrentUser={props.setCurrentUser} setAlertText={props.setAlertText} setAlertType={props.setAlertType} setAlertButtonType={props.setAlertButtonType} setShowAlert={props.setShowAlert} />
               </Route>
             </Switch>
           </div>
@@ -93,7 +93,7 @@ function LogIn() {
   )
 }
 
-function NewUser() {
+function NewUser(props) {
   // took props out of newuser
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -124,14 +124,26 @@ function NewUser() {
     .then(data => {
       console.log(data)
       if (data === 'good registaration') {
-        history.push('/')
-        alert('Account created successfully')
-      } else if (data === 'email in system') {
-        alert('Email is already in use in the system')
+        history.push('/')        
+        props.setShowAlert(true)
+        props.setAlertText('Account created successfully, please log in')
+        props.setAlertType('success')
+        props.setAlertButtonType('outline-success')
+      } else if (data === 'email in system') {        
+        props.setShowAlert(true)
+        props.setAlertText('Email is already in use')
+        props.setAlertType('danger')
+        props.setAlertButtonType('outline-danger')
       } else if (data === 'email mismatch') {
-        alert('Emails do not match')
+        props.setShowAlert(true)
+        props.setAlertText('Emails do not match')
+        props.setAlertType('danger')
+        props.setAlertButtonType('outline-danger')
       } else if (data === 'password mismatch') {
-        alert('Passwords do not match')
+        props.setShowAlert(true)
+        props.setAlertText('Passwords do not match')
+        props.setAlertType('danger')
+        props.setAlertButtonType('outline-danger')
       }
     }).catch(error => console.log('error in account creation', error))
   }

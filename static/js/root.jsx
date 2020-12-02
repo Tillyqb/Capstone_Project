@@ -6,6 +6,7 @@ const Switch = ReactRouterDOM.Switch;
 const Redirect = ReactRouterDOM.Redirect;
 const useParams = ReactRouterDOM.useParams;
 const useHistory = ReactRouterDOM.useHistory;
+// const Alert = ReactBootstrap.alert-dismissible;
 // same as the above but using destructing syntax 
 // const { useHistory, useParams, Redirect, Switch, Prompt, Link, Route } = ReactRouterDOM;
 
@@ -65,47 +66,73 @@ function MaterialCalculator() {
 }
 
 function App() {
+  const [showAlert, setShowAlert] = React.useState()
+  const [alertText, setAlertText] = React.useState('')
+  const [currentUser, setCurrentUser] = React.useState('')
+  const [alertType, setAlertType] = React.useState('')
+  const [alertButtonType, setAlertButtonType] = React.useState('')
 
-  const [currentUser, setCurrentUser] = React.useState()
+  React.useEffect(() => {
+    let userFromStorage = localStorage.getItem('currentUser')
+    if (userFromStorage) {
+      setCurrentUser(JSON.parse(userFromStorage))
+    }
+  },[])
+
     console.log(currentUser)
 
-  function handleLogOut() {
-    localStorage.removeItem('currentUser');
-    // YODO render an alert for good logout
+  function handleLogOut(evt) {
+    evt.preventDefault()
+    setShowAlert(true)
+    setAlertText('Logged out successfully')
+    setAlertType('warning')
+    setAlertButtonType('outline-warning')
+    localStorage.removeItem('currentUser')
+    setCurrentUser(false)
   }
 
-    if (localStorage.getItem('currentUser')){
-      console.log('logged in')
+  function handleAlertDismissal() {
+    setShowAlert(false)
+  }
     return (
       <Router>
+      <Alert role="alert" variant={alertType} show={showAlert}>
+        <Alert.Heading>{alertText}</Alert.Heading>
+        <Button onClick={handleAlertDismissal} variant={alertButtonType}>
+            Dismiss
+          </Button>
+      </Alert>
         <h1> Material Calculator Web App </h1>
-        <h2> Current user is {localStorage.getItem('currentUser')} </h2>
-        <Form onSubmit={handleLogOut}>
+        {currentUser ? <h2> Current user is {currentUser} </h2> : undefined}
+        {currentUser ? <Form onSubmit={handleLogOut}>
           <Button 
             className="button" 
             varient="Primary" 
             type="submit">
               Log Out
           </Button>
-        </Form>
+        </Form> : undefined }
         {/* <TopNav user={user} setUser={setUser} /> */}
-         <nav id="root">
-           <ul>
-             <li>
-                 <Link className="link" to="/"> Home </Link>
-             </li>
-             <li>
-                 <Link className="link" to="/about"> About </Link>
-             </li>
-             <li>
-                 <Link className="link" to="/material-calculator"> Material Calculator </Link>
-             </li>
+          <nav id="root">
+            <ul>
+              <li>
+                <Link className="link" to="/"> Home </Link>
+              </li>
+              <li>
+                <Link className="link" to="/about"> About </Link>
+              </li>
+              { currentUser ? 
+              <li>
+                <Link className="link" to="/material-calculator"> Material Calculator </Link> 
+             </li>: undefined}
+             { currentUser ? undefined :
              <li>
                  <Link className="link" to="/login"> Login </Link>
-             </li>
+             </li>}
+             { currentUser ? 
              <li>
                  <Link className="link" to="/edit-part"> Edit part </Link>
-             </li>
+             </li> : undefined }
            </ul>
          </nav>
         <div>
@@ -114,16 +141,13 @@ function App() {
               <About />
             </Route>
             <Route path="/login">
-              <LogIn />
+              <LogIn currentUser={currentUser} setCurrentUser={setCurrentUser} setAlertText={setAlertText} setAlertType={setAlertType} setAlertButtonType={setAlertButtonType} setShowAlert={setShowAlert} />
             </Route>
             <Route path="/material-calculator">
               <MaterialCalculator />
             </Route>
             <Route path="/edit-part">
               <EditPart />
-            </Route>
-            <Route path="/alerts">
-              <Alerts />
             </Route>
             <Route path="/">
               <Homepage />
@@ -132,44 +156,6 @@ function App() {
         </div>
       </Router>
     );
-    } else {
-      console.log('Not logged in')
-      return (
-        <Router>
-          {/* <TopNav user={user} setUser={setUser} /> */}
-          <nav id="root">
-            <h1> Material Calculator Web App </h1>
-            <ul>
-              <li>
-                <Link className="link" to="/"> Home </Link>
-              </li>
-              <li>
-                <Link className="link" to="/about"> About </Link>
-              </li>
-              <li>
-                <Link className="link" to="/login"> Login </Link>
-              </li>
-            </ul>
-          </nav>
-          <div>
-            <Switch>
-              <Route path="/about">
-                <About />
-              </Route>
-              <Route path="/login">
-                <LogIn />
-              </Route>
-              <Route path="/alerts">
-                <Alerts />
-              </Route>
-              <Route path="/">
-                <Homepage />
-              </Route>
-            </Switch>
-          </div>
-        </Router>
-      );
-    }
-}
+  }
 
 ReactDOM.render(<App />, document.getElementById('root'))

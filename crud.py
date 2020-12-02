@@ -63,6 +63,8 @@ def validate_user(email, password):
     user = User.query.filter(User.email == email).first()
     if user.password == password:
         return email
+    else:
+        return False
 
 def create_material(material_no, 
                     material_description,
