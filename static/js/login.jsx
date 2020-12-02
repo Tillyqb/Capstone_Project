@@ -3,7 +3,8 @@ function LogIn(props) {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const history = useHistory()
-
+  const [showLogin, setShowLogin] = React.useState(true);
+  
   function handleLogin(evt) {
     console.log('handleLogin is running');
     evt.preventDefault();
@@ -27,6 +28,7 @@ function LogIn(props) {
     .then(data => {
       console.log(data)
       if (data === 'Good login') {
+        setShowLogin(false)
         props.setCurrentUser(email)
         localStorage.setItem('currentUser', JSON.stringify(email));
         props.setShowAlert(true)
@@ -57,7 +59,7 @@ function LogIn(props) {
   {
     setPassword(evt.target.value)
   }
-
+  if (showLogin) {
   return (
     <div className="base">
       <Router>
@@ -91,6 +93,13 @@ function LogIn(props) {
       </Router>
     </div>
   )
+  } else {
+    return (
+      <div>
+        
+      </div>
+    )
+  }
 }
 
 function NewUser(props) {
