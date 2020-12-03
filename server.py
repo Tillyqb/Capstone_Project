@@ -63,7 +63,7 @@ def get_material_requirements():
     args = [part_no, count, two_across]
     response = calculate_material_requiremtents(args)
     print(jsonify(response))
-    return jsonify(response)
+    return (jsonify(response))
 
 @app.route("/api/new-envelope", methods=["POST"])
 def new_envelope():

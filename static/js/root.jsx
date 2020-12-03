@@ -115,7 +115,7 @@ function App() {
               <LogIn currentUser={currentUser} setCurrentUser={setCurrentUser} setAlertText={setAlertText} setAlertType={setAlertType} setAlertButtonType={setAlertButtonType} setShowAlert={setShowAlert} />
             </Route>
             <Route path="/material-calculator">
-              <MaterialCalculator />
+              <MaterialCalculator setAlertText={setAlertText} setAlertType={setAlertType} setAlertButtonType={setAlertButtonType} setShowAlert={setShowAlert} />
             </Route>
             <Route path="/edit-part">
               <EditPart setAlertText={setAlertText} setAlertType={setAlertType} setAlertButtonType={setAlertButtonType} setShowAlert={setShowAlert} />

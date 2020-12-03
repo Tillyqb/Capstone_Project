@@ -60,7 +60,6 @@ function LogIn(props) {
   {
     setPassword(evt.target.value)
   }
-  if (showLogin) {
   return (
     <div className="base">
       <Router>
@@ -68,32 +67,27 @@ function LogIn(props) {
           <nav>
             <Form onSubmit={handleLogin}>
               <Form.Group controlId="formBasicEmail">
-                <Form.Control type="email" name="email" placeholder="Enter email" value={email} onChange={handleEmailChange} />
+                <Form.Control className="text-entry" type="email" name="email" placeholder="Enter email" value={email} onChange={handleEmailChange} />
               </Form.Group>
               <Form.Group controlId="formBasicPassword">
-                <Form.Control type="password" name="password"  placeholder="Password" value={password} onChange={handlePasswordChange}></Form.Control>
+                <Form.Control className="text-entry" type="password" name="password"  placeholder="Password" value={password} onChange={handlePasswordChange}></Form.Control>
               </Form.Group>
+            {(!showLogin ? 
+              <Button className="button" varient="primary" type="submit">
+                Log out and log in as a different user
+              </Button>
+            :
               <Button className="button" varient="Primary" type="submit">
                 Login
               </Button>
+            )}
             </Form>
-            <ul>
-              <li>
-                <Link className="link" to="/new-user"> Click here to create a new account. </Link>
-              </li>
-            </ul>
+            <Link className="clickylink" to="/new-user"> Click here to create a new account. </Link>
           </nav>
         </div>
       </Router>
     </div>
   )
-  } else {
-    return (
-      <div>
-        
-      </div>
-    )
-  }
 }
 function CreateUser(props) {
   const [email, setEmail] = React.useState('');
@@ -129,7 +123,7 @@ function CreateUser(props) {
         props.setAlertText('Account created successfully, please log in')
         props.setAlertType('success')
         props.setAlertButtonType('outline-success')
-        history.push('/')
+        history.push('/login')
       } else if (data === 'email in system') {        
         props.setShowAlert(true)
         props.setAlertText('Email is already in use')

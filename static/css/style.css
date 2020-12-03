@@ -15,6 +15,7 @@ html {background-color: #410041;
 
 #alert{
     display: block;
+    width: 40%
 }
 
 .topNav {
@@ -24,7 +25,20 @@ html {background-color: #410041;
     color: #d5a2ff;
 }
 
+.text-entry {
+    width: 300px
+}
+
 .button {
+    display: block;
+    color: #d5a2ff;
+    background-color: black;
+    font-weight: bold;
+    border-width: 0px;
+    margin: 5px;
+}
+
+.navbar-button {
     font-size: x-small;
     display: block;
     color: #d5a2ff;
@@ -33,6 +47,9 @@ html {background-color: #410041;
     border-width: 0px;
     padding: 4px 10px;
     margin: 5px;
+}
+.checkbox {
+    width: 300
 }
 
 .clickylink {

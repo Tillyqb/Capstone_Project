@@ -1,9 +1,10 @@
-function CalculateMaterialRequirements() {
+function CalculateMaterialRequirements(props) {
   const [partNo, setPartNo] = React.useState('');
   const [count, setCount] = React.useState('');
   const [needPartData, setNeedPartData] = React.useState('');
   const [twoAcross, setTwoAcross] = React.useState('');
   const [materialRequirementString, setMaterialRequirementString] = React.useState('');
+  const history=useHistory()
     
   function handleMaterialRequirementCalculation(evt) {
     console.log('handleMaterialRequirementCalculation is running');
@@ -27,10 +28,14 @@ function CalculateMaterialRequirements() {
     fetch('/api/material-requirements-calculator', options)
     .then(response => response.json())
     .then(data => {
-      console.log(payload)
+      console.log(data)
       setNeedPartData(false)
       if (data === 'need part data') {
-        setNeedPartData(true);
+        props.setAlertType('warning')
+        props.setAlertText('Part is not in the database, please enter the dimensions for the new part.')
+        props.setShowAlert(true)
+        props.setAlertButtonType('outline-warning')
+        history.push('/new-part-info')
       }
       setMaterialRequirementString(data);
       localStorage.setItem('requirementsString', materialRequirementString);
@@ -63,92 +68,40 @@ function CalculateMaterialRequirements() {
     }
   }
 
-    if (needPartData) {
-      console.log('part data is needed')
+
       return (
         <Router>
           <div>
-            <nav id="root">
-              <h3> Part data not in our system </h3>
-            <ul>
-              <li>
-                <Link className="clickylink" to="/new-part-info"> Please enter the part data here, or try abain.</Link>
-                </li>
-            </ul>
-            <Switch>
-              <Route path="/new-part-info">
-                <NewPartInfo />
-              </Route>
-            </Switch>
-            <Form onSubmit={handleMaterialRequirementCalculation}>
+            {materialRequirementString ? 
+            <h3> {materialRequirementString} </h3>
+            : undefined}
+          </div>
+        <div>
+          <nav id="materialCalculator">
+            <div className="col-3">
+            <Container>
+          <Form onSubmit={handleMaterialRequirementCalculation}>
               <Form.Group controlId="formBasicPartNo">
-                <Form.Control type="text" name="partNo" placeholder="Enter part number" value={partNo} onChange={handlePartNoChange} />
+                <Form.Control className="text-entry" type="text" name="partNo" placeholder="Enter part number" value={partNo} onChange={handlePartNoChange} />
               </Form.Group>
               <Form.Group controlId="formBasicCount">
-                <Form.Control type="text" name="count"  placeholder="Count" value={count} onChange={handleCountChange} />
+                <Form.Control className="text-entry" type="text" name="count"  placeholder="Count" value={count} onChange={handleCountChange} />
               </Form.Group>
-              <Form.Group controlId="formBasicCheckbox">
+                <Form.Group className="checkbox" controlId="formBasicCheckbox">
                   Two Across
                   <Form.Control type="checkbox" name="twoAcross" checked={twoAcross} onChange={handleTwoAcrossChange} lable="Two Across" />
-              </Form.Group>
+                </Form.Group>
               <Button className="button" varient="Primary" type="submit">
                 Submit
               </Button>
             </Form>
+            </Container>
+            </div>
+            <div className="col-9">
+
+            </div>
           </nav>
         </div>
         </Router>
       );
     }
-    else if (materialRequirementString) {
-      return (
-        <Router>
-          <div>
-            <h3> {materialRequirementString} </h3>
-          </div>
-        <div>
-          <nav id="materialCalculator">
-          <Form onSubmit={handleMaterialRequirementCalculation}>
-              <Form.Group controlId="formBasicPartNo">
-                <Form.Control type="text" name="partNo" placeholder="Enter part number" value={partNo} onChange={handlePartNoChange} />
-              </Form.Group>
-              <Form.Group controlId="formBasicCount">
-                <Form.Control type="text" name="count"  placeholder="Count" value={count} onChange={handleCountChange} />
-              </Form.Group>
-              <Form.Group controlId="formBasicCheckbox">
-                  Two Across
-                  <Form.Control type="checkbox" name="twoAcross" checked={twoAcross} onChange={handleTwoAcrossChange} lable="Two Across" />
-              </Form.Group>
-              <Button className="button" varient="Primary" type="submit">
-                Submit
-              </Button>
-            </Form>
-          </nav>
-        </div>
-        </Router>
-      );
-    } else {
-      return (
-      <Router>
-        <div>
-          <nav id="materialCalculator">
-          <Form onSubmit={handleMaterialRequirementCalculation}>
-              <Form.Group controlId="formBasicPartNo">
-                <Form.Control type="text" name="partNo" placeholder="Enter part number" value={partNo} onChange={handlePartNoChange} />
-              </Form.Group>
-              <Form.Group controlId="formBasiccount">
-                <Form.Control type="text" name="count"  placeholder="Count" value={count} onChange={handleCountChange} />
-              </Form.Group>
-              <Form.Group controlId="formBasicCheckbox">
-                  Two Across
-                  <Form.Control type="checkbox" name="twoAcross" checked={twoAcross} onChange={handleTwoAcrossChange} lable="Two Across" />
-              </Form.Group>
-              <Button className="button" varient="Primary" type="submit">
-                Submit
-              </Button>
-            </Form>
-          </nav>
-        </div>
-      </Router>
-    );}
-  }
