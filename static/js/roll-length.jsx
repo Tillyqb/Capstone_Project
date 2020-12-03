@@ -2,7 +2,7 @@ function CalculateRollLength() {
   const [rollDia, setRollDia] = React.useState('');
   const [material, setMaterial] = React.useState('');
   const [coreDia, setCoreDia] = React.useState('');
-  const [length, setLength] = React.useState('');
+  const [length, setLength] = React.useState(false);
   // const history = useHistory()
 
   function handleLengthCalculation(evt) {
@@ -27,7 +27,6 @@ function CalculateRollLength() {
     .then(data => {
       setLength(data)
       console.log('The length of your roll is ' + data + ' feet');
-      DisplayRollLength(length)
     }).catch(error => console.log('error in length calculator', error))
   }
 
@@ -45,28 +44,24 @@ function CalculateRollLength() {
     console.log(evt.target.value)
     setCoreDia(evt.target.value)
   }
-  if (length) {
+
     return (
       <div className="base">
-        <h3> Your roll is {length} feet long. </h3>
+        {length ?
+        <h3> Your roll is {length} feet long. </h3>: undefined}
         <Router>
           <div>
             <nav>
               <Form onSubmit={handleLengthCalculation}>
                 <Form.Group controlId="formBasicDiameter">
-                  <Form.Control type="text" name="rollDia" placeholder="Roll  Diameter" value={rollDia} onChange={handleRollDiaChange} />
+                  <Form.Control type="text" className="text-entry" name="rollDia" placeholder="Roll  Diameter" value={rollDia} onChange={handleRollDiaChange} />
                 </Form.Group>
                 <Form.Group controlId="formBasicMaterial">
-                  <Form.Control type="text" name="material"   placeholder="Material" value={material} onChange= {handleMaterialChange} />
+                  <Form.Control type="text" className="text-entry" name="material"   placeholder="Material" value={material} onChange= {handleMaterialChange} />
                 </Form.Group>
                 <Form.Group 
                 controlId="formBasicCoreDia">
-                  <Form.Control 
-                  type="text" 
-                  name="coreDia" 
-                  placeholder="Core Diameter" 
-                  value={coreDia} 
-                  onChange={handleCoreDiaChange} />
+                  <Form.Control type="text" className="text-entry" name="coreDia" placeholder="Core Diameter" value={coreDia} onChange={handleCoreDiaChange} />
                 </Form.Group>
                 <Button 
                 className="button" 
@@ -81,47 +76,4 @@ function CalculateRollLength() {
       </div>
     )
   }
-  else {
-    return (
-     <div className="base">
-        <Router>
-          <div>
-            <nav>
-              <Form onSubmit={handleLengthCalculation}>
-                <Form.Group controlId="formBasicDiameter">
-                  <Form.Control type="text" name="rollDia" placeholder="Roll  Diameter" value={rollDia} onChange={handleRollDiaChange} />
-                </Form.Group>
-                <Form.Group controlId="formBasicMaterial">
-                  <Form.Control type="text" name="material"   placeholder="Material" value={material} onChange= {handleMaterialChange} />
-                </Form.Group>
-                <Form.Group 
-                controlId="formBasicCoreDia">
-                  <Form.Control 
-                  type="text" 
-                  name="coreDia" 
-                  placeholder="Core Diameter" 
-                  value={coreDia} 
-                  onChange={handleCoreDiaChange} />
-                </Form.Group>
-                <Button 
-                className="button" 
-                varient="Primary" 
-                type="submit">
-                  Submit
-                </Button>
-              </Form>
-            </nav>
-          </div>
-        </Router>
-      </div>
-    )
-  }
-}
-
-function DisplayRollLength(length) {
-  return (
-    <Router>
-      <h3>Your roll is {length} feet long. </h3>
-    </Router>
-    )
-}
+  
