@@ -22,15 +22,16 @@ html {background-color: #410041;
     text-align: center;
     background-color: #7c417c;
     color: #d5a2ff;
-    
 }
 
 .button {
+    font-size: x-small;
+    display: block;
     color: #d5a2ff;
     background-color: black;
     font-weight: bold;
     border-width: 0px;
-    padding: 8px 20px;
+    padding: 4px 10px;
     margin: 5px;
 }
 

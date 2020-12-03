@@ -8,7 +8,7 @@ function About() {
     requirements for a two web printing operation. <br />
     The material calculator was designd as a project for the <br /> 
     purpose of learning durring the coarse of a Software Engineering <br />
-    fellowship at
+    fellowship at 
     <a className="link" href="https://www.hackbrightacademy.com">Hackbright Academy.</a>
   </div>
 }
