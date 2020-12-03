@@ -118,25 +118,37 @@ function App() {
               <MaterialCalculator />
             </Route>
             <Route path="/edit-part">
-              <EditPart />
+              <EditPart setAlertText={setAlertText} setAlertType={setAlertType} setAlertButtonType={setAlertButtonType} setShowAlert={setShowAlert} />
             </Route>
             <Route path="/calculate-material-requirements">
-              <CalculateMaterialRequirements />
+              <CalculateMaterialRequirements setAlertText={setAlertText} setAlertType={setAlertType} setAlertButtonType={setAlertButtonType} setShowAlert={setShowAlert} />
             </Route>
             <Route path="/calculate-roll-length">
-              <CalculateRollLength />
+              <CalculateRollLength setAlertText={setAlertText} setAlertType={setAlertType} setAlertButtonType={setAlertButtonType} setShowAlert={setShowAlert} />
             </Route>
             <Route path="/calculate-roll-diameter">
-              <CalculateRollDiameter />
+              <CalculateRollDiameter setAlertText={setAlertText} setAlertType={setAlertType} setAlertButtonType={setAlertButtonType} setShowAlert={setShowAlert} />
             </Route>
             <Route path="/delete-part">
-              <DeletePart />
+              <DeletePart setAlertText={setAlertText} setAlertType={setAlertType} setAlertButtonType={setAlertButtonType} setShowAlert={setShowAlert} />
             </Route>
             <Route path="/new-user">
               <CreateUser currentUser={currentUser} setCurrentUser={setCurrentUser} setAlertText={setAlertText} setAlertType={setAlertType} setAlertButtonType={setAlertButtonType} setShowAlert={setShowAlert} />
             </Route>
-            <Route path="new-part-info">
-              <NewPartInfo />
+            <Route path="/new-part-info">
+              <NewPartInfo setAlertText={setAlertText} setAlertType={setAlertType} setAlertButtonType={setAlertButtonType} setShowAlert={setShowAlert} />
+            </Route>
+            <Route path="/new-envelope">
+              <NewEnvelope setAlertText={setAlertText} setAlertType={setAlertType} setAlertButtonType={setAlertButtonType} setShowAlert={setShowAlert} />
+            </Route>
+            <Route path="/new-page-protector">
+              <NewPageProtector setAlertText={setAlertText} setAlertType={setAlertType} setAlertButtonType={setAlertButtonType} setShowAlert={setShowAlert} />
+            </Route>
+            <Route path="/new-pocket">
+              <NewPocket setAlertText={setAlertText} setAlertType={setAlertType} setAlertButtonType={setAlertButtonType} setShowAlert={setShowAlert} />
+            </Route>
+            <Route path="/new-single-web-part">
+              <NewSingleWebPart setAlertText={setAlertText} setAlertType={setAlertType} setAlertButtonType={setAlertButtonType} setShowAlert={setShowAlert} />
             </Route>
             <Route path="/">
               <Homepage />

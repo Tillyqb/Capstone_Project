@@ -84,6 +84,7 @@ function NewPageProtector() {
     <div className="base">
       <Router>
         <div>
+          <h3>New Page Protector</h3>
           <nav>
             <Form onSubmit={newPageProtectorInfo}>
               <Form.Group 
@@ -91,7 +92,7 @@ function NewPageProtector() {
                 <Form.Control 
                 type="text" 
                 name="partNo" 
-                placeholder="partNo}"
+                placeholder="partNo"
                 value={partNo} 
                 onChange={handlePartNoChange} />
               </Form.Group>

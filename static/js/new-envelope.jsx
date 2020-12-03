@@ -1,5 +1,4 @@
-function NewEnvelope() {
-  // took props out of newuser
+function NewEnvelope(props) {
   const [partNo, setPartNo] = React.useState('');
   const [height, setHeight] = React.useState('');
   const [width, setWidth] = React.useState('');
@@ -35,7 +34,10 @@ function NewEnvelope() {
     .then(data => {
       console.log(data);
       if (data === 'Envelope created') {
-        alert('Envelope created successfully')
+        props.setShow(true)
+        props.setAlertText('Envelope created successfully')
+        props.setAlertType('success')
+        props.setAlertButtonType('outline-success')
         history.push('/material-calculator')
       } 
     }).catch(error => console.log('error in envelope creation', error))
@@ -84,6 +86,7 @@ function NewEnvelope() {
     <div className="base">
       <Router>
         <div>
+          <h3>New Envelope</h3>
           <nav>
             <Form onSubmit={newEnvelopeInfo}>
               <Form.Group 
