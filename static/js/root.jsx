@@ -81,6 +81,11 @@ function App() {
     history.push('/');
   }
 
+  function handleMaterialCalculatorRedirect (evt) {
+    evt.preventDefault()
+    history.push('/material-calculator')
+  }
+
   function handleAlertDismissal(evt) {
     evt.preventDefault()
     setShowAlert(false)
@@ -101,7 +106,7 @@ function App() {
       </Link>
         {currentUser ? 
         <div>
-          <Link className="clickylink" to="/material-calculator">
+          <Link className="clickylink" onClick={handleMaterialCalculatorRedirect}>
             MaterialCalculator
           </Link>
         </div>
@@ -111,26 +116,26 @@ function App() {
             <Route path="/about">
               <About />
             </Route>
-            <Route path="/login">
-              <LogIn currentUser={currentUser} setCurrentUser={setCurrentUser} setAlertText={setAlertText} setAlertType={setAlertType} setAlertButtonType={setAlertButtonType} setShowAlert={setShowAlert} />
-            </Route>
-            <Route path="/material-calculator">
-              <MaterialCalculator setAlertText={setAlertText} setAlertType={setAlertType} setAlertButtonType={setAlertButtonType} setShowAlert={setShowAlert} />
-            </Route>
-            <Route path="/edit-part">
-              <EditPart setAlertText={setAlertText} setAlertType={setAlertType} setAlertButtonType={setAlertButtonType} setShowAlert={setShowAlert} />
+            <Route path="/calculate-roll-length">
+              <CalculateRollLength setAlertText={setAlertText} setAlertType={setAlertType} setAlertButtonType={setAlertButtonType} setShowAlert={setShowAlert} />
             </Route>
             <Route path="/calculate-material-requirements">
               <CalculateMaterialRequirements setAlertText={setAlertText} setAlertType={setAlertType} setAlertButtonType={setAlertButtonType} setShowAlert={setShowAlert} />
-            </Route>
-            <Route path="/calculate-roll-length">
-              <CalculateRollLength setAlertText={setAlertText} setAlertType={setAlertType} setAlertButtonType={setAlertButtonType} setShowAlert={setShowAlert} />
             </Route>
             <Route path="/calculate-roll-diameter">
               <CalculateRollDiameter setAlertText={setAlertText} setAlertType={setAlertType} setAlertButtonType={setAlertButtonType} setShowAlert={setShowAlert} />
             </Route>
             <Route path="/delete-part">
               <DeletePart setAlertText={setAlertText} setAlertType={setAlertType} setAlertButtonType={setAlertButtonType} setShowAlert={setShowAlert} />
+            </Route>
+            <Route path="/edit-part">
+              <EditPart setAlertText={setAlertText} setAlertType={setAlertType} setAlertButtonType={setAlertButtonType} setShowAlert={setShowAlert} />
+            </Route>
+            <Route path="/login">
+              <LogIn currentUser={currentUser} setCurrentUser={setCurrentUser} setAlertText={setAlertText} setAlertType={setAlertType} setAlertButtonType={setAlertButtonType} setShowAlert={setShowAlert} />
+            </Route>
+            <Route path="/material-calculator">
+              <MaterialCalculator setAlertText={setAlertText} setAlertType={setAlertType} setAlertButtonType={setAlertButtonType} setShowAlert={setShowAlert} />
             </Route>
             <Route path="/new-user">
               <CreateUser currentUser={currentUser} setCurrentUser={setCurrentUser} setAlertText={setAlertText} setAlertType={setAlertType} setAlertButtonType={setAlertButtonType} setShowAlert={setShowAlert} />

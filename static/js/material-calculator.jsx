@@ -78,6 +78,7 @@ function CalculateMaterialRequirements(props) {
           </div>
         <div>
           <nav id="materialCalculator">
+            <h3>Enter part number and count desired.</h3>
             <div className="col-3">
             <Container>
           <Form onSubmit={handleMaterialRequirementCalculation}>

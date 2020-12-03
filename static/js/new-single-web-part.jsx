@@ -66,21 +66,16 @@ function NewSingleWebPart() {
             <Form onSubmit={newSingleWebPartInfo}>
               <Form.Group 
               controlId="formBasicPartNo">
-                <Form.Control 
-                type="text" 
-                name="partNo" 
-                placeholder="Part number" 
-                value={partNo} 
-                onChange={handlePartNoChange} />
+                <Form.Control type="text" className="text-entry" name="partNo" placeholder="partNo" value={partNo} onChange={handlePartNoChange} />
               </Form.Group>
               <Form.Group controlId="formBasicHeight">
-                <Form.Control type="text" name="height" placeholder="Height" value={height} onChange={handleHeightChange} />
+                <Form.Control type="text" className="text-entry" name="height" placeholder="Height" value={height} onChange={handleHeightChange} />
               </Form.Group>
               <Form.Group controlId="formBasicWidth">
-                <Form.Control type="text" name="width"  placeholder="Width" value={width} onChange={handleWidthChange}></Form.Control>
+                <Form.Control type="text" className="text-entry" name="width"  placeholder="Width" value={width} onChange={handleWidthChange}></Form.Control>
               </Form.Group>
               <Form.Group controlId="formBasicMaterial">
-                <Form.Control type="text" name="material"  placeholder="Material" value={material} onChange={handleMaterialChange}></Form.Control>
+                <Form.Control type="text" className="text-entry" name="material"  placeholder="Material" value={material} onChange={handleMaterialChange}></Form.Control>
               </Form.Group>
               <Button 
               className="button" 

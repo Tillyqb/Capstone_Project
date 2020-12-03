@@ -91,30 +91,25 @@ function NewEnvelope(props) {
             <Form onSubmit={newEnvelopeInfo}>
               <Form.Group 
               controlId="formBasicPartNo">
-                <Form.Control 
-                type="text" 
-                name="partNo" 
-                placeholder="partNo"
-                value={partNo} 
-                onChange={handlePartNoChange} />
+                <Form.Control type="text" className="text-entry" name="partNo" placeholder="partNo" value={partNo} onChange={handlePartNoChange} />
               </Form.Group>
               <Form.Group controlId="formBasicHeight">
-                <Form.Control type="text" name="height" placeholder="Height" value={height} onChange={handleHeightChange} />
+                <Form.Control type="text" className="text-entry" name="height" placeholder="Height" value={height} onChange={handleHeightChange} />
               </Form.Group>
               <Form.Group controlId="formBasicWidth">
-                <Form.Control type="text" name="width"  placeholder="Width" value={width} onChange={handleWidthChange}></Form.Control>
+                <Form.Control type="text" className="text-entry" name="width"  placeholder="Width" value={width} onChange={handleWidthChange}></Form.Control>
               </Form.Group>
               <Form.Group controlId="formBasicFlap">
-                <Form.Control type="text" name="flap"  placeholder="Flap" value={flap} onChange={handleFlapChange}></Form.Control>
+                <Form.Control type="text" className="text-entry" name="flap"  placeholder="Flap" value={flap} onChange={handleFlapChange}></Form.Control>
               </Form.Group>
               <Form.Group controlId="formBasicThroat">
-                <Form.Control type="text" name="throat"  placeholder="Throat" value={throat} onChange={handleThroatChange}></Form.Control>
+                <Form.Control type="text" className="text-entry" name="throat"  placeholder="Throat" value={throat} onChange={handleThroatChange}></Form.Control>
               </Form.Group>
               <Form.Group controlId="formBasicLargeWebMat">
-                <Form.Control type="text" name="largeWebMat"  placeholder="Large web material" value={largeWebMat} onChange={handleLargeWebMatChange}></Form.Control>
+                <Form.Control type="text" className="text-entry" name="largeWebMat"  placeholder="Large web material" value={largeWebMat} onChange={handleLargeWebMatChange}></Form.Control>
               </Form.Group>
               <Form.Group controlId="formBasicSmallWebMat">
-                <Form.Control type="text" name="smallWebMat"  placeholder="Small web material" value={smallWebMat} onChange={handleSmallWebMatChange}></Form.Control>
+                <Form.Control type="text" className="text-entry" name="smallWebMat"  placeholder="Small web material" value={smallWebMat} onChange={handleSmallWebMatChange}></Form.Control>
               </Form.Group>
               <Button 
               className="button" 
