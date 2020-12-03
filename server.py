@@ -16,6 +16,7 @@ app.jinja_env.undefined = StrictUndefined
 app.config['PRESERVE_CONTEXT_ON_EXCEPTION'] = True
 
 @app.route("/edit-part")
+@app.route("/new-user")
 @app.route("/calculate-roll-length")
 @app.route("/calculate-material-requirements")
 @app.route("/material-calculator")

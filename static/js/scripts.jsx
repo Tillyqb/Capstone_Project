@@ -1,3 +1,4 @@
+"use strict";
 const Container = ReactBootstrap.Container;
 const Row = ReactBootstrap.Row;
 const Col = ReactBootstrap.Col;
@@ -13,3 +14,12 @@ const Image = ReactBootstrap.Image;
 const DropdownButton = ReactBootstrap.DropdownButton;
 const Dropdown = ReactBootstrap.Dropdown;
 const Checkboxes  = ReactBootstrap.Checkboxes;
+const Router = ReactRouterDOM.BrowserRouter;
+const Route =  ReactRouterDOM.Route;
+const Link =  ReactRouterDOM.Link;
+const Prompt =  ReactRouterDOM.Prompt;
+const Switch = ReactRouterDOM.Switch;
+const Redirect = ReactRouterDOM.Redirect;
+const useParams = ReactRouterDOM.useParams;
+const useHistory = ReactRouterDOM.useHistory;
+

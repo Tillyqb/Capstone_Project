@@ -1,7 +1,7 @@
 function NewPartInfo() {
   return (
-    <Router>
-      <nav id="root">
+    <div>
+      <nav>
         <h3> Please select what type of part to add to the database.</h3>
         <ul>
           <li>
@@ -34,6 +34,6 @@ function NewPartInfo() {
           </Route>
         </Switch>
       </div>
-    </Router>
-  )
+    </div>
+  );
 }

@@ -1,46 +1,41 @@
-"use strict";
-
 function TopNav(props){
 
+  const history = useHistory()
 
-    const history = useHistory()
+  function handleLoginRedirect(evt){
+    evt.preventDefault()
+    history.push('/login');
+  }
 
+  function handleCreateUserRedirect(evt){
+    evt.preventDefault()
+    history.push('/new-user');
+  }
 
-    function handleSubmit(evt){
-      evt.preventDefault()
-      localStorage.removeItem('user');
-      props.setUser()
-      console.log('logged out')
-      history.push('/');
-    }
-
-    return(
-        <Navbar bg="light" expand="lg">
-             <Navbar.Brand><Link to='/'><img
-                    src="/static/img/logo.png"
-                    width="250"
-                    height="50"
-                    className="d-inline-block align-top"
-                    alt="React Bootstrap logo"
-                /></Link>
-            </Navbar.Brand>
-
-
-             <Nav.Link><Link to="/shop"> Shop</Link></Nav.Link>
-            {/* <Navbar.Toggle aria-controls="basic-navbar-nav" /> */}
-                <Navbar.Collapse id="basic-navbar-nav">
-                    {/* <Nav className="mr-auto"> */}
-                        {props.user?'':<Nav.Link><Link to="/signup">Login | Signup</Link></Nav.Link>}
-                        {props.user?
-                        <NavDropdown title= {props.user.fname} id="basic-nav-dropdown">
-                                <NavDropdown.Item><Link to="/user-profile">Profile</Link></NavDropdown.Item>
-                                <NavDropdown.Item><Link to="/add-product">AddProduct </Link></NavDropdown.Item>
-                                <NavDropdown.Divider />
-                                <NavDropdown.Item><Button onClick={handleSubmit} variant="light">Logout</Button></NavDropdown.Item>
-                        </NavDropdown>:''}
-                    {/* </Nav> */}
-                </Navbar.Collapse>
-        </Navbar>
-
-    );
+  function handleHomeRedirect(evt){
+    evt.preventDefault()
+    history.push('/')
+  }
+  return(
+    <Navbar className="topNav" expand="lg">
+      <h2 id="siteheader"> Material Calculator Web App </h2>
+        <Button onClick={handleHomeRedirect} className="button" varient="primary" type="submit">
+          Home
+        </Button>
+        {props.currentUser ?
+          <Button onClick={props.handleLogOut} className="button" varient="primary" type="submit">
+            LogOut
+          </Button>
+        :
+          <div>
+            <Button onClick={handleLoginRedirect} className="button" varient="primary" type="submit">
+              Log In
+            </Button> 
+            <Button onClick={handleCreateUserRedirect} className="button" varient="primary" type="submit">
+              New User
+            </Button>
+          </div>
+        }
+    </Navbar>
+  );
 }

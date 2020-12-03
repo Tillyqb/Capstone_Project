@@ -72,7 +72,7 @@ function CalculateMaterialRequirements() {
               <h3> Part data not in our system </h3>
             <ul>
               <li>
-                <Link className="link" to="/new-part-info"> Please enter the part data here, or try abain.</Link>
+                <Link className="clickylink" to="/new-part-info"> Please enter the part data here, or try abain.</Link>
                 </li>
             </ul>
             <Switch>

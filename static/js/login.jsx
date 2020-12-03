@@ -35,6 +35,7 @@ function LogIn(props) {
         props.setAlertText('Logged in successfully')
         props.setAlertType('success')
         props.setAlertButtonType('outline-success')
+        history.push('/')
       } else if (data === 'bad email') {
         props.setShowAlert(true)
         props.setAlertText('Email is not in our system')
@@ -78,17 +79,10 @@ function LogIn(props) {
             </Form>
             <ul>
               <li>
-                <Link className="link" to="/newUser"> Click here to create a new account. </Link>
+                <Link className="link" to="/new-user"> Click here to create a new account. </Link>
               </li>
             </ul>
           </nav>
-          <div>
-            <Switch>
-              <Route path="/newUser">
-                <NewUser currentUser={props.currentUser} setCurrentUser={props.setCurrentUser} setAlertText={props.setAlertText} setAlertType={props.setAlertType} setAlertButtonType={props.setAlertButtonType} setShowAlert={props.setShowAlert} />
-              </Route>
-            </Switch>
-          </div>
         </div>
       </Router>
     </div>
@@ -101,9 +95,7 @@ function LogIn(props) {
     )
   }
 }
-
-function NewUser(props) {
-  // took props out of newuser
+function CreateUser(props) {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [email2, setEmail2] = React.useState('');
@@ -133,11 +125,11 @@ function NewUser(props) {
     .then(data => {
       console.log(data)
       if (data === 'good registaration') {
-        history.push('/')        
         props.setShowAlert(true)
         props.setAlertText('Account created successfully, please log in')
         props.setAlertType('success')
         props.setAlertButtonType('outline-success')
+        history.push('/')
       } else if (data === 'email in system') {        
         props.setShowAlert(true)
         props.setAlertText('Email is already in use')

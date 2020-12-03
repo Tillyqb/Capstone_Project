@@ -1,19 +1,53 @@
 html {background-color: #410041;
     color: pink;
 }
-TopNav {background-color: #410041 ;}
+.base {
+    background-color: #410041}
 
 #root {background-color: #410041;
-    margin: 100px;
     color: pink;
+} 
+
+#siteheader {
+    display: block;
+    margin: 100px,15%;
 }
-.base {
-    margin: 0px, 100px;
+
+#alert{
+    display: block;
+}
+
+.topNav {
+    display: block;
+    text-align: center;
+    background-color: #7c417c;
+    color: #d5a2ff;
+    
 }
 
 .button {
     color: #d5a2ff;
     background-color: black;
+    font-weight: bold;
+    border-width: 0px;
+    padding: 8px 20px;
+    margin: 5px;
+}
+
+.clickylink {
+    display: inline-block;
+    color: #d5a2ff;
+    background-color: black;
+    padding: 8px 20px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px
+}
+
+#leftMargin {
+    display: block;
+    margin-left: 10%;
 }
 
 .link {
