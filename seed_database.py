@@ -60,7 +60,7 @@ for n in range(100):
     part_b_mat = choice(materials).material_no
 
     crud.create_pocket(part_no, part_height, part_width, part_throat,       part_fr_mat, part_b_mat)
-crud.create_pocket(12858, 12, 9.5, .125, 490, 986)
+crud.create_pocket(12858, 12, 9.5, .125, 490, 987)
 
 
 pages = []

@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from crud import *
 from roll_calculator_logic import calculate_roll_diameter, calculate_roll_length
 from model import *
+from material_calculator_logic import *
 from server import app
 
 db = SQLAlchemy()
@@ -23,6 +24,10 @@ class Tests(unittest.TestCase):
     delete_user('foo@bar.com')
     delete_user('foo2@bar.com')
     delete_material(852)
+    delete_part(13044)
+    delete_part(13838)
+    delete_part(13101)
+    delete_part(12345)
 
   def test_create_user(self):
     email = 'foo2@bar.com'
@@ -60,8 +65,59 @@ class Tests(unittest.TestCase):
 
   def test_create_material(self):
     material = create_material(852, 'poly', 2.75)
-    actual = Material.query.filter_by(material_no=860).first().material_thickness
-    expected = 4.5
+    actual = float(Material.query.filter_by(material_no=852).first().material_thickness)
+    expected = 2.8
+    self.assertEqual(actual, expected)
+
+  def test_create_envelope(self):
+    create_envelope(13044, 9, 12, 1.25, .25, 831, 831)
+    envelope = Envelope.query.filter_by(part_no=13044).first()
+    actual = envelope.part_width
+    expected = 12
+    self.assertEqual(actual, expected)
+  
+  def test_create_pocket(self):
+    create_pocket(13838, 12, 9, .125, 490, 987)
+    pocket = Pocket.query.filter_by(part_no=13838).first()
+    actual = pocket.part_throat
+    expected = .125
+    self.assertEqual(actual, expected)
+
+  def test_create_page_protector(self):
+    create_page(13101, 11.375, 9.375, 0, .03125, 490, 490)
+    page_protector = PageProtector.query.filter_by(part_no=13101).first()
+    actual = page_protector.part_height
+    expected = 11.375
+    self.assertEqual(actual, expected)
+
+  def test_swp_creation(self):
+    create_single_web_part(12345, 8.5, 11, 661)
+    single_web_part = SingleWebPart.query.filter_by(part_no=12345).first()
+    actual = single_web_part.part_height
+    expected = 8.5
+    self.assertEqual(actual, expected)
+
+  def test_get_materials_list(self):
+    materials = get_materials_list()
+    expected = 490
+    actual = materials[0][0]
+    self.assertEqual(actual, expected)
+
+  def test_calculate_material_requirements(self):
+    actual = calculate_material_requiremtents([12855, 10000, False])
+    expected = "This run will use 11000 feet of each of: \n9.25 inch wide 491 and \n10.75 inch wide 491"
+    self.assertEqual(actual, expected)
+
+    actual = calculate_material_requiremtents([12909, 10000, False])
+    expected = "This run will use 8593 feet of each of: \n11.75 inch wide 490 and \n11.875 inch wide 490"
+    self.assertEqual(actual, expected)
+
+    actual = calculate_material_requiremtents([12858, 10000, False])
+    expected = "This run will use 8708 feet of each of: \n12.375 inch wide 490 and \n12.5 inch wide 987"
+    self.assertEqual(actual, expected)
+
+    actual = calculate_material_requiremtents([11111, 10000, False])
+    expected = "This run will use 4812 feet of \n9.0 inch wide 661"
     self.assertEqual(actual, expected)
 
   # def test_calculate_roll_length(self):

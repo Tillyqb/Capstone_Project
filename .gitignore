@@ -1,5 +1,6 @@
 /env
 *.pyc
 database-stru*
-secrets.sh
 randomness.*
+.coverage
+secrets*
