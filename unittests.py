@@ -7,15 +7,18 @@ from roll_calculator_logic import calculate_roll_diameter, calculate_roll_length
 from model import *
 from material_calculator_logic import *
 from server import app
+from jinja2 import StrictUndefined
 
 db = SQLAlchemy()
-
+app.jinja_env.undefined = StrictUndefined
 
 class Tests(unittest.TestCase):
 
   @classmethod
   def setUpClass(cls):
     connect_to_db(app, True, 'postgresql:///testdb')
+    cls.client = app.test_client()
+    app.config['TESTING'] = True
     if check_user('foo@bar.com') == False:
       create_user('foo@bar.com', 'test')
 
@@ -35,23 +38,25 @@ class Tests(unittest.TestCase):
     user = User.query.filter_by(email=email).first()
     self.assertEqual(user.email, email)
 
-  def test_check_user(self):
+  def test_check_user_with_good_user(self):
     email = 'foo@bar.com'
     actual = check_user(email)
     expected = True
     self.assertEqual(actual, expected)
 
+  def test_check_user_with_bad_user(self):
     actual = check_user('fool@bar.com')
     expected = False
     self.assertEqual(actual, expected)
 
-  def test_validate_user(self):
+  def test_validate_user_with_good_login(self):
     email = 'foo@bar.com'
-    password = 'test'
     actual = validate_user(email, 'test')
     expected = email
     self.assertEqual(actual, expected)
 
+  def test_validate_user_with_bad_login(self):
+    email = 'foo@bar.com'
     actual = validate_user(email, 'nope')
     expected = False
     self.assertEqual(actual, expected)
@@ -103,32 +108,85 @@ class Tests(unittest.TestCase):
     actual = materials[0][0]
     self.assertEqual(actual, expected)
 
-  def test_calculate_material_requirements(self):
+  def test_calculate_material_requirements_envelope_one_across(self):
     actual = calculate_material_requiremtents([12855, 10000, False])
     expected = "This run will use 11000 feet of each of: \n9.25 inch wide 491 and \n10.75 inch wide 491"
     self.assertEqual(actual, expected)
 
+  def test_calculate_material_requirements_page_one_across(self):
     actual = calculate_material_requiremtents([12909, 10000, False])
     expected = "This run will use 8593 feet of each of: \n11.75 inch wide 490 and \n11.875 inch wide 490"
     self.assertEqual(actual, expected)
 
+  def test_calculate_material_requirements_pocket_one_across(self):
     actual = calculate_material_requiremtents([12858, 10000, False])
     expected = "This run will use 8708 feet of each of: \n12.375 inch wide 490 and \n12.5 inch wide 987"
     self.assertEqual(actual, expected)
 
+  def test_calculate_material_requirements_swp_one_across(self):
     actual = calculate_material_requiremtents([11111, 10000, False])
     expected = "This run will use 4812 feet of \n9.0 inch wide 661"
     self.assertEqual(actual, expected)
 
-  # def test_calculate_roll_length(self):
-  #   actual = calculate_roll_length([25, 491, 3.625])
-  #   expected = 8899
-  #   self.assertEqual(actual, expected)
+  def test_calculate_material_requirements_envelope_two_across(self):
+    actual = calculate_material_requiremtents([12855, 20000, True])
+    expected = "This run will use 11000 feet of each of: \n17.5 inch wide 491 and \n20.5 inch wide 491"
+    self.assertEqual(actual, expected)
 
-  # def test_calculate_roll_diameter(self):
-  #   actual = calculate_roll_diameter([9000, 491, 3.625])
-  #   expected = 25.138
-  #   self.assertEqual(actual, expected)
+  def test_calculate_material_requirements_pocket_two_across(self):
+    actual = calculate_material_requiremtents([12909, 20000, True])
+    expected = "This run will use 8593 feet of each of: \n22.5 inch wide 490 and \n22.75 inch wide 490"
+    self.assertEqual(actual, expected)
 
-if __name__ == "__main__":
-  unittest.main()
+  def test_calculate_material_requirements_page_two_across(self):
+    actual = calculate_material_requiremtents([12858, 20000, True])
+    expected = "This run will use 8708 feet of each of: \n23.75 inch wide 490 and \n24.0 inch wide 987"
+    self.assertEqual(actual, expected)
+
+  def test_calculate_material_requirements_swp_two_across(self):
+    actual = calculate_material_requiremtents([11111, 20000, True])
+    expected = "This run will use 4812 feet of \n18.0 inch wide 661"
+    self.assertEqual(actual, expected)
+
+  def test_routes(self):
+    with app.test_client() as c:
+      response = c.get('/')
+      self.assertEqual(response.status_code, 200)
+
+    with app.test_client() as c:
+      response = c.get('/login')
+      self.assertEqual(response.status_code, 200)
+
+    with app.test_client() as c:
+      response = c.get('/new-user')
+      self.assertEqual(response.status_code, 200)
+
+    with app.test_client() as c:
+      response = c.get('/calculate-roll-length')
+      self.assertEqual(response.status_code, 200)
+      
+    with app.test_client() as c:
+      response = c.get('/calculate-material-requirements')
+      self.assertEqual(response.status_code, 200)
+      
+    with app.test_client() as c:
+      response = c.get('/material-calculator')
+      self.assertEqual(response.status_code, 200)
+
+  def test_length_calculator(self):
+    with app.test_client() as c:
+      response = self.client.post('/api/calculate-roll-length', data={'rollDia': '25', 'material': '491', 'coreDia': '3.625'})
+      self.assertIn(b'8899', response.data)
+
+  def test_calculate_roll_length(self):
+    actual = calculate_roll_length([25, 491, 3.625])
+    expected = 8899
+    self.assertEqual(actual, expected)
+
+  def test_calculate_roll_diameter(self):
+    actual = calculate_roll_diameter([9000, 491, 3.625])
+    expected = 25.138
+    self.assertEqual(actual, expected)
+
+unittest.main()
+# app.run(debug=False, host='0.0.0.0')
