@@ -44,6 +44,12 @@ def delete_part(part_no):
         db.session.commit()
         return 'deletion successful'
 
+def delete_user(email):
+    users = User.query.filter(User.email == email).all()
+    for user in users:
+        db.session.delete(user)
+        db.session.commit()
+
 
 def create_user(email, password):
     """Create and return a new user."""
@@ -78,6 +84,12 @@ def create_material(material_no,
     db.session.commit()
 
     return material
+
+def delete_material(material_no):
+    materials=Material.query.filter_by(material_no=material_no).all()
+    for material in materials:
+        db.session.delete(material)
+        db.session.commit()
 
 def create_envelope(part_no, part_height, part_width, part_flap, part_throat, part_fr_mat, part_b_mat):
 
@@ -150,4 +162,4 @@ def get_materials_list():
 if __name__ ==  '__main__':
     #app.run(debug=True, host='0.0.0.0')
     from server import app
-    connect_to_db(app)
+    connect_to_db(app, False, 'postgresql:///testdb')

@@ -11,10 +11,10 @@ import server
 
 
 app = Flask(__name__)
-connect_to_db(app, False, 'postgresql:///material')
+connect_to_db(app, False, 'postgresql:///testdb')
 
-os.system('dropdb material')
-os.system('createdb material')
+os.system('dropdb testdb')
+os.system('createdb testdb')
 db.create_all()
 
 """seed users"""

@@ -23,6 +23,8 @@ class User(db.Model):
 
         return cls.query.filter_by(email=email).one()
 
+    
+
 
     def __repr__(self):
         return f'<User: user = {self.user_id} email = {self.email}>'
