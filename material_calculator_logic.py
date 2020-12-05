@@ -34,7 +34,7 @@ def calculate_material_requiremtents(args):
         small_web_mat = material['small web mat']
         large_web_width = material['large web width']
         large_web_mat = material['large web mat']
-        result = (f"This run will use {feet_needed} feet of each of: \n{small_web_width} inch wide {small_web_mat} and \n{large_web_width} inch wide {large_web_mat}")
+        result = (f"This run will use {feet_needed} feet of each of: \n{small_web_width} inch wide {int(small_web_mat)} and \n{large_web_width} inch wide {int(large_web_mat)}")
         print (result)
     return result
 

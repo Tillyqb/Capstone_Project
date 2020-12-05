@@ -175,20 +175,15 @@ function CreateUser(props) {
             <Form onSubmit={handleRegister}>
               <Form.Group 
               controlId="formBasicEmail">
-                <Form.Control 
-                type="email" 
-                name="email" 
-                placeholder="Enter email" 
-                value={email} 
-                onChange={handleEmailChange} />
+                <Form.Control className="text-entry" type="email" name="email" placeholder="Enter email" value={email} onChange={handleEmailChange} />
               </Form.Group>
               <Form.Group controlId="formBasicEmail2">
-                <Form.Control type="email" name="email2" placeholder="Retype email" value={email2} onChange={handleEmail2Change} />
+                <Form.Control className="text-entry" type="email" name="email2" placeholder="Retype email" value={email2} onChange={handleEmail2Change} />
               </Form.Group>
-              <Form.Group controlId="formBasicPassword">
+              <Form.Group className="text-entry" controlId="formBasicPassword">
                 <Form.Control type="password" name="password"  placeholder="Password" value={password} onChange={handlePasswordChange}></Form.Control>
               </Form.Group>
-              <Form.Group controlId="formBasicPassword2">
+              <Form.Group className="text-entry" controlId="formBasicPassword2">
                 <Form.Control type="password" name="password2"  placeholder="Retype Password" value={password2} onChange={handlePassword2Change}></Form.Control>
               </Form.Group>
               <Button className="button" varient="Primary" type="submit">
