@@ -1,4 +1,4 @@
-function NewPocket() {
+function NewPocket(props) {
   // took props out of newuser
   const [partNo, setPartNo] = React.useState('');
   const [height, setHeight] = React.useState('');
@@ -33,7 +33,10 @@ function NewPocket() {
     .then(data => {
       console.log(data)
       if (data === 'Pocket created') {
-        alert(data + ' successfully')
+        props.setShow(true)
+        props.setAlertText('Pocket created successfully')
+        props.setAlertType('success')
+        props.setAlertButtonType('outline-success')
         history.push('/material-calculator')
       } 
     }).catch(error => console.log('error in pocket creation', error))

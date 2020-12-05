@@ -77,7 +77,7 @@ def new_envelope():
     small_web_mat = data['smallWebMat']
 
     create_envelope(part_no, height, width, flap, throat, small_web_mat, large_web_mat)
-
+    
     return jsonify('Envelope created')
 
 @app.route("/api/new-page-protector", methods=["POST"])
@@ -93,7 +93,7 @@ def new_page_protector():
 
     create_page(part_no, height, width, flap, throat, small_web_mat, large_web_mat)
 
-    return jsonify('Page protector created')
+    return (jsonify('Page protector created'))
 
 @app.route("/api/new-pocket", methods=["POST"])
 def new_pocket():
@@ -280,4 +280,4 @@ def regiter():
             
 if __name__ == "__main__":
     connect_to_db(app, False)
-    app.run(debug=False, host='0.0.0.0')
+    app.run(debug=True, host='0.0.0.0')

@@ -39,7 +39,12 @@ function NewEnvelope(props) {
         props.setAlertType('success')
         props.setAlertButtonType('outline-success')
         history.push('/material-calculator')
-      } 
+      } else {
+        props.setShow(true)
+        props.setAlertText('There was an error in creating the part.')
+        props.setAlertType('danger')
+        props.setAlertButtonType('outline-danger')
+      }
     }).catch(error => console.log('error in envelope creation', error))
   }
 
