@@ -6,6 +6,13 @@
     purpose of learning durring the coarse of a Software Engineering 
     fellowship at Hackbright Academy(https://www.hackbrightacademy.com).
 
+    The code for this app was started while I was still working at a previous 
+    in a print shop.  While I was working as material slitter, I found myself
+    repeating calculations quite often and had an idea to start this to
+    improve production and to reduce the amount of material that was sitting 
+    around the shop.  The app has evolved now from being a node.js script
+    that had to be run from the console to being this deployable web app.
+
 # Use requirements
 
     As of right now, it is only possible to use this app if it is deployed on 
@@ -22,3 +29,4 @@
     then run the file using:
         
         Python3 server.py
+        (starts a web server at localhost:5000)
