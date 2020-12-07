@@ -22,4 +22,4 @@ const Switch = ReactRouterDOM.Switch;
 const Redirect = ReactRouterDOM.Redirect;
 const useParams = ReactRouterDOM.useParams;
 const useHistory = ReactRouterDOM.useHistory;
-
+const Alert = ReactBootstrap.Alert;

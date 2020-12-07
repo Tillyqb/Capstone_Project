@@ -60,8 +60,6 @@ function App() {
   const [alertType, setAlertType] = React.useState('')
   const [alertButtonType, setAlertButtonType] = React.useState('')
   const history = useHistory()
-  
-  console.log('this is my history! **', history)
 
   React.useEffect(() => {
     let userFromStorage = localStorage.getItem('currentUser')

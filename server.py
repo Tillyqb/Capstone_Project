@@ -68,17 +68,20 @@ def get_material_requirements():
 @app.route("/api/new-envelope", methods=["POST"])
 def new_envelope():
     data = request.get_json()
-    part_no = data['partNo']
-    height = data['height']
-    width = data['width']
-    flap = data['flap']
-    throat = data['throat']
-    large_web_mat = data['largeWebMat']
-    small_web_mat = data['smallWebMat']
+    if check_part(data['partNo']) != 'need part data':
+        return jsonify('That part is already in the system')
+    else:
+        part_no = data['partNo']
+        height = data['height']
+        width = data['width']
+        flap = data['flap']
+        throat = data['throat']
+        large_web_mat = data['largeWebMat']
+        small_web_mat = data['smallWebMat']
 
-    create_envelope(part_no, height, width, flap, throat, small_web_mat, large_web_mat)
-    
-    return jsonify('Envelope created')
+        create_envelope(part_no, height, width, flap, throat, small_web_mat, large_web_mat)
+        
+        return jsonify('Envelope created')
 
 @app.route("/api/new-page-protector", methods=["POST"])
 def new_page_protector():

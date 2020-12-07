@@ -34,10 +34,16 @@ function NewEnvelope(props) {
     .then(data => {
       console.log(data);
       if (data === 'Envelope created') {
-        props.setShow(true)
+        props.setShowAlert(true)
         props.setAlertText('Envelope created successfully')
         props.setAlertType('success')
         props.setAlertButtonType('outline-success')
+        history.push('/material-calculator')
+      } else if (data === 'That part is already in the system') {
+        props.setShowAlert(true)
+        props.setAlertText('Part is already in the system')
+        props.setAlertType('warning')
+        props.setAlertButtonType('outline-warning')
         history.push('/material-calculator')
       } else {
         props.setShow(true)

@@ -19,7 +19,7 @@ def calculate_roll_length(args):
     thickness_in_in = thickness_in_mil / 1000
     material_area = roll_radious ** 2 - core_radious **  2
     roll_length = int((PI * (material_area) / thickness_in_in) / 12)
-    return roll_length
+    return jsonify(roll_length)
 
 
 def calculate_roll_diameter(args):
@@ -36,7 +36,7 @@ def calculate_roll_diameter(args):
     thickness_in_in = thickness_in_mil / 1000
     diameter = 2 * sqrt((roll_length * thickness_in_in / PI) + core_radious ** 2)
     diameter = str(diameter)[0:6]
-    return float(diameter)
+    return jsonify(float(diameter))
 
 if __name__ == "__main__":
     from server import app
