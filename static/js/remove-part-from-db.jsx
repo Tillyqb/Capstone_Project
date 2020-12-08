@@ -17,9 +17,17 @@ function DeletePart() {
       .then(data => {
         console.log(data)
         if (data === 'deletion successful') {
-          alert('Part {partNo} successfully removed from the database')
+          props.setShow(true)
+          props.setAlertText('Part {partNo} deleted successfully')
+          props.setAlertType('success')
+          props.setAlertButtonType('outline-success')
+          history.push('/material-calculator')
         } else if (data === 'part not in system') {
-          alert('There is no part with a number of {partNo} in the database')
+          props.setShow(true)
+          props.setAlertText('Part {partNo} is not in the system')
+          props.setAlertType('sarning')
+          props.setAlertButtonType('warning-success')
+          history.push('/material-calculator')
         }
       }).catch(error => console.log('error in deletePart', error))
       }
@@ -38,7 +46,7 @@ function DeletePart() {
           <nav>
             <Form onSubmit={handleRemovePart}>
               <Form.Group controlId="formBasicPartNo">
-                <Form.Control type="text" name="partNo" placeholder="Part for Deletion" value={partNo} onChange={handlePartNoChange} />
+                <Form.Control type="text" className= "textentry" name="partNo" placeholder="Part for Deletion" value={partNo} onChange={handlePartNoChange} />
               </Form.Group>
               <Button className="button" varient="Primary" type="submit">
                 Delete {NewPartInfo}

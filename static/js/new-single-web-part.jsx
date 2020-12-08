@@ -29,9 +29,23 @@ function NewSingleWebPart() {
     .then(data => {
       console.log(data)
       if (data === 'Single web part created') {
-        alert(data + ' successfully')
+        props.setShow(true)
+        props.setAlertText('Part created successfully')
+        props.setAlertType('success')
+        props.setAlertButtonType('outline-success')
         history.push('/material-calculator')
-      } 
+      } else if (data === 'That part is already in the system') {
+        props.setShowAlert(true)
+        props.setAlertText('Part is already in the system')
+        props.setAlertType('warning')
+        props.setAlertButtonType('outline-warning')
+        history.push('/material-calculator')
+      } else {
+        props.setShow(true)
+        props.setAlertText('There was an error in creating the part.')
+        props.setAlertType('danger')
+        props.setAlertButtonType('outline-danger')
+      }
     }).catch(error => console.log('error in pocket creation', error))
   }
 

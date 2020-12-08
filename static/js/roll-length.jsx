@@ -57,7 +57,7 @@ function CalculateRollLength() {
                   <Form.Control type="text" className="text-entry" name="rollDia" placeholder="Roll  Diameter" value={rollDia} onChange={handleRollDiaChange} />
                 </Form.Group>
                 <Form.Group controlId="formBasicMaterial">
-                  <Form.Control type="text" className="text-entry" name="material"   placeholder="Material" value={material} onChange= {handleMaterialChange} />
+                  <Form.Control type="text" className="text-entry" name="material" placeholder="Material" value={material} onChange= {handleMaterialChange} />
                 </Form.Group>
                 <Form.Group 
                 controlId="formBasicCoreDia">
