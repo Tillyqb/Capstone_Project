@@ -164,6 +164,10 @@ class Tests(unittest.TestCase):
     with app.test_client() as c:
       response = c.get('/calculate-roll-length')
       self.assertEqual(response.status_code, 200)
+
+    with app.test_client() as c:
+      response = c.get('/calculate-roll-diameter')
+      self.assertEqual(response.status_code, 404)
       
     with app.test_client() as c:
       response = c.get('/calculate-material-requirements')
@@ -173,20 +177,27 @@ class Tests(unittest.TestCase):
       response = c.get('/material-calculator')
       self.assertEqual(response.status_code, 200)
 
+  def test_for_error_when_accessing_an_api_page_directly(self):
+    with app.test_client() as c:
+      response = c.get('/api/material-requirements-calculator')
+      self.assertEqual(response.status_code, 405)
+
   def test_length_calculator(self):
     with app.test_client() as c:
-      response = self.client.post('/api/calculate-roll-length', data={'rollDia': '25', 'material': '491', 'coreDia': '3.625'})
-      self.assertIn(b'8899', response.data)
+      data={'rollDia': '25', 'material': '491', 'coreDia': '3.625'}
+      response = self.client.post('/api/calculate-roll-length', jsonify(data))
+    print (response)
+    self.assertIn(b'8899', response.data)
 
-  def test_calculate_roll_length(self):
-    actual = calculate_roll_length([25, 491, 3.625])
-    expected = 8899
-    self.assertEqual(actual, expected)
+  # def test_calculate_roll_length(self):
+  #   actual = calculate_roll_length([25, 491, 3.625])
+  #   expected = 8899
+  #   self.assertEqual(actual, expected)
 
-  def test_calculate_roll_diameter(self):
-    actual = calculate_roll_diameter([9000, 491, 3.625])
-    expected = 25.138
-    self.assertEqual(actual, expected)
+  # def test_calculate_roll_diameter(self):
+  #   actual = calculate_roll_diameter([9000, 491, 3.625])
+  #   expected = 25.138
+  #   self.assertEqual(actual, expected)
 
 unittest.main()
 # app.run(debug=False, host='0.0.0.0')
